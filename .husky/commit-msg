@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Get the commit message file path
+COMMIT_MSG_FILE=$1
+
+# Run commitlint with the message file path
+yarn dlx commitlint --edit "$COMMIT_MSG_FILE"
