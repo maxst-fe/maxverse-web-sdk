@@ -2075,9 +2075,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@maxst-fe/media-sdk@workspace:packages/media":
+"@maxverse/media-web-sdk@workspace:packages/media":
   version: 0.0.0-use.local
-  resolution: "@maxst-fe/media-sdk@workspace:packages/media"
+  resolution: "@maxverse/media-web-sdk@workspace:packages/media"
   dependencies:
     "@babel/core": ^7
     "@babel/preset-env": ^7.16.4
@@ -8385,9 +8385,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"maxst-web-sdk@workspace:.":
+"maxverse-web-sdk@workspace:.":
   version: 0.0.0-use.local
-  resolution: "maxst-web-sdk@workspace:."
+  resolution: "maxverse-web-sdk@workspace:."
   dependencies:
     "@babel/core": ^7.19.3
     "@babel/plugin-proposal-class-properties": ^7.18.6
