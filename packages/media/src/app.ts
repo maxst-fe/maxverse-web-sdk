@@ -2,14 +2,7 @@ import { LocalParticipant, Participant, RemoteParticipant, Room, RoomOptions } f
 import { LocalTrackController } from './helper/index';
 import { ParticipantEventContainer } from './participant';
 import { Connection, RoomEventContainer } from './room';
-import type {
-  Config,
-  InitialConnectionStatus,
-  ParticipantHandler,
-  ParticipantInfo,
-  RoomFactory,
-  RoomHandler,
-} from './types';
+import type { Config, InitialConnectionStatus, ParticipantHandler, RoomFactory, RoomHandler } from './types';
 import { Cache, DI } from './utils/index';
 
 const cache = new Cache();
@@ -172,22 +165,6 @@ export class LiveRoom {
 
   public initializeLocalTracks = async () => {
     await this.#localTrackController.initializeLocalTracks();
-  };
-
-  public getParticipantInfo = (sid: string): Map<string, ParticipantInfo> | null => {
-    const participant = this.#findParticipant(sid);
-
-    if (!participant) {
-      return null;
-    }
-
-    return new Map().set(sid, {
-      identity: participant.identity,
-      name: participant.name,
-      isLocal: participant.isLocal,
-      joinedAt: participant.joinedAt,
-      lastSpokeAt: participant.lastSpokeAt,
-    });
   };
 
   public disConnectRoom = () => {
