@@ -142,18 +142,6 @@ export class LiveRoom {
     );
   };
 
-  public initializeCurrentParticipantStatus = (sid: string, handler: ParticipantHandler) => {
-    const participant = this.#findParticipant(sid);
-
-    if (!participant || participant instanceof LocalParticipant) {
-      return;
-    }
-
-    (
-      di.get('participantEventContainerFactory')(handler) as ParticipantEventContainer
-    ).initializeCurrentParticipantStatus(participant as RemoteParticipant);
-  };
-
   public initializeLocalTracks = async () => {
     await this.#localTrackController.initializeLocalTracks();
   };

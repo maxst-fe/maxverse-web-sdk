@@ -4,7 +4,6 @@ import {
   LocalTrackPublication,
   Participant,
   ParticipantEvent,
-  RemoteParticipant,
   RemoteTrack,
   RemoteTrackPublication,
   Room,
@@ -51,22 +50,6 @@ class ParticipantEventContainer {
       })
       .on(ParticipantEvent.IsSpeakingChanged, () => {})
       .on(ParticipantEvent.ConnectionQualityChanged, () => {});
-  };
-
-  initializeCurrentParticipantStatus = (participant: RemoteParticipant) => {
-    const trackPublications = participant.getTracks();
-
-    trackPublications.forEach(trackPublication => {
-      if (!trackPublication) {
-        return;
-      }
-
-      this.#onTrackSubscribed(
-        participant,
-        trackPublication.track as RemoteTrack,
-        trackPublication as RemoteTrackPublication
-      );
-    });
   };
 
   // eslint-disable-next-line @typescript-eslint/ban-types
