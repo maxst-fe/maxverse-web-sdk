@@ -1,11 +1,7 @@
-import { LocalParticipant, Participant, RemoteParticipant, Track } from 'livekit-client';
+import { LocalParticipant, Participant, Track } from 'livekit-client';
 
 export class TargetParticipantFactory {
   static createTargetParticipant = (participant: Participant) => {
-    if (!(participant instanceof (LocalParticipant || RemoteParticipant))) {
-      return;
-    }
-
     return new TargetParticipant(participant);
   };
 }
