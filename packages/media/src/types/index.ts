@@ -1,5 +1,6 @@
 import { Room, RoomOptions } from 'livekit-client';
 import { ParticipantEventContainer } from '../participant';
+import { TargetParticipant } from '../participant/targetParticipant';
 import { RoomEventContainer } from '../room';
 
 export type RoomFactory = (roomOptions?: RoomOptions) => Room;
@@ -52,8 +53,8 @@ export interface Config extends RoomOptions {
   audioDeviceId?: string;
 }
 
-export type OnParticipantConnected = () => void;
-export type OnParticipantDisconnected = () => void;
+export type OnParticipantConnected = (targetParticipant: TargetParticipant) => void;
+export type OnParticipantDisconnected = (targetParticipant: TargetParticipant) => void;
 export type OnConnectionStateChanged = (currentConnectionInfo: CurrentConnectionInfo) => void;
 
 export type OnLocalTrackPublished = (sid: string, attachTrack: ControlTrackToElement) => void;
