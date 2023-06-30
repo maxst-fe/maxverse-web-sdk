@@ -39,10 +39,6 @@ class RoomEventContainer {
   onParticipantConnected = (participant: Participant) => {
     const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
 
-    if (!targetParticipant) {
-      return;
-    }
-
     this.#sequenceHandler<OnParticipantConnected, [TargetParticipant]>(this.#handler.onParticipantConnected, [
       targetParticipant,
     ]);
@@ -50,10 +46,6 @@ class RoomEventContainer {
 
   onParticipantDisconnected = (participant: Participant) => {
     const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
-
-    if (!targetParticipant) {
-      return;
-    }
 
     this.#sequenceHandler<OnParticipantDisconnected, [TargetParticipant]>(this.#handler.onParticipantDisconnected, [
       targetParticipant,

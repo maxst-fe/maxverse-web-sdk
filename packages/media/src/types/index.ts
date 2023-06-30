@@ -9,8 +9,6 @@ export type ParticipantEventContainerFactory = (participantHandler: ParticipantH
 
 export type RoomEventContainerFactory = (roomHandler: RoomHandler) => RoomEventContainer;
 
-export type ControlTrackToElement = (element: HTMLMediaElement, delay?: number) => void;
-
 export interface ElementInfo {
   sid: string;
   template?: string;
@@ -57,20 +55,10 @@ export type OnParticipantConnected = (targetParticipant: TargetParticipant) => v
 export type OnParticipantDisconnected = (targetParticipant: TargetParticipant) => void;
 export type OnConnectionStateChanged = (currentConnectionInfo: CurrentConnectionInfo) => void;
 
-export type OnLocalTrackPublished = (sid: string, attachTrack: ControlTrackToElement) => void;
-export type OnTrackSubscribed = (sid: string, attachTrack: ControlTrackToElement) => void;
-export type OnVideoSwitched = (
-  sid: string,
-  isMuted: boolean,
-  isLocalParticipant: boolean,
-  switchTrack: ControlTrackToElement
-) => void;
-export type OnAudioSwitched = (
-  sid: string,
-  isMuted: boolean,
-  isLocalParticipant: boolean,
-  switchTrack: ControlTrackToElement
-) => void;
+export type OnLocalTrackPublished = (targetParticipant: TargetParticipant) => void;
+export type OnTrackSubscribed = (targetParticipant: TargetParticipant) => void;
+export type OnVideoSwitched = (targetParticipant: TargetParticipant) => void;
+export type OnAudioSwitched = (targetParticipant: TargetParticipant) => void;
 
 export interface RoomHandler {
   onParticipantConnected?: OnParticipantConnected;

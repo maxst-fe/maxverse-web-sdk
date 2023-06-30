@@ -1,1 +1,1 @@
-export { default as LocalTrackController } from "./localTrack";
+export { default as LocalTrackController } from './localTrack';
