@@ -9,6 +9,7 @@ import {
   Track,
   TrackPublication,
 } from 'livekit-client';
+import { sequenceHandler } from '../helper';
 import {
   OnAudioSwitched,
   OnLocalTrackPublished,
@@ -48,24 +49,17 @@ class ParticipantEventContainer {
       });
   };
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  #sequenceHandler = <T extends Function, S>(handler: T | undefined, ...args: S[]) => {
-    if (handler) {
-      handler.apply(undefined, ...args);
-    }
-  };
-
   #onLocalTrackUpdate = (localTrackPublication: LocalTrackPublication) => {
     const targetParticipant = TargetParticipantFactory.createTargetParticipant(this.#room.localParticipant);
     const { videoTrack, audioTrack, source } = localTrackPublication;
 
     if (videoTrack && source === Track.Source.Camera) {
-      this.#sequenceHandler<OnLocalTrackPublished, [TargetParticipant]>(this.#handler.onLocalVideoTrackPublished, [
+      sequenceHandler<OnLocalTrackPublished, [TargetParticipant]>(this.#handler.onLocalVideoTrackPublished, [
         targetParticipant,
       ]);
     }
     if (audioTrack && source === Track.Source.Microphone) {
-      this.#sequenceHandler<OnLocalTrackPublished, [TargetParticipant]>(this.#handler.onLocalAudioTrackPublished, [
+      sequenceHandler<OnLocalTrackPublished, [TargetParticipant]>(this.#handler.onLocalAudioTrackPublished, [
         targetParticipant,
       ]);
     }
@@ -81,12 +75,12 @@ class ParticipantEventContainer {
     const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
 
     if (source === Track.Source.Camera) {
-      this.#sequenceHandler<OnTrackSubscribed, [TargetParticipant]>(this.#handler.onVideoTrackSubscribed, [
+      sequenceHandler<OnTrackSubscribed, [TargetParticipant]>(this.#handler.onVideoTrackSubscribed, [
         targetParticipant,
       ]);
     }
     if (source === Track.Source.Microphone) {
-      this.#sequenceHandler<OnTrackSubscribed, [TargetParticipant]>(this.#handler.onAudioTrackSubscribed, [
+      sequenceHandler<OnTrackSubscribed, [TargetParticipant]>(this.#handler.onAudioTrackSubscribed, [
         targetParticipant,
       ]);
     }
@@ -97,10 +91,10 @@ class ParticipantEventContainer {
     const { videoTrack, audioTrack, source } = trackPublication;
 
     if (videoTrack && source === Track.Source.Camera) {
-      this.#sequenceHandler<OnVideoSwitched, [TargetParticipant]>(this.#handler.onVideoSwitched, [targetParticipant]);
+      sequenceHandler<OnVideoSwitched, [TargetParticipant]>(this.#handler.onVideoSwitched, [targetParticipant]);
     }
     if (audioTrack && source === Track.Source.Microphone) {
-      this.#sequenceHandler<OnAudioSwitched, [TargetParticipant]>(this.#handler.onAudioSwitched, [targetParticipant]);
+      sequenceHandler<OnAudioSwitched, [TargetParticipant]>(this.#handler.onAudioSwitched, [targetParticipant]);
     }
   };
 }

@@ -1,4 +1,5 @@
 import { Participant, Room, RoomEvent } from 'livekit-client';
+import { sequenceHandler } from '../helper';
 import { TargetParticipant, TargetParticipantFactory } from '../participant/targetParticipant';
 import {
   ConnectionState,
@@ -29,17 +30,10 @@ class RoomEventContainer {
     this.onParticipantConnected(participant);
   };
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  #sequenceHandler = <T extends Function, S>(handler: T | undefined, ...args: S[]) => {
-    if (handler) {
-      handler.apply(undefined, ...args);
-    }
-  };
-
   onParticipantConnected = (participant: Participant) => {
     const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
 
-    this.#sequenceHandler<OnParticipantConnected, [TargetParticipant]>(this.#handler.onParticipantConnected, [
+    sequenceHandler<OnParticipantConnected, [TargetParticipant]>(this.#handler.onParticipantConnected, [
       targetParticipant,
     ]);
   };
@@ -47,7 +41,7 @@ class RoomEventContainer {
   onParticipantDisconnected = (participant: Participant) => {
     const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
 
-    this.#sequenceHandler<OnParticipantDisconnected, [TargetParticipant]>(this.#handler.onParticipantDisconnected, [
+    sequenceHandler<OnParticipantDisconnected, [TargetParticipant]>(this.#handler.onParticipantDisconnected, [
       targetParticipant,
     ]);
   };
@@ -58,7 +52,7 @@ class RoomEventContainer {
       status: connectionState,
     };
 
-    this.#sequenceHandler<OnConnectionStateChanged, [CurrentConnectionInfo]>(this.#handler.onConnectionStateChanged, [
+    sequenceHandler<OnConnectionStateChanged, [CurrentConnectionInfo]>(this.#handler.onConnectionStateChanged, [
       currentConnectionInfo,
     ]);
   };
