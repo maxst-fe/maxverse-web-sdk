@@ -1,5 +1,4 @@
 import {
-  AudioTrack,
   LocalParticipant,
   LocalTrackPublication,
   Participant,
@@ -9,7 +8,6 @@ import {
   Room,
   Track,
   TrackPublication,
-  VideoTrack,
 } from 'livekit-client';
 import {
   OnAudioSwitched,
@@ -55,10 +53,6 @@ class ParticipantEventContainer {
     if (handler) {
       handler.apply(undefined, ...args);
     }
-  };
-
-  #switchTrack = (track: VideoTrack | AudioTrack, isMuted: boolean) => (element: HTMLMediaElement) => {
-    isMuted ? track.detach(element) : track.attach(element);
   };
 
   #onLocalTrackUpdate = (localTrackPublication: LocalTrackPublication) => {
