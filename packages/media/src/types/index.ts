@@ -1,48 +1,5 @@
-import { Room, RoomOptions } from 'livekit-client';
-import { ParticipantEventContainer } from '../participant';
+import { RoomOptions } from 'livekit-client';
 import { TargetParticipant } from '../participant/targetParticipant';
-import { RoomEventContainer } from '../room';
-
-export type RoomFactory = (roomOptions?: RoomOptions) => Room;
-
-export type ParticipantEventContainerFactory = (participantHandler: ParticipantHandler) => ParticipantEventContainer;
-
-export type RoomEventContainerFactory = (roomHandler: RoomHandler) => RoomEventContainer;
-
-export interface ElementInfo {
-  sid: string;
-  template?: string;
-}
-
-export interface ParticipantUI {
-  container: ElementInfo;
-  solid_video: ElementInfo;
-  main_video: ElementInfo;
-  placeholder: ElementInfo;
-  default_screen: ElementInfo;
-}
-
-export interface ButtonStatus {
-  enabled: ElementInfo;
-  disabled: ElementInfo;
-}
-
-export interface ControllerUI {
-  video_button: ButtonStatus;
-  audio_button: ButtonStatus;
-  screen_share_button: ButtonStatus;
-}
-
-export interface SectionUI {
-  participants: ElementInfo;
-  controllers: ElementInfo;
-}
-
-export interface View {
-  section: SectionUI;
-  participant: ParticipantUI;
-  controller: ControllerUI;
-}
 
 export interface Config extends RoomOptions {
   isVideoEnabled?: boolean;
@@ -75,10 +32,6 @@ export interface ParticipantHandler {
   onAudioSwitched?: OnAudioSwitched;
 }
 
-export enum DeviceReadyStatus {
-  COMPLETE = 'COMPLETE',
-  INCOMPLETE = 'INCOMPLETE',
-}
 export enum InitialConnectionStatus {
   CONNECTION_SUCCESS = 'CONNECTION_SUCCESS',
   CONNECTION_FAIL = 'CONNECTION_FAIL',
@@ -97,8 +50,6 @@ export interface CurrentConnectionInfo {
   roomId: string;
   status: ConnectionState;
 }
-
-export type ParticipantDeviceReadyStatus = Record<'video' | 'audio', DeviceReadyStatus>;
 
 export interface ParticipantInfo {
   identity: string;

@@ -2,11 +2,13 @@ import { LocalParticipant, Participant, RemoteParticipant, Room, RoomOptions } f
 import { LocalTrackController } from './helper/index';
 import { ParticipantEventContainer } from './participant';
 import { Connection, RoomEventContainer } from './room';
-import type { Config, InitialConnectionStatus, ParticipantHandler, RoomFactory, RoomHandler } from './types';
+import type { Config, InitialConnectionStatus, ParticipantHandler, RoomHandler } from './types';
 import { Cache, DI } from './utils/index';
 
 const cache = new Cache();
 const di = new DI();
+
+type RoomFactory = (roomOptions?: RoomOptions) => Room;
 
 const cacheStrategy = <T>(key: string, callback: () => T): T => {
   const value = cache.getValue(key);
