@@ -1,4 +1,5 @@
 import { Participant, Room, RoomEvent } from 'livekit-client';
+import { TargetParticipant, TargetParticipantFactory } from '../participant/targetParticipant';
 import {
   ConnectionState,
   CurrentConnectionInfo,
@@ -36,11 +37,27 @@ class RoomEventContainer {
   };
 
   onParticipantConnected = (participant: Participant) => {
-    this.#sequenceHandler<OnParticipantConnected, []>(this.#handler.onParticipantConnected, []);
+    const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
+
+    if (!targetParticipant) {
+      return;
+    }
+
+    this.#sequenceHandler<OnParticipantConnected, [TargetParticipant]>(this.#handler.onParticipantConnected, [
+      targetParticipant,
+    ]);
   };
 
   onParticipantDisconnected = (participant: Participant) => {
-    this.#sequenceHandler<OnParticipantDisconnected, []>(this.#handler.onParticipantDisconnected, []);
+    const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
+
+    if (!targetParticipant) {
+      return;
+    }
+
+    this.#sequenceHandler<OnParticipantDisconnected, [TargetParticipant]>(this.#handler.onParticipantDisconnected, [
+      targetParticipant,
+    ]);
   };
 
   onConnectionStateChanged = async (connectionState: ConnectionState) => {
