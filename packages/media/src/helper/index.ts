@@ -1,1 +1,2 @@
-export { default as LocalTrackController } from "./localTrack";
+export * from './event';
+export { default as LocalTrackController } from './localTrack';

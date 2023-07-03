@@ -1,11 +1,7 @@
-import { LocalParticipant, Participant, RemoteParticipant, Track } from 'livekit-client';
+import { LocalParticipant, Participant, Track } from 'livekit-client';
 
 export class TargetParticipantFactory {
   static createTargetParticipant = (participant: Participant) => {
-    if (!(participant instanceof (LocalParticipant || RemoteParticipant))) {
-      return;
-    }
-
     return new TargetParticipant(participant);
   };
 }
@@ -55,12 +51,21 @@ export class TargetParticipant {
     return isSubscribed && isValidTrack && this.#participant.isMicrophoneEnabled;
   }
 
-  attachElement = (element: HTMLMediaElement) => {
+  attachTrackToElement = (element: HTMLMediaElement) => {
     if (element instanceof HTMLVideoElement && this.isVideoEnabled) {
       this.#videoTrackPublication?.videoTrack?.attach(element);
     }
     if (element instanceof HTMLAudioElement && this.isAudioEnabled) {
       this.#videoTrackPublication?.audioTrack?.attach(element);
+    }
+  };
+
+  detachTrackFromElement = (element: HTMLMediaElement) => {
+    if (element instanceof HTMLVideoElement && this.isVideoEnabled) {
+      this.#videoTrackPublication?.videoTrack?.detach(element);
+    }
+    if (element instanceof HTMLAudioElement && this.isAudioEnabled) {
+      this.#videoTrackPublication?.audioTrack?.detach(element);
     }
   };
 }

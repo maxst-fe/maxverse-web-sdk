@@ -1,25 +1,23 @@
 import {
-  AudioTrack,
   LocalParticipant,
   LocalTrackPublication,
   Participant,
   ParticipantEvent,
-  RemoteParticipant,
   RemoteTrack,
   RemoteTrackPublication,
   Room,
   Track,
   TrackPublication,
-  VideoTrack,
 } from 'livekit-client';
+import { sequenceHandler } from '../helper';
 import {
-  ControlTrackToElement,
   OnAudioSwitched,
   OnLocalTrackPublished,
   OnTrackSubscribed,
   OnVideoSwitched,
   ParticipantHandler,
 } from '../types';
+import { TargetParticipant, TargetParticipantFactory } from './targetParticipant';
 
 class ParticipantEventContainer {
   #room: Room;
@@ -31,7 +29,7 @@ class ParticipantEventContainer {
   }
 
   bindParticipantEvents = (participant: Participant) => {
-    if (this.#checkisLocalParticipant(participant)) {
+    if (participant instanceof LocalParticipant) {
       participant
         .on(ParticipantEvent.LocalTrackPublished, this.#onLocalTrackUpdate)
         .on(ParticipantEvent.LocalTrackUnpublished, this.#onLocalTrackUpdate);
@@ -48,113 +46,55 @@ class ParticipantEventContainer {
       })
       .on(ParticipantEvent.TrackUnmuted, (trackPublication: TrackPublication) => {
         this.#onTrackSwitched(participant, trackPublication);
-      })
-      .on(ParticipantEvent.IsSpeakingChanged, () => {})
-      .on(ParticipantEvent.ConnectionQualityChanged, () => {});
-  };
-
-  initializeCurrentParticipantStatus = (participant: RemoteParticipant) => {
-    const trackPublications = participant.getTracks();
-
-    trackPublications.forEach(trackPublication => {
-      if (!trackPublication) {
-        return;
-      }
-
-      this.#onTrackSubscribed(
-        participant,
-        trackPublication.track as RemoteTrack,
-        trackPublication as RemoteTrackPublication
-      );
-    });
-  };
-
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  #sequenceHandler = <T extends Function, S>(handler: T | undefined, ...args: S[]) => {
-    if (handler) {
-      handler.apply(undefined, ...args);
-    }
-  };
-
-  #checkisLocalParticipant = (participant: Participant) => {
-    return participant instanceof LocalParticipant;
-  };
-
-  #attachTrack = (track: VideoTrack | AudioTrack | RemoteTrack) => (element: HTMLMediaElement) => {
-    track.attach(element);
-  };
-
-  #switchTrack = (track: VideoTrack | AudioTrack, isMuted: boolean) => (element: HTMLMediaElement) => {
-    isMuted ? track.detach(element) : track.attach(element);
+      });
   };
 
   #onLocalTrackUpdate = (localTrackPublication: LocalTrackPublication) => {
-    const { sid } = this.#room.localParticipant;
+    const targetParticipant = TargetParticipantFactory.createTargetParticipant(this.#room.localParticipant);
     const { videoTrack, audioTrack, source } = localTrackPublication;
 
     if (videoTrack && source === Track.Source.Camera) {
-      this.#sequenceHandler<OnLocalTrackPublished, [string, ControlTrackToElement]>(
-        this.#handler.onLocalVideoTrackPublished,
-        [sid, this.#attachTrack(videoTrack)]
-      );
+      sequenceHandler<OnLocalTrackPublished, [TargetParticipant]>(this.#handler.onLocalVideoTrackPublished, [
+        targetParticipant,
+      ]);
     }
     if (audioTrack && source === Track.Source.Microphone) {
-      this.#sequenceHandler<OnLocalTrackPublished, [string, ControlTrackToElement]>(
-        this.#handler.onLocalAudioTrackPublished,
-        [sid, this.#attachTrack(audioTrack)]
-      );
+      sequenceHandler<OnLocalTrackPublished, [TargetParticipant]>(this.#handler.onLocalAudioTrackPublished, [
+        targetParticipant,
+      ]);
     }
   };
 
   #onTrackSubscribed = (
     participant: Participant,
-    remoteTrack: RemoteTrack,
+    _remoteTrack: RemoteTrack,
     remoteTrackPublication: RemoteTrackPublication
   ) => {
-    const { sid } = participant;
     const { source } = remoteTrackPublication;
 
-    if (!remoteTrack || remoteTrack.isMuted) {
-      return;
-    }
+    const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
 
     if (source === Track.Source.Camera) {
-      this.#sequenceHandler<OnTrackSubscribed, [string, ControlTrackToElement]>(this.#handler.onVideoTrackSubscribed, [
-        sid,
-        this.#attachTrack(remoteTrack),
+      sequenceHandler<OnTrackSubscribed, [TargetParticipant]>(this.#handler.onVideoTrackSubscribed, [
+        targetParticipant,
       ]);
     }
     if (source === Track.Source.Microphone) {
-      this.#sequenceHandler<OnTrackSubscribed, [string, ControlTrackToElement]>(this.#handler.onAudioTrackSubscribed, [
-        sid,
-        this.#attachTrack(remoteTrack),
+      sequenceHandler<OnTrackSubscribed, [TargetParticipant]>(this.#handler.onAudioTrackSubscribed, [
+        targetParticipant,
       ]);
     }
   };
 
   #onTrackSwitched = (participant: Participant, trackPublication: TrackPublication) => {
-    const { videoTrack, audioTrack, source, isSubscribed } = trackPublication;
-
-    if (!isSubscribed) {
-      return;
-    }
-    const { sid } = participant;
+    const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
+    const { videoTrack, audioTrack, source } = trackPublication;
 
     if (videoTrack && source === Track.Source.Camera) {
-      const isMuted = videoTrack.isMuted;
-
-      this.#sequenceHandler<OnVideoSwitched, [string, boolean, boolean, ControlTrackToElement]>(
-        this.#handler.onVideoSwitched,
-        [sid, isMuted, this.#checkisLocalParticipant(participant), this.#switchTrack(videoTrack, isMuted)]
-      );
+      sequenceHandler<OnVideoSwitched, [TargetParticipant]>(this.#handler.onVideoSwitched, [targetParticipant]);
     }
     if (audioTrack && source === Track.Source.Microphone) {
-      const isMuted = audioTrack.isMuted;
-
-      this.#sequenceHandler<OnAudioSwitched, [string, boolean, boolean, ControlTrackToElement]>(
-        this.#handler.onAudioSwitched,
-        [sid, isMuted, this.#checkisLocalParticipant(participant), this.#switchTrack(audioTrack, isMuted)]
-      );
+      sequenceHandler<OnAudioSwitched, [TargetParticipant]>(this.#handler.onAudioSwitched, [targetParticipant]);
     }
   };
 }

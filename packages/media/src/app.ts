@@ -2,11 +2,13 @@ import { LocalParticipant, Participant, RemoteParticipant, Room, RoomOptions } f
 import { LocalTrackController } from './helper/index';
 import { ParticipantEventContainer } from './participant';
 import { Connection, RoomEventContainer } from './room';
-import type { Config, InitialConnectionStatus, ParticipantHandler, RoomFactory, RoomHandler } from './types';
+import type { Config, InitialConnectionStatus, ParticipantHandler, RoomHandler } from './types';
 import { Cache, DI } from './utils/index';
 
 const cache = new Cache();
 const di = new DI();
+
+type RoomFactory = (roomOptions?: RoomOptions) => Room;
 
 const cacheStrategy = <T>(key: string, callback: () => T): T => {
   const value = cache.getValue(key);
@@ -46,12 +48,12 @@ di.register('participantEventContainerFactory', ['roomFactory'], (roomFactory: R
   };
 });
 di.register('roomEventContainerFactory', ['roomFactory'], (roomFactory: RoomFactory) => {
-  return (isVideoEnabled: boolean, isAudioEnabeld: boolean, roomHandler: RoomHandler) => {
+  return (roomHandler: RoomHandler) => {
     const room: Room = roomFactory();
 
     const roomEventContainer: RoomEventContainer = cacheStrategy<RoomEventContainer>(
       'roomEventContainer',
-      () => new RoomEventContainer(isVideoEnabled, isAudioEnabeld, room, roomHandler)
+      () => new RoomEventContainer(room, roomHandler)
     );
 
     return roomEventContainer;
@@ -68,8 +70,6 @@ di.register('connectionFactory', ['roomFactory'], (roomFactory: RoomFactory) => 
 
 export class LiveRoom {
   #currentRoom: Room;
-  #isVideoEnabled: boolean;
-  #isAudioEnabled: boolean;
   #connection: Connection;
   #localTrackController: LocalTrackController;
 
@@ -84,9 +84,6 @@ export class LiveRoom {
       videoDeviceId,
       audioDeviceId
     );
-
-    this.#isVideoEnabled = isVideoEnabled ?? true;
-    this.#isAudioEnabled = isAudioEnabled ?? true;
   }
 
   get #localParticipant(): LocalParticipant {
@@ -126,16 +123,12 @@ export class LiveRoom {
       return;
     }
 
-    (
-      di.get('roomEventContainerFactory')(this.#isVideoEnabled, this.#isAudioEnabled, handler) as RoomEventContainer
-    ).bindRoomEvents();
+    (di.get('roomEventContainerFactory')(handler) as RoomEventContainer).bindRoomEvents();
   };
 
   public initializeCurrentRoomStatus = (handler: RoomHandler) => {
     this.#allParticipants.forEach(participant =>
-      (
-        di.get('roomEventContainerFactory')(this.#isVideoEnabled, this.#isAudioEnabled, handler) as RoomEventContainer
-      ).initializeCurrentRoomStatus(participant)
+      (di.get('roomEventContainerFactory')(handler) as RoomEventContainer).initializeCurrentRoomStatus(participant)
     );
   };
 
@@ -149,18 +142,6 @@ export class LiveRoom {
     (di.get('participantEventContainerFactory')(handler) as ParticipantEventContainer).bindParticipantEvents(
       participant
     );
-  };
-
-  public initializeCurrentParticipantStatus = (sid: string, handler: ParticipantHandler) => {
-    const participant = this.#findParticipant(sid);
-
-    if (!participant || participant instanceof LocalParticipant) {
-      return;
-    }
-
-    (
-      di.get('participantEventContainerFactory')(handler) as ParticipantEventContainer
-    ).initializeCurrentParticipantStatus(participant as RemoteParticipant);
   };
 
   public initializeLocalTracks = async () => {
