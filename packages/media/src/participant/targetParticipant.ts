@@ -37,6 +37,10 @@ export class TargetParticipant {
     return this.#participant.getTrack(Track.Source.Microphone);
   }
 
+  get #screenShareTrackPublication() {
+    return this.#participant.getTrack(Track.Source.ScreenShare);
+  }
+
   get isVideoEnabled() {
     const isSubscribed = this.#videoTrackPublication?.isSubscribed ?? false;
     const isValidTrack = this.#videoTrackPublication?.videoTrack ?? false;
@@ -49,6 +53,12 @@ export class TargetParticipant {
     const isValidTrack = this.#audioTrackPublication?.audioTrack ?? false;
 
     return isSubscribed && isValidTrack && this.#participant.isMicrophoneEnabled;
+  }
+
+  get isScreenShareEnabled() {
+    const isSubscribed = this.#screenShareTrackPublication?.isSubscribed ?? false;
+
+    return isSubscribed && this.#participant.isScreenShareEnabled;
   }
 
   attachTrackToElement = (element: HTMLMediaElement) => {
