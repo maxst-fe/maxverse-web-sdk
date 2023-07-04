@@ -26,8 +26,12 @@ export interface RoomHandler {
 export interface ParticipantHandler {
   onLocalVideoTrackPublished?: OnLocalTrackPublished;
   onLocalAudioTrackPublished?: OnLocalTrackPublished;
+  onLocalScreenShareTrackPublished?: OnLocalTrackPublished;
+  onLocalScreenShareTrackUnpublished?: OnLocalTrackPublished;
   onVideoTrackSubscribed?: OnTrackSubscribed;
   onAudioTrackSubscribed?: OnTrackSubscribed;
+  onScreenShareTrackSubscribed?: OnTrackSubscribed;
+  onScreenShareTrackUnsubscribed?: OnTrackSubscribed;
   onVideoSwitched?: OnVideoSwitched;
   onAudioSwitched?: OnAudioSwitched;
 }
