@@ -10,13 +10,7 @@ import {
   TrackPublication,
 } from 'livekit-client';
 import { sequenceHandler } from '../helper';
-import {
-  OnAudioSwitched,
-  OnLocalTrackPublished,
-  OnTrackSubscribed,
-  OnVideoSwitched,
-  ParticipantHandler,
-} from '../types';
+import { OnLocalTrackUpdated, OnRemoteTrackUpdated, OnTrackSwitched, ParticipantHandler } from '../types';
 import { TargetParticipant, TargetParticipantFactory } from './targetParticipant';
 
 class ParticipantEventContainer {
@@ -31,14 +25,14 @@ class ParticipantEventContainer {
   bindParticipantEvents = (participant: Participant) => {
     if (participant instanceof LocalParticipant) {
       participant
-        .on(ParticipantEvent.LocalTrackPublished, this.#onLocalTrackUpdate)
-        .on(ParticipantEvent.LocalTrackUnpublished, this.#onLocalTrackUpdate);
+        .on(ParticipantEvent.LocalTrackPublished, this.#onLocalTrackUpdated)
+        .on(ParticipantEvent.LocalTrackUnpublished, this.#onLocalTrackUpdated);
     }
     participant
       .on(
         ParticipantEvent.TrackSubscribed,
         (remoteTrack: RemoteTrack, remoteTrackPublication: RemoteTrackPublication) => {
-          this.#onTrackSubscribed(participant, remoteTrack, remoteTrackPublication);
+          this.#onRemoteTrackUpdated(participant, remoteTrack, remoteTrackPublication);
         }
       )
       .on(ParticipantEvent.TrackMuted, (trackPublication: TrackPublication) => {
@@ -49,23 +43,19 @@ class ParticipantEventContainer {
       });
   };
 
-  #onLocalTrackUpdate = (localTrackPublication: LocalTrackPublication) => {
+  #onLocalTrackUpdated = (localTrackPublication: LocalTrackPublication) => {
     const targetParticipant = TargetParticipantFactory.createTargetParticipant(this.#room.localParticipant);
     const { videoTrack, audioTrack, source } = localTrackPublication;
 
     if (videoTrack && source === Track.Source.Camera) {
-      sequenceHandler<OnLocalTrackPublished, [TargetParticipant]>(this.#handler.onLocalVideoTrackPublished, [
-        targetParticipant,
-      ]);
+      sequenceHandler<OnLocalTrackUpdated, [TargetParticipant]>(this.#handler.onLocalVideoUpdated, [targetParticipant]);
     }
     if (audioTrack && source === Track.Source.Microphone) {
-      sequenceHandler<OnLocalTrackPublished, [TargetParticipant]>(this.#handler.onLocalAudioTrackPublished, [
-        targetParticipant,
-      ]);
+      sequenceHandler<OnLocalTrackUpdated, [TargetParticipant]>(this.#handler.onLocalAudioUpdated, [targetParticipant]);
     }
   };
 
-  #onTrackSubscribed = (
+  #onRemoteTrackUpdated = (
     participant: Participant,
     _remoteTrack: RemoteTrack,
     remoteTrackPublication: RemoteTrackPublication
@@ -75,12 +65,12 @@ class ParticipantEventContainer {
     const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
 
     if (source === Track.Source.Camera) {
-      sequenceHandler<OnTrackSubscribed, [TargetParticipant]>(this.#handler.onVideoTrackSubscribed, [
+      sequenceHandler<OnRemoteTrackUpdated, [TargetParticipant]>(this.#handler.onRemoteVideoUpdated, [
         targetParticipant,
       ]);
     }
     if (source === Track.Source.Microphone) {
-      sequenceHandler<OnTrackSubscribed, [TargetParticipant]>(this.#handler.onAudioTrackSubscribed, [
+      sequenceHandler<OnRemoteTrackUpdated, [TargetParticipant]>(this.#handler.onRemoteAudioUpdated, [
         targetParticipant,
       ]);
     }
@@ -91,10 +81,10 @@ class ParticipantEventContainer {
     const { videoTrack, audioTrack, source } = trackPublication;
 
     if (videoTrack && source === Track.Source.Camera) {
-      sequenceHandler<OnVideoSwitched, [TargetParticipant]>(this.#handler.onVideoSwitched, [targetParticipant]);
+      sequenceHandler<OnTrackSwitched, [TargetParticipant]>(this.#handler.onVideoSwitched, [targetParticipant]);
     }
     if (audioTrack && source === Track.Source.Microphone) {
-      sequenceHandler<OnAudioSwitched, [TargetParticipant]>(this.#handler.onAudioSwitched, [targetParticipant]);
+      sequenceHandler<OnTrackSwitched, [TargetParticipant]>(this.#handler.onAudioSwitched, [targetParticipant]);
     }
   };
 }
