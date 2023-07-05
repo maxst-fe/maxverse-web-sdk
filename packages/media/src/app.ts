@@ -118,6 +118,10 @@ export class LiveRoom {
     this.#localTrackController.toggleMic();
   };
 
+  public toggleScreenShare = () => {
+    this.#localTrackController.toggleScreenShare();
+  };
+
   public bindRoomEvents = (handler: RoomHandler) => {
     if (!this.#currentRoom) {
       return;

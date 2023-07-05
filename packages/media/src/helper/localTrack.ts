@@ -31,6 +31,11 @@ class LocalTrackController {
     this.#room.localParticipant.setMicrophoneEnabled(isEnabled);
   };
 
+  toggleScreenShare = () => {
+    const isEnabled = this.#room.localParticipant.isScreenShareEnabled ?? true;
+    this.#room.localParticipant.setScreenShareEnabled(!isEnabled);
+  };
+
   initializeLocalTracks = async () => {
     if (this.#room.options.videoCaptureDefaults && this.#videoDeviceId) {
       this.#room.options.videoCaptureDefaults.deviceId = this.#videoDeviceId;
