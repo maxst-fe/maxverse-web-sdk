@@ -4,7 +4,7 @@ type TrackPublicationStatus = TrackPublication | undefined;
 type TrackSource = 'video' | 'audio' | 'screenShare';
 
 export class TargetParticipantFactory {
-  static createTargetParticipant = async (participant: Participant) => {
+  static create = async (participant: Participant) => {
     const [videoTrackPublication, audioTrackPublication, screenShareTrackPublication] = await Promise.all([
       participant.getTrack(Track.Source.Camera),
       participant.getTrack(Track.Source.Microphone),

@@ -52,7 +52,7 @@ class ParticipantEventContainer {
   #onLocalTrackUpdated = async (localTrackPublication: LocalTrackPublication) => {
     const { source } = localTrackPublication;
 
-    const targetParticipant = await TargetParticipantFactory.createTargetParticipant(this.#room.localParticipant);
+    const targetParticipant = await TargetParticipantFactory.create(this.#room.localParticipant);
 
     if (source === Track.Source.Camera) {
       sequenceHandler<OnLocalTrackUpdated, [TargetParticipant]>(this.#handler.onLocalVideoUpdated, [targetParticipant]);
@@ -74,7 +74,7 @@ class ParticipantEventContainer {
   ) => {
     const { source } = remoteTrackPublication;
 
-    const targetParticipant = await TargetParticipantFactory.createTargetParticipant(participant);
+    const targetParticipant = await TargetParticipantFactory.create(participant);
 
     if (source === Track.Source.Camera) {
       sequenceHandler<OnRemoteTrackUpdated, [TargetParticipant]>(this.#handler.onRemoteVideoUpdated, [
@@ -96,7 +96,7 @@ class ParticipantEventContainer {
   #onTrackSwitched = async (participant: Participant, trackPublication: TrackPublication) => {
     const { source } = trackPublication;
 
-    const targetParticipant = await TargetParticipantFactory.createTargetParticipant(participant);
+    const targetParticipant = await TargetParticipantFactory.create(participant);
 
     if (source === Track.Source.Camera) {
       sequenceHandler<OnTrackSwitched, [TargetParticipant]>(this.#handler.onVideoSwitched, [targetParticipant]);

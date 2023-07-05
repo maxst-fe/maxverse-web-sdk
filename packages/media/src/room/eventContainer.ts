@@ -31,7 +31,7 @@ class RoomEventContainer {
   };
 
   onParticipantConnected = async (participant: Participant) => {
-    const targetParticipant = await TargetParticipantFactory.createTargetParticipant(participant);
+    const targetParticipant = await TargetParticipantFactory.create(participant);
 
     sequenceHandler<OnParticipantConnected, [TargetParticipant]>(this.#handler.onParticipantConnected, [
       targetParticipant,
@@ -39,7 +39,7 @@ class RoomEventContainer {
   };
 
   onParticipantDisconnected = async (participant: Participant) => {
-    const targetParticipant = await TargetParticipantFactory.createTargetParticipant(participant);
+    const targetParticipant = await TargetParticipantFactory.create(participant);
 
     sequenceHandler<OnParticipantDisconnected, [TargetParticipant]>(this.#handler.onParticipantDisconnected, [
       targetParticipant,
