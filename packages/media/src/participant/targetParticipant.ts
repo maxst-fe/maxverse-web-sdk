@@ -1,16 +1,41 @@
-import { LocalParticipant, Participant, Track } from 'livekit-client';
+import { LocalParticipant, Participant, Track, TrackPublication } from 'livekit-client';
+
+type TrackPublicationStatus = TrackPublication | undefined;
+type TrackSource = 'video' | 'audio' | 'screenShare';
 
 export class TargetParticipantFactory {
-  static createTargetParticipant = (participant: Participant) => {
-    return new TargetParticipant(participant);
+  static create = async (participant: Participant) => {
+    const [videoTrackPublication, audioTrackPublication, screenShareTrackPublication] = await Promise.all([
+      participant.getTrack(Track.Source.Camera),
+      participant.getTrack(Track.Source.Microphone),
+      participant.getTrack(Track.Source.ScreenShare),
+    ]);
+
+    return new TargetParticipant(
+      participant,
+      videoTrackPublication,
+      audioTrackPublication,
+      screenShareTrackPublication
+    );
   };
 }
 
 export class TargetParticipant {
   #participant: Participant;
+  #videoTrackPublication: TrackPublicationStatus;
+  #audioTrackPublication: TrackPublicationStatus;
+  #screenShareTrackPublication: TrackPublicationStatus;
 
-  constructor(participant: Participant) {
+  constructor(
+    participant: Participant,
+    videoTrackPublication: TrackPublicationStatus,
+    audioTrackPublication: TrackPublicationStatus,
+    screenShareTrackPublication: TrackPublicationStatus
+  ) {
     this.#participant = participant;
+    this.#videoTrackPublication = videoTrackPublication;
+    this.#audioTrackPublication = audioTrackPublication;
+    this.#screenShareTrackPublication = screenShareTrackPublication;
   }
 
   get sid() {
@@ -29,14 +54,6 @@ export class TargetParticipant {
     return this.#participant instanceof LocalParticipant;
   }
 
-  get #videoTrackPublication() {
-    return this.#participant.getTrack(Track.Source.Camera);
-  }
-
-  get #audioTrackPublication() {
-    return this.#participant.getTrack(Track.Source.Microphone);
-  }
-
   get isVideoEnabled() {
     const isSubscribed = this.#videoTrackPublication?.isSubscribed ?? false;
     const isValidTrack = this.#videoTrackPublication?.videoTrack ?? false;
@@ -51,21 +68,42 @@ export class TargetParticipant {
     return isSubscribed && isValidTrack && this.#participant.isMicrophoneEnabled;
   }
 
-  attachTrackToElement = (element: HTMLMediaElement) => {
+  get isScreenShareEnabled() {
+    const isSubscribed = this.#screenShareTrackPublication?.isSubscribed ?? false;
+    const isValidTrack = this.#screenShareTrackPublication?.videoTrack ?? false;
+
+    return isSubscribed && isValidTrack;
+  }
+
+  attachTrackToElement = (element: HTMLMediaElement, trackSource: TrackSource) => {
     if (element instanceof HTMLVideoElement && this.isVideoEnabled) {
-      this.#videoTrackPublication?.videoTrack?.attach(element);
+      if (this.isVideoEnabled && trackSource === 'video') {
+        this.#videoTrackPublication?.videoTrack?.attach(element);
+      }
+      if (this.isScreenShareEnabled && trackSource === 'audio') {
+        this.#screenShareTrackPublication?.videoTrack?.attach(element);
+      }
     }
-    if (element instanceof HTMLAudioElement && this.isAudioEnabled) {
-      this.#videoTrackPublication?.audioTrack?.attach(element);
+    if (this.isAudioEnabled && element instanceof HTMLAudioElement) {
+      if (trackSource === 'audio') {
+        this.#audioTrackPublication?.audioTrack?.attach(element);
+      }
     }
   };
 
-  detachTrackFromElement = (element: HTMLMediaElement) => {
-    if (element instanceof HTMLVideoElement && this.isVideoEnabled) {
-      this.#videoTrackPublication?.videoTrack?.detach(element);
+  detachTrackFromElement = (element: HTMLMediaElement, trackSource: TrackSource) => {
+    if (element instanceof HTMLVideoElement) {
+      if (trackSource === 'video') {
+        this.#videoTrackPublication?.videoTrack?.detach(element);
+      }
+      if (trackSource === 'screenShare') {
+        this.#screenShareTrackPublication?.videoTrack?.detach(element);
+      }
     }
-    if (element instanceof HTMLAudioElement && this.isAudioEnabled) {
-      this.#videoTrackPublication?.audioTrack?.detach(element);
+    if (element instanceof HTMLAudioElement) {
+      if (trackSource === 'audio') {
+        this.#audioTrackPublication?.audioTrack?.detach(element);
+      }
     }
   };
 }

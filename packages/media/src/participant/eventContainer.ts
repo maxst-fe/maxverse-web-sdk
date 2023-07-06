@@ -10,13 +10,7 @@ import {
   TrackPublication,
 } from 'livekit-client';
 import { sequenceHandler } from '../helper';
-import {
-  OnAudioSwitched,
-  OnLocalTrackPublished,
-  OnTrackSubscribed,
-  OnVideoSwitched,
-  ParticipantHandler,
-} from '../types';
+import { OnLocalTrackUpdated, OnRemoteTrackUpdated, OnTrackSwitched, ParticipantHandler } from '../types';
 import { TargetParticipant, TargetParticipantFactory } from './targetParticipant';
 
 class ParticipantEventContainer {
@@ -31,14 +25,20 @@ class ParticipantEventContainer {
   bindParticipantEvents = (participant: Participant) => {
     if (participant instanceof LocalParticipant) {
       participant
-        .on(ParticipantEvent.LocalTrackPublished, this.#onLocalTrackUpdate)
-        .on(ParticipantEvent.LocalTrackUnpublished, this.#onLocalTrackUpdate);
+        .on(ParticipantEvent.LocalTrackPublished, this.#onLocalTrackUpdated)
+        .on(ParticipantEvent.LocalTrackUnpublished, this.#onLocalTrackUpdated);
     }
     participant
       .on(
         ParticipantEvent.TrackSubscribed,
         (remoteTrack: RemoteTrack, remoteTrackPublication: RemoteTrackPublication) => {
-          this.#onTrackSubscribed(participant, remoteTrack, remoteTrackPublication);
+          this.#onRemoteTrackUpdated(participant, remoteTrack, remoteTrackPublication);
+        }
+      )
+      .on(
+        ParticipantEvent.TrackUnsubscribed,
+        (remoteTrack: RemoteTrack, remoteTrackPublication: RemoteTrackPublication) => {
+          this.#onRemoteTrackUpdated(participant, remoteTrack, remoteTrackPublication);
         }
       )
       .on(ParticipantEvent.TrackMuted, (trackPublication: TrackPublication) => {
@@ -49,52 +49,60 @@ class ParticipantEventContainer {
       });
   };
 
-  #onLocalTrackUpdate = (localTrackPublication: LocalTrackPublication) => {
-    const targetParticipant = TargetParticipantFactory.createTargetParticipant(this.#room.localParticipant);
-    const { videoTrack, audioTrack, source } = localTrackPublication;
+  #onLocalTrackUpdated = async (localTrackPublication: LocalTrackPublication) => {
+    const { source } = localTrackPublication;
 
-    if (videoTrack && source === Track.Source.Camera) {
-      sequenceHandler<OnLocalTrackPublished, [TargetParticipant]>(this.#handler.onLocalVideoTrackPublished, [
-        targetParticipant,
-      ]);
+    const targetParticipant = await TargetParticipantFactory.create(this.#room.localParticipant);
+
+    if (source === Track.Source.Camera) {
+      sequenceHandler<OnLocalTrackUpdated, [TargetParticipant]>(this.#handler.onLocalVideoUpdated, [targetParticipant]);
     }
-    if (audioTrack && source === Track.Source.Microphone) {
-      sequenceHandler<OnLocalTrackPublished, [TargetParticipant]>(this.#handler.onLocalAudioTrackPublished, [
+    if (source === Track.Source.Microphone) {
+      sequenceHandler<OnLocalTrackUpdated, [TargetParticipant]>(this.#handler.onLocalAudioUpdated, [targetParticipant]);
+    }
+    if (source === Track.Source.ScreenShare) {
+      sequenceHandler<OnLocalTrackUpdated, [TargetParticipant]>(this.#handler.onLocalScreenShareUpdated, [
         targetParticipant,
       ]);
     }
   };
 
-  #onTrackSubscribed = (
+  #onRemoteTrackUpdated = async (
     participant: Participant,
     _remoteTrack: RemoteTrack,
     remoteTrackPublication: RemoteTrackPublication
   ) => {
     const { source } = remoteTrackPublication;
 
-    const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
+    const targetParticipant = await TargetParticipantFactory.create(participant);
 
     if (source === Track.Source.Camera) {
-      sequenceHandler<OnTrackSubscribed, [TargetParticipant]>(this.#handler.onVideoTrackSubscribed, [
+      sequenceHandler<OnRemoteTrackUpdated, [TargetParticipant]>(this.#handler.onRemoteVideoUpdated, [
         targetParticipant,
       ]);
     }
     if (source === Track.Source.Microphone) {
-      sequenceHandler<OnTrackSubscribed, [TargetParticipant]>(this.#handler.onAudioTrackSubscribed, [
+      sequenceHandler<OnRemoteTrackUpdated, [TargetParticipant]>(this.#handler.onRemoteAudioUpdated, [
+        targetParticipant,
+      ]);
+    }
+    if (source === Track.Source.ScreenShare) {
+      sequenceHandler<OnRemoteTrackUpdated, [TargetParticipant]>(this.#handler.onRemoteScreenShareUpdated, [
         targetParticipant,
       ]);
     }
   };
 
-  #onTrackSwitched = (participant: Participant, trackPublication: TrackPublication) => {
-    const targetParticipant = TargetParticipantFactory.createTargetParticipant(participant);
-    const { videoTrack, audioTrack, source } = trackPublication;
+  #onTrackSwitched = async (participant: Participant, trackPublication: TrackPublication) => {
+    const { source } = trackPublication;
 
-    if (videoTrack && source === Track.Source.Camera) {
-      sequenceHandler<OnVideoSwitched, [TargetParticipant]>(this.#handler.onVideoSwitched, [targetParticipant]);
+    const targetParticipant = await TargetParticipantFactory.create(participant);
+
+    if (source === Track.Source.Camera) {
+      sequenceHandler<OnTrackSwitched, [TargetParticipant]>(this.#handler.onVideoSwitched, [targetParticipant]);
     }
-    if (audioTrack && source === Track.Source.Microphone) {
-      sequenceHandler<OnAudioSwitched, [TargetParticipant]>(this.#handler.onAudioSwitched, [targetParticipant]);
+    if (source === Track.Source.Microphone) {
+      sequenceHandler<OnTrackSwitched, [TargetParticipant]>(this.#handler.onAudioSwitched, [targetParticipant]);
     }
   };
 }

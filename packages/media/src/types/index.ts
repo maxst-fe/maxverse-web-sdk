@@ -12,10 +12,9 @@ export type OnParticipantConnected = (targetParticipant: TargetParticipant) => v
 export type OnParticipantDisconnected = (targetParticipant: TargetParticipant) => void;
 export type OnConnectionStateChanged = (currentConnectionInfo: CurrentConnectionInfo) => void;
 
-export type OnLocalTrackPublished = (targetParticipant: TargetParticipant) => void;
-export type OnTrackSubscribed = (targetParticipant: TargetParticipant) => void;
-export type OnVideoSwitched = (targetParticipant: TargetParticipant) => void;
-export type OnAudioSwitched = (targetParticipant: TargetParticipant) => void;
+export type OnLocalTrackUpdated = (targetParticipant: TargetParticipant) => void;
+export type OnRemoteTrackUpdated = (targetParticipant: TargetParticipant) => void;
+export type OnTrackSwitched = (targetParticipant: TargetParticipant) => void;
 
 export interface RoomHandler {
   onParticipantConnected?: OnParticipantConnected;
@@ -24,12 +23,14 @@ export interface RoomHandler {
 }
 
 export interface ParticipantHandler {
-  onLocalVideoTrackPublished?: OnLocalTrackPublished;
-  onLocalAudioTrackPublished?: OnLocalTrackPublished;
-  onVideoTrackSubscribed?: OnTrackSubscribed;
-  onAudioTrackSubscribed?: OnTrackSubscribed;
-  onVideoSwitched?: OnVideoSwitched;
-  onAudioSwitched?: OnAudioSwitched;
+  onLocalVideoUpdated?: OnLocalTrackUpdated;
+  onLocalAudioUpdated?: OnLocalTrackUpdated;
+  onLocalScreenShareUpdated?: OnLocalTrackUpdated;
+  onRemoteVideoUpdated?: OnRemoteTrackUpdated;
+  onRemoteAudioUpdated?: OnRemoteTrackUpdated;
+  onRemoteScreenShareUpdated?: OnRemoteTrackUpdated;
+  onVideoSwitched?: OnTrackSwitched;
+  onAudioSwitched?: OnTrackSwitched;
 }
 
 export enum InitialConnectionStatus {
@@ -49,12 +50,4 @@ export enum ConnectionState {
 export interface CurrentConnectionInfo {
   roomId: string;
   status: ConnectionState;
-}
-
-export interface ParticipantInfo {
-  identity: string;
-  name: string;
-  isLocal: boolean;
-  joinedAt: Date | undefined;
-  lastSpokeAt: Date;
 }
