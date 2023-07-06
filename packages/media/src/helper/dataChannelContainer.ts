@@ -1,4 +1,4 @@
-import { Participant, Room } from 'livekit-client';
+import { Participant } from 'livekit-client';
 import Presenter from './presenter';
 
 export enum MetadataSort {
@@ -13,7 +13,7 @@ export type Metadata = Record<MetadataSort, unknown>;
 class DataChannelContainer {
   #presenter: Presenter;
 
-  constructor(room: Room, presenter: Presenter) {
+  constructor(presenter: Presenter) {
     this.#presenter = presenter;
   }
 
