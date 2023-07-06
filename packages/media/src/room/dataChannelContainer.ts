@@ -1,5 +1,5 @@
 import { Participant } from 'livekit-client';
-import Presenter from './presenter';
+import Presenter from '../helper/presenter';
 
 export enum MetadataSort {
   PRESENTER = 'presenter',
