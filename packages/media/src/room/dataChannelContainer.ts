@@ -6,7 +6,7 @@ export enum MetadataSort {
   UNKNOWN = 'unknown',
 }
 export type MetadataValue = {
-  [MetadataSort.PRESENTER]: { userId: string };
+  [MetadataSort.PRESENTER]: string;
 };
 export type Metadata = Record<MetadataSort, unknown>;
 
@@ -21,20 +21,16 @@ class DataChannelContainer {
     return JSON.parse(data) as T;
   };
 
-  #checkSort = (data: Metadata, sort: MetadataSort) => {
-    return Object.hasOwn(data, sort);
-  };
-
   onFetchMetaDataHandler = (metadata: string): { type: MetadataSort; payload?: Participant } => {
     const parsedMetadata = this.#parse(metadata);
 
     if (!parsedMetadata) {
-      console.error('not found valid metadata');
+      console.error('do not found valid metadata');
       return { type: MetadataSort.UNKNOWN };
     }
 
-    if (this.#checkSort(parsedMetadata, MetadataSort.PRESENTER)) {
-      const { userId } = parsedMetadata.presenter as MetadataValue[MetadataSort.PRESENTER];
+    if (parsedMetadata.presenter) {
+      const userId = parsedMetadata.presenter as MetadataValue[MetadataSort.PRESENTER];
 
       const presenter = this.#presenter.find(userId);
 

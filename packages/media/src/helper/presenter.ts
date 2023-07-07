@@ -1,4 +1,4 @@
-import { Participant, Room } from 'livekit-client';
+import { Participant, Room } from "livekit-client";
 
 class Presenter {
   #room: Room;
@@ -8,11 +8,14 @@ class Presenter {
   }
 
   get #allParticipant(): Participant[] {
-    return [this.#room.localParticipant, ...Array.from(this.#room.participants.values())];
+    return [
+      this.#room.localParticipant,
+      ...Array.from(this.#room.participants.values()),
+    ];
   }
 
   find = (userId: string) => {
-    const presenter = this.#allParticipant.find(participant => {
+    const presenter = this.#allParticipant.find((participant) => {
       return participant.identity === userId;
     });
 

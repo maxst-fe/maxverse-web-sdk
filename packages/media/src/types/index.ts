@@ -11,6 +11,7 @@ export interface Config extends RoomOptions {
 export type OnParticipantConnected = (targetParticipant: TargetParticipant) => void;
 export type OnParticipantDisconnected = (targetParticipant: TargetParticipant) => void;
 export type OnConnectionStateChanged = (currentConnectionInfo: CurrentConnectionInfo) => void;
+export type OnPresenterUpdated = (targetParticipant: TargetParticipant) => void;
 
 export type OnLocalTrackUpdated = (targetParticipant: TargetParticipant) => void;
 export type OnRemoteTrackUpdated = (targetParticipant: TargetParticipant) => void;
@@ -20,6 +21,7 @@ export interface RoomHandler {
   onParticipantConnected?: OnParticipantConnected;
   onParticipantDisconnected?: OnParticipantDisconnected;
   onConnectionStateChanged?: OnConnectionStateChanged;
+  onPresenterUpdated?: OnPresenterUpdated;
 }
 
 export interface ParticipantHandler {
