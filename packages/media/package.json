@@ -10,7 +10,7 @@
   "homepage": "https://doc.maxverse.io/maxverse-sdk-media",
   "repository": {
     "type": "git",
-    "url": "https://github.com/maxst-fe/maxverse-web-sdk"
+    "url": "https://github.com/maxverse-dev/maxverse-web-sdk"
   },
   "sideEffects": false,
   "exports": {
