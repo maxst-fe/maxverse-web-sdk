@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/maxst-fe/maxverse-web-sdk/compare/@maxverse/media-web-sdk@3.0.0...@maxverse/media-web-sdk@3.0.1) (2023-07-07)
+
+
+### Features
+
+* add class Presenter for finds targeted participant in the room ([09e84ea](https://github.com/maxst-fe/maxverse-web-sdk/commit/09e84ea01aae8591f720b93f19bde780a92d5a08))
+* **helper/dataChannelContainer:** add dataChannelContainer for handles data messages ([c0b57fc](https://github.com/maxst-fe/maxverse-web-sdk/commit/c0b57fc85df0238b6b3508c94033d8610c25d4b3))
+* **helper/dataChannelContainer:** add dataChannelContainer for handles data messages ([c4b0c67](https://github.com/maxst-fe/maxverse-web-sdk/commit/c4b0c674c6be67408471291de96f6797aa7584be))
+
+
+
+
+
 # [3.0.0](https://github.com/maxst-fe/maxverse-web-sdk/compare/@maxverse/media-web-sdk@2.0.0...@maxverse/media-web-sdk@3.0.0) (2023-07-06)
 
 
