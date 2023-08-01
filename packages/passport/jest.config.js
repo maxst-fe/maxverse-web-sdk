@@ -1,7 +1,6 @@
 module.exports = {
   displayName: '@mono-repo-template/sub',
   setupFilesAfterEnv: ['./jest.setup.ts'],
-  testEnvironment: 'jsdom',
   roots: ['<rootDir>/src'],
   testMatch: ['**/__tests__/**/*.+(js|ts)', '**/?(*.)+(spec|test).+(js|ts)'],
   moduleFileExtensions: ['js', 'ts'],

@@ -4404,7 +4404,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["babel-jest", "virtual:586da68990211a82835011d688872fdca2ca77181201b8b2393f1f621118f7469eb84af4fbb3cf4997be6ed83b726447111fc1f91fb71c028a5702cfdd869eba#npm:29.5.0"],\
             ["identity-obj-proxy", "npm:3.0.0"],\
             ["jest", "virtual:d76d66bfb09144044c026d80a3698adfd3fa018ebfc17f1f707c1532aa237f18994b164bdfbf7ab128313dd3ad0caab7192efb04de9d3fecb768e984d59283a3#npm:29.5.0"],\
-            ["jest-environment-jsdom", "virtual:d76d66bfb09144044c026d80a3698adfd3fa018ebfc17f1f707c1532aa237f18994b164bdfbf7ab128313dd3ad0caab7192efb04de9d3fecb768e984d59283a3#npm:29.5.0"],\
             ["livekit-client", "npm:1.9.6"],\
             ["rollup", "npm:2.79.1"],\
             ["ts-jest", "virtual:a7c0c947b86398246d1616a96adface6ed88e23becc34591ae3a071cb7245e21b24e0ddc4e6c3a2feab0baa0e75c8d01d3d757ac663ba1055afebd071d6b4d87#npm:29.1.0"],\
@@ -4431,7 +4430,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["dayjs", "npm:1.11.9"],\
             ["identity-obj-proxy", "npm:3.0.0"],\
             ["jest", "virtual:d76d66bfb09144044c026d80a3698adfd3fa018ebfc17f1f707c1532aa237f18994b164bdfbf7ab128313dd3ad0caab7192efb04de9d3fecb768e984d59283a3#npm:29.5.0"],\
-            ["jest-environment-jsdom", "virtual:d76d66bfb09144044c026d80a3698adfd3fa018ebfc17f1f707c1532aa237f18994b164bdfbf7ab128313dd3ad0caab7192efb04de9d3fecb768e984d59283a3#npm:29.5.0"],\
             ["pkce-challenge", "npm:3.1.0"],\
             ["rollup", "npm:2.79.1"],\
             ["rollup-plugin-web-worker-loader", "virtual:d83fcaa3e2654d10c6ccab71ba9a8593df9e78c00898ac68c783ef3f453591f63a1de4f9c88dc14f9304cef65d28eeca7ccde931a3d4cc112ac3ae94bf74c514#npm:1.6.1"],\
