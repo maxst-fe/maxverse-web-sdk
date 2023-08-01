@@ -11,6 +11,8 @@ const extensions = ['.js', '.ts'];
 exports.generateRollupConfig = function generateRollupConfig({ packageDir, plugins }) {
   const packageJSON = require(path.join(packageDir, 'package.json'));
 
+  plugins = plugins ?? [];
+
   if (packageJSON.publishConfig.exports == null) {
     throw new Error('package.json의 exports 필드를 정의해주세요.');
   }
