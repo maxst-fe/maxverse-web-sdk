@@ -18,12 +18,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@maxverse/media-web-sdk",\
         "reference": "workspace:packages/media"\
+      },\
+      {\
+        "name": "@maxverse/passport-web-sdk",\
+        "reference": "workspace:packages/passport"\
       }\
     ],\
     "enableTopLevelFallback": true,\
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
       ["@maxverse/media-web-sdk", ["workspace:packages/media"]],\
+      ["@maxverse/passport-web-sdk", ["workspace:packages/passport"]],\
       ["maxverse-web-sdk", ["workspace:."]]\
     ],\
     "fallbackPool": [\
@@ -4480,6 +4485,35 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@maxverse/passport-web-sdk", [\
+        ["workspace:packages/passport", {\
+          "packageLocation": "./packages/passport/",\
+          "packageDependencies": [\
+            ["@maxverse/passport-web-sdk", "workspace:packages/passport"],\
+            ["@babel/core", "npm:7.21.8"],\
+            ["@babel/preset-env", "virtual:a7c0c947b86398246d1616a96adface6ed88e23becc34591ae3a071cb7245e21b24e0ddc4e6c3a2feab0baa0e75c8d01d3d757ac663ba1055afebd071d6b4d87#npm:7.21.5"],\
+            ["@babel/preset-typescript", "virtual:a7c0c947b86398246d1616a96adface6ed88e23becc34591ae3a071cb7245e21b24e0ddc4e6c3a2feab0baa0e75c8d01d3d757ac663ba1055afebd071d6b4d87#npm:7.21.5"],\
+            ["@babel/runtime", "npm:7.21.5"],\
+            ["@types/babel__core", "npm:7.20.0"],\
+            ["@types/babel__preset-env", "npm:7.9.2"],\
+            ["@types/jest", "npm:29.5.1"],\
+            ["@types/node", "npm:14.18.47"],\
+            ["@yarnpkg/pnpify", "npm:4.0.0-rc.44"],\
+            ["babel-jest", "virtual:586da68990211a82835011d688872fdca2ca77181201b8b2393f1f621118f7469eb84af4fbb3cf4997be6ed83b726447111fc1f91fb71c028a5702cfdd869eba#npm:29.5.0"],\
+            ["dayjs", "npm:1.11.9"],\
+            ["identity-obj-proxy", "npm:3.0.0"],\
+            ["jest", "virtual:d76d66bfb09144044c026d80a3698adfd3fa018ebfc17f1f707c1532aa237f18994b164bdfbf7ab128313dd3ad0caab7192efb04de9d3fecb768e984d59283a3#npm:29.5.0"],\
+            ["jest-environment-jsdom", "virtual:d76d66bfb09144044c026d80a3698adfd3fa018ebfc17f1f707c1532aa237f18994b164bdfbf7ab128313dd3ad0caab7192efb04de9d3fecb768e984d59283a3#npm:29.5.0"],\
+            ["pkce-challenge", "npm:3.1.0"],\
+            ["rollup", "npm:2.79.1"],\
+            ["rollup-plugin-web-worker-loader", "virtual:d83fcaa3e2654d10c6ccab71ba9a8593df9e78c00898ac68c783ef3f453591f63a1de4f9c88dc14f9304cef65d28eeca7ccde931a3d4cc112ac3ae94bf74c514#npm:1.6.1"],\
+            ["ts-jest", "virtual:a7c0c947b86398246d1616a96adface6ed88e23becc34591ae3a071cb7245e21b24e0ddc4e6c3a2feab0baa0e75c8d01d3d757ac663ba1055afebd071d6b4d87#npm:29.1.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307"],\
+            ["typescript-cookie", "npm:1.0.6"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@nodelib/fs.scandir", [\
         ["npm:2.1.5", {\
           "packageLocation": "./.yarn/cache/@nodelib-fs.scandir-npm-2.1.5-89c67370dd-a970d595bd.zip/node_modules/@nodelib/fs.scandir/",\
@@ -7794,6 +7828,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["crypto-js", [\
+        ["npm:4.1.1", {\
+          "packageLocation": "./.yarn/cache/crypto-js-npm-4.1.1-38a3b8c19d-b3747c12ee.zip/node_modules/crypto-js/",\
+          "packageDependencies": [\
+            ["crypto-js", "npm:4.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["crypto-random-string", [\
         ["npm:2.0.0", {\
           "packageLocation": "./.yarn/cache/crypto-random-string-npm-2.0.0-8ab47992ef-0283879f55.zip/node_modules/crypto-random-string/",\
@@ -7864,6 +7907,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/dateformat-npm-3.0.3-ed02e5ddbd-ca4911148a.zip/node_modules/dateformat/",\
           "packageDependencies": [\
             ["dateformat", "npm:3.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["dayjs", [\
+        ["npm:1.11.9", {\
+          "packageLocation": "./.yarn/cache/dayjs-npm-1.11.9-c47d327b7c-a4844d83dc.zip/node_modules/dayjs/",\
+          "packageDependencies": [\
+            ["dayjs", "npm:1.11.9"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13369,6 +13421,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["pkce-challenge", [\
+        ["npm:3.1.0", {\
+          "packageLocation": "./.yarn/cache/pkce-challenge-npm-3.1.0-ad7e7c619b-155b532634.zip/node_modules/pkce-challenge/",\
+          "packageDependencies": [\
+            ["pkce-challenge", "npm:3.1.0"],\
+            ["crypto-js", "npm:4.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["pkg-dir", [\
         ["npm:4.2.0", {\
           "packageLocation": "./.yarn/cache/pkg-dir-npm-4.2.0-2b5d0a8d32-9863e3f351.zip/node_modules/pkg-dir/",\
@@ -14103,6 +14165,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["rollup", "npm:2.79.1"],\
             ["fsevents", "patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["rollup-plugin-web-worker-loader", [\
+        ["npm:1.6.1", {\
+          "packageLocation": "./.yarn/cache/rollup-plugin-web-worker-loader-npm-1.6.1-ee2e4494aa-1239c2657b.zip/node_modules/rollup-plugin-web-worker-loader/",\
+          "packageDependencies": [\
+            ["rollup-plugin-web-worker-loader", "npm:1.6.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:d83fcaa3e2654d10c6ccab71ba9a8593df9e78c00898ac68c783ef3f453591f63a1de4f9c88dc14f9304cef65d28eeca7ccde931a3d4cc112ac3ae94bf74c514#npm:1.6.1", {\
+          "packageLocation": "./.yarn/__virtual__/rollup-plugin-web-worker-loader-virtual-b26dfd3f64/0/cache/rollup-plugin-web-worker-loader-npm-1.6.1-ee2e4494aa-1239c2657b.zip/node_modules/rollup-plugin-web-worker-loader/",\
+          "packageDependencies": [\
+            ["rollup-plugin-web-worker-loader", "virtual:d83fcaa3e2654d10c6ccab71ba9a8593df9e78c00898ac68c783ef3f453591f63a1de4f9c88dc14f9304cef65d28eeca7ccde931a3d4cc112ac3ae94bf74c514#npm:1.6.1"],\
+            ["@types/rollup", null],\
+            ["rollup", "npm:2.79.1"]\
+          ],\
+          "packagePeers": [\
+            "@types/rollup",\
+            "rollup"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15445,6 +15529,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/typescript-patch-b923e81685-32a25b2e12.zip/node_modules/typescript/",\
           "packageDependencies": [\
             ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=77c9e2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["typescript-cookie", [\
+        ["npm:1.0.6", {\
+          "packageLocation": "./.yarn/cache/typescript-cookie-npm-1.0.6-2f854e743f-7f478cdc3b.zip/node_modules/typescript-cookie/",\
+          "packageDependencies": [\
+            ["typescript-cookie", "npm:1.0.6"]\
           ],\
           "linkType": "HARD"\
         }]\

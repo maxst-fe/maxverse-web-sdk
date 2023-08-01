@@ -8,7 +8,7 @@ const builtins = require('builtin-modules');
 
 const extensions = ['.js', '.ts'];
 
-exports.generateRollupConfig = function generateRollupConfig({ packageDir }) {
+exports.generateRollupConfig = function generateRollupConfig({ packageDir, plugins }) {
   const packageJSON = require(path.join(packageDir, 'package.json'));
 
   if (packageJSON.publishConfig.exports == null) {
@@ -59,6 +59,7 @@ exports.generateRollupConfig = function generateRollupConfig({ packageDir }) {
           rootMode: 'upward',
         }),
         json(),
+        ...plugins,
       ],
       preserveModules: isESMFormat,
     };
