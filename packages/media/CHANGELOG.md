@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/media-web-sdk@3.0.3...@maxverse/media-web-sdk@3.0.4) (2023-08-08)
+
+
+### Bug Fixes
+
+* **packages:** remove unnecessary js-dom lib and options ([#15](https://github.com/maxverse-dev/maxverse-web-sdk/issues/15)) ([d4cbb6a](https://github.com/maxverse-dev/maxverse-web-sdk/commit/d4cbb6a7a52ff07980bf06252e193fdc9fd0b29a))
+
+
+
+
+
 ## [3.0.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/media-web-sdk@3.0.2...@maxverse/media-web-sdk@3.0.3) (2023-08-01)
 
 **Note:** Version bump only for package @maxverse/media-web-sdk
