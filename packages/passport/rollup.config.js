@@ -6,8 +6,8 @@ module.exports = generateRollupConfig({
   packageDir: __dirname,
   plugins: [
     webWorkerLoader({
+      pattern: /shared-worker:(.+)/,
       targetPlatform: 'browser',
-      pattern: /^(?!(?:[a-zA-Z]:)|\/).+\.worker\.ts$/,
     }),
   ],
 });

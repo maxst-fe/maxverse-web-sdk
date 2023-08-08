@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
+import AuthWorker from 'shared-worker:./worker/auth.worker';
 import { deprecateSession, oauthToken } from './api/auth-middleware';
 import { DEFAULT_REDIRECT_URI, DEFAULT_RESPONSE_TYPE, UI_LOCALES_KO } from './constants';
 import {
@@ -101,9 +102,7 @@ export class Passport {
     this.#authUrl = `${baseUrl}`;
 
     if (window.SharedWorker) {
-      this.#authWorker = new SharedWorker('./worker/auth.worker.ts', {
-        type: 'module',
-      });
+      this.#authWorker = new AuthWorker();
     }
   }
 
