@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { buildQueryParams } from '../helpers/common/index';
 import {
@@ -14,7 +15,7 @@ export const oauthToken = async (
   baseUrl: string,
   options: EntireAccessTokenOptions | RefreshTokenOptions,
   req: AuthRequest,
-  worker: Worker
+  worker: SharedWorker
 ) => {
   const params = buildQueryParams(options);
 
@@ -22,8 +23,8 @@ export const oauthToken = async (
     const { json } = (await sendMessage({ baseUrl, params, req }, worker)) as Reply<RequestTokenResult>;
 
     return json;
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -31,7 +32,7 @@ export const deprecateSession = async (
   baseUrl: string,
   options: Omit<LogoutOptions, 'refresh_token'>,
   req: AuthRequest,
-  worker: Worker
+  worker: SharedWorker
 ) => {
   const params = buildQueryParams(options);
 
@@ -39,7 +40,7 @@ export const deprecateSession = async (
     const { json } = (await sendMessage({ baseUrl, params, req }, worker)) as Reply<string>;
 
     return json;
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error) {
+    throw error;
   }
 };

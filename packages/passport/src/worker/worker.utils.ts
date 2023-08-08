@@ -1,18 +1,16 @@
 import { Message } from './worker.types';
 
-export const sendMessage = (message: Message, targetWorker: Worker) =>
+export const sendMessage = (message: Message, targetWorker: SharedWorker) =>
   new Promise(function (resolve, reject) {
-    const messageChannel = new MessageChannel();
-    messageChannel.port1.onmessage = function (event) {
-      if (event.data.error) {
-        reject(new Error(event.data.error));
+    targetWorker.port.onmessage = function (event) {
+      if (event.data.status === 'FAIL') {
+        reject(new Error(event.data.json.error_message));
       } else {
         resolve(event.data);
       }
-      messageChannel.port1.close();
     };
 
-    targetWorker.postMessage(message, [messageChannel.port2]);
+    targetWorker.port.postMessage(message);
   });
 
 export const checkRefreshTokenExpires = (expires: number) => {
