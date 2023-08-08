@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.0.3...@maxverse/passport-web-sdk@0.0.4) (2023-08-08)
+
+
+### Bug Fixes
+
+* **packages/passport:** overriding WebWorker to lib option in tsconfig ([#24](https://github.com/maxverse-dev/maxverse-web-sdk/issues/24)) ([0243918](https://github.com/maxverse-dev/maxverse-web-sdk/commit/0243918b5ddeb79584998b54aa96027b41cd9006))
+
+
+
+
+
 ## [0.0.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.0.2...@maxverse/passport-web-sdk@0.0.3) (2023-08-08)
 
 
