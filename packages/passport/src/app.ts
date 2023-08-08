@@ -34,6 +34,7 @@ import {
   EntireAccessTokenOptions,
   EntireAuthorizationOptions,
   Idtoken,
+  OnLoad,
   PassportClientOptions,
   RefreshTokenOptions,
 } from './types';
@@ -45,8 +46,10 @@ export const PassportFactory = (clientId: string) => {
 
 export class PassportClient {
   readonly #defaultOptions: {
+    onLoad: OnLoad;
     authorizationOptions: Omit<AuthorizationOptions, 'scope'>;
   } = {
+    onLoad: 'check-sso',
     authorizationOptions: {
       response_type: DEFAULT_RESPONSE_TYPE,
       redirect_uri: DEFAULT_REDIRECT_URI,
@@ -107,7 +110,23 @@ export class PassportClient {
     return this.#cacheCookieManager.get('token') && this.#cacheCookieManager.get('id_token');
   }
 
-  public get idToken() {
+  public get isAuthorizationCodeFlow() {
+    const transaction = this.#transactionManager.get();
+
+    return Boolean(transaction?.code_verifier);
+  }
+
+  public get claims() {
+    const id_token = this.#idToken;
+
+    if (!id_token) {
+      throw new Error(NOT_FOUND_ID_TOKEN);
+    }
+
+    return decode<Idtoken>(id_token);
+  }
+
+  get #idToken() {
     return this.#cacheCookieManager.get('id_token');
   }
 
@@ -160,15 +179,40 @@ export class PassportClient {
     }
   }
 
-  #initializeTransaction(replaceHref = false) {
+  #initializeTransaction() {
     this.#transactionManager.remove();
+  }
 
-    if (replaceHref) {
-      const transactionUrl = window.location.href;
+  #replaceHref() {
+    const transactionUrl = window.location.href;
 
-      const [originUrl] = transactionUrl.split('?');
+    const [originUrl] = transactionUrl.split('?');
 
-      window.history.replaceState({}, '', originUrl);
+    window.history.replaceState({}, '', originUrl);
+  }
+
+  public async onLoad(onLoad: OnLoad) {
+    try {
+      if (onLoad === 'login-required' && this.isAuthenticated) {
+        return this.claims;
+      }
+
+      if (onLoad === 'check-sso') {
+        if (this.isAuthenticated) {
+          return this.claims;
+        }
+        if (this.isAuthorizationCodeFlow) {
+          const claims = await this.onRedirectPage();
+
+          return claims;
+        }
+
+        this.loginWithRedirect();
+      }
+
+      return null;
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 
@@ -236,6 +280,7 @@ export class PassportClient {
       throw new Error(error);
     } finally {
       this.#initializeTransaction();
+      this.#replaceHref();
     }
   }
 
@@ -243,7 +288,7 @@ export class PassportClient {
     try {
       if (this.isAuthenticated) {
         const prevToken = this.accessToken as string;
-        const prevIdToken = this.idToken as string;
+        const prevIdToken = this.#idToken as string;
 
         return { prevToken, prevIdToken };
       }
@@ -264,7 +309,7 @@ export class PassportClient {
 
   public async requestLogout() {
     try {
-      const id_token = this.idToken;
+      const id_token = this.#idToken;
 
       if (!id_token) {
         throw new Error(NOT_FOUND_ID_TOKEN);
