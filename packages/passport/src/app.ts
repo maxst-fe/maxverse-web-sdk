@@ -179,16 +179,16 @@ export class PassportClient {
     }
   }
 
-  #initializeTransaction(replaceHref = false) {
+  #initializeTransaction() {
     this.#transactionManager.remove();
+  }
 
-    if (replaceHref) {
-      const transactionUrl = window.location.href;
+  #replaceHref() {
+    const transactionUrl = window.location.href;
 
-      const [originUrl] = transactionUrl.split('?');
+    const [originUrl] = transactionUrl.split('?');
 
-      window.history.replaceState({}, '', originUrl);
-    }
+    window.history.replaceState({}, '', originUrl);
   }
 
   public async onLoad(onLoad: OnLoad) {
@@ -280,6 +280,7 @@ export class PassportClient {
       throw new Error(error);
     } finally {
       this.#initializeTransaction();
+      this.#replaceHref();
     }
   }
 
