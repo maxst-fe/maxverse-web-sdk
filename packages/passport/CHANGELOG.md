@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.0.2...@maxverse/passport-web-sdk@0.0.3) (2023-08-08)
+
+
+### Features
+
+* **packages/passport:** change web worker to shared worker ([#22](https://github.com/maxverse-dev/maxverse-web-sdk/issues/22)) ([166e11c](https://github.com/maxverse-dev/maxverse-web-sdk/commit/166e11c4dc62d94b6814c30db3977e7c4c07551a))
+
+
+
+
+
 ## [0.0.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.0.1...@maxverse/passport-web-sdk@0.0.2) (2023-08-08)
 
 
