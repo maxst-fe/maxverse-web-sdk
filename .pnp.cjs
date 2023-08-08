@@ -4427,7 +4427,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.18.47"],\
             ["@yarnpkg/pnpify", "npm:4.0.0-rc.44"],\
             ["babel-jest", "virtual:586da68990211a82835011d688872fdca2ca77181201b8b2393f1f621118f7469eb84af4fbb3cf4997be6ed83b726447111fc1f91fb71c028a5702cfdd869eba#npm:29.5.0"],\
-            ["dayjs", "npm:1.11.9"],\
             ["identity-obj-proxy", "npm:3.0.0"],\
             ["jest", "virtual:d76d66bfb09144044c026d80a3698adfd3fa018ebfc17f1f707c1532aa237f18994b164bdfbf7ab128313dd3ad0caab7192efb04de9d3fecb768e984d59283a3#npm:29.5.0"],\
             ["pkce-challenge", "npm:3.1.0"],\
@@ -7614,15 +7613,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/dateformat-npm-3.0.3-ed02e5ddbd-ca4911148a.zip/node_modules/dateformat/",\
           "packageDependencies": [\
             ["dateformat", "npm:3.0.3"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["dayjs", [\
-        ["npm:1.11.9", {\
-          "packageLocation": "./.yarn/cache/dayjs-npm-1.11.9-c47d327b7c-a4844d83dc.zip/node_modules/dayjs/",\
-          "packageDependencies": [\
-            ["dayjs", "npm:1.11.9"]\
           ],\
           "linkType": "HARD"\
         }]\
