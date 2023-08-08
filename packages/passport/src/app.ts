@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { deprecateSession, oauthToken } from './api/auth-middleware';
@@ -41,10 +42,10 @@ import {
 import { CookieStorage, SessionStorage } from './utils';
 
 export const PassportFactory = (clientId: string) => {
-  return new PassportClient({ clientId });
+  return new Passport({ clientId });
 };
 
-export class PassportClient {
+export class Passport {
   readonly #defaultOptions: {
     onLoad: OnLoad;
     authorizationOptions: Omit<AuthorizationOptions, 'scope'>;
@@ -63,10 +64,10 @@ export class PassportClient {
   readonly #scope: string;
   readonly #cacheCookieManager: CacheCookieManager;
   readonly #transactionManager: TransactionManager;
-  readonly #authWorker?: Worker;
+  readonly #authWorker?: SharedWorker;
 
   constructor(options: PassportClientOptions) {
-    if (!(this instanceof PassportClient)) {
+    if (!(this instanceof Passport)) {
       throw new Error(INVALID_ACCESS_SELF_INSTANCE_ERROR);
     }
 
@@ -95,19 +96,19 @@ export class PassportClient {
     );
     this.#transactionManager = new TransactionManager(sessionStorage, this.#options.clientId);
 
-    const baseUrl = getDomain('api.maxst.com/profile/v1');
+    const baseUrl = getDomain('alpha-api.maxst.com/profile/v1');
 
     this.#authUrl = `${baseUrl}`;
 
-    if (window.Worker) {
-      this.#authWorker = new Worker('./worker/auth.worker.ts', {
+    if (window.SharedWorker) {
+      this.#authWorker = new SharedWorker('./worker/auth.worker.ts', {
         type: 'module',
       });
     }
   }
 
   public get isAuthenticated() {
-    return this.#cacheCookieManager.get('token') && this.#cacheCookieManager.get('id_token');
+    return Boolean(this.#cacheCookieManager.get('token')) && Boolean(this.#cacheCookieManager.get('id_token'));
   }
 
   public get isAuthorizationCodeFlow() {
@@ -130,7 +131,7 @@ export class PassportClient {
     return this.#cacheCookieManager.get('id_token');
   }
 
-  public get accessToken() {
+  get #accessToken() {
     return this.#cacheCookieManager.get('token');
   }
 
@@ -157,8 +158,8 @@ export class PassportClient {
   }
 
   async #requestToken(options: EntireAccessTokenOptions | RefreshTokenOptions, req: AuthRequest) {
-    if (!(this.#authWorker instanceof Worker)) {
-      throw new Error();
+    if (!(this.#authWorker instanceof SharedWorker)) {
+      throw new Error(INVALID_WEB_WORKER_INSTANCE);
     }
 
     try {
@@ -174,8 +175,8 @@ export class PassportClient {
         id_token: authResult.id_token,
         claims: decoded,
       };
-    } catch (error: any) {
-      throw new Error(error);
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -277,7 +278,7 @@ export class PassportClient {
 
       return claims;
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     } finally {
       this.#initializeTransaction();
       this.#replaceHref();
@@ -287,10 +288,10 @@ export class PassportClient {
   public async updateToken() {
     try {
       if (this.isAuthenticated) {
-        const prevToken = this.accessToken as string;
-        const prevIdToken = this.#idToken as string;
+        const token = this.#accessToken as string;
+        const id_token = this.#idToken as string;
 
-        return { prevToken, prevIdToken };
+        return { token, id_token };
       }
 
       const { token, id_token } = await this.#requestToken(
@@ -303,7 +304,7 @@ export class PassportClient {
 
       return { token, id_token };
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   }
 

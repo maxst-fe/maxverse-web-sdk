@@ -6,67 +6,73 @@ import { CacheInMemoryManager, InMemoryStorage } from './cache.worker';
 import { Message } from './worker.types';
 import { calcRefreshTokenExpires } from './worker.utils';
 
-const onMessage = async ({ data: { baseUrl, params, req }, ports: [port] }: MessageEvent<Message>) => {
-  const inMemoryStorage = new InMemoryStorage();
-  const cacheManager = new CacheInMemoryManager(inMemoryStorage);
+declare const self: SharedWorkerGlobalScope;
 
-  const client = new AuthClient({
-    baseUrl,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  });
+const inMemoryStorage = new InMemoryStorage();
+const cacheManager = new CacheInMemoryManager(inMemoryStorage);
 
-  let json: RequestTokenResult | string | object = {};
+self.onconnect = function (e: MessageEvent) {
+  const port = e.ports[0];
+  port.start();
 
-  try {
-    if (req === 'token') {
-      const data = await client.postAccessToken(params);
+  port.addEventListener('message', async function ({ data }: { data: Message }) {
+    const { baseUrl, params, req } = data;
 
-      const refresh_expires_in = calcRefreshTokenExpires(data.refresh_expires_in);
-
-      cacheManager.save<string>('refresh_token', data.refresh_token);
-      cacheManager.save<number>('refresh_expires_in', refresh_expires_in);
-
-      json = data;
-    }
-
-    if (req === 'refresh_token') {
-      const refresh_token = await cacheManager.getRefreshToken();
-
-      cacheManager.deprecateRefreshTokenInfo();
-
-      const data = await client.postRefreshToken(`${params}&refresh_token=${refresh_token}`);
-
-      cacheManager.save('refresh_token', data.refresh_token);
-      cacheManager.save('refresh_expires_in', data.refresh_expires_in);
-
-      json = data;
-    }
-
-    if (req === 'logout') {
-      const refresh_token = await cacheManager.getRefreshToken();
-
-      cacheManager.deprecateRefreshTokenInfo();
-
-      const data = await client.postLogout(`${params}&refresh_token=${refresh_token}`);
-
-      json = data;
-    }
-
-    port.postMessage({
-      status: 'SUCCESS',
-      json,
-    });
-  } catch (error: any) {
-    port.postMessage({
-      status: 'FAIL',
-      json: {
-        error: error.error,
-        error_message: error.message,
+    const client = new AuthClient({
+      baseUrl,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
-  }
-};
 
-addEventListener('message', onMessage);
+    let json: RequestTokenResult | string | object = {};
+
+    try {
+      if (req === 'token') {
+        const data = await client.postAccessToken(params);
+
+        const refresh_expires_in = calcRefreshTokenExpires(data.refresh_expires_in);
+
+        cacheManager.save<string>('refresh_token', data.refresh_token);
+        cacheManager.save<number>('refresh_expires_in', refresh_expires_in);
+
+        json = data;
+      }
+
+      if (req === 'refresh_token') {
+        const refresh_token = await cacheManager.getRefreshToken();
+
+        cacheManager.deprecateRefreshTokenInfo();
+
+        const data = await client.postRefreshToken(`${params}&refresh_token=${refresh_token}`);
+
+        cacheManager.save('refresh_token', data.refresh_token);
+        cacheManager.save('refresh_expires_in', data.refresh_expires_in);
+
+        json = data;
+      }
+
+      if (req === 'logout') {
+        const refresh_token = await cacheManager.getRefreshToken();
+
+        cacheManager.deprecateRefreshTokenInfo();
+
+        const data = await client.postLogout(`${params}&refresh_token=${refresh_token}`);
+
+        json = data;
+      }
+
+      port.postMessage({
+        status: 'SUCCESS',
+        json,
+      });
+    } catch (error: any) {
+      port.postMessage({
+        status: 'FAIL',
+        json: {
+          error_message: error.message,
+        },
+      });
+    }
+  });
+};
