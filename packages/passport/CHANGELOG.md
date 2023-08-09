@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.0.7...@maxverse/passport-web-sdk@0.0.8) (2023-08-09)
+
+
+### Bug Fixes
+
+* **packages/passport:** fix worker instance to sharedWorker instance ([#32](https://github.com/maxverse-dev/maxverse-web-sdk/issues/32)) ([75ea243](https://github.com/maxverse-dev/maxverse-web-sdk/commit/75ea2437f8ecafc329747e09e3962f169991afb4))
+
+
+
+
+
 ## [0.0.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.0.6...@maxverse/passport-web-sdk@0.0.7) (2023-08-09)
 
 
