@@ -319,7 +319,7 @@ export class Passport {
         throw new Error(NOT_FOUND_ID_TOKEN);
       }
 
-      if (!(this.#authWorker instanceof Worker)) {
+      if (!(this.#authWorker instanceof SharedWorker)) {
         throw new Error(INVALID_WEB_WORKER_INSTANCE);
       }
 
