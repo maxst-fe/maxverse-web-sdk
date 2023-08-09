@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.0.6...@maxverse/passport-web-sdk@0.0.7) (2023-08-09)
+
+
+### Bug Fixes
+
+* **packages/passport:** fix worker module path's prefix ([#30](https://github.com/maxverse-dev/maxverse-web-sdk/issues/30)) ([e0dfcca](https://github.com/maxverse-dev/maxverse-web-sdk/commit/e0dfcca1a0309cf2d35fc2ea0dc4e6092f7f75a5))
+
+
+
+
+
 ## [0.0.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.0.5...@maxverse/passport-web-sdk@0.0.6) (2023-08-08)
 
 **Note:** Version bump only for package @maxverse/passport-web-sdk
