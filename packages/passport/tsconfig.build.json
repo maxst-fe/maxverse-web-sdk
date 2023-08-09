@@ -5,5 +5,5 @@
     "lib": ["dom", "dom.iterable", "ESNext", "ESNext.AsyncIterable", "WebWorker"]
   },
   "extends": "../../tsconfig.build.json",
-  "include": ["src", "workers.d.ts"]
+  "include": ["src"]
 }
