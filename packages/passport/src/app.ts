@@ -44,7 +44,7 @@ import { CookieStorage, SessionStorage } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import AuthWorker from './worker/auth.worker.ts';
+import AuthWorker from 'shared-worker:./worker/auth.worker.ts';
 
 export const PassportFactory = (clientId: string) => {
   return new Passport({ clientId });
