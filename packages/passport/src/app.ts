@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
-import AuthWorker from 'shared-worker:./worker/auth.worker';
+
 import { deprecateSession, oauthToken } from './api/auth-middleware';
 import { DEFAULT_REDIRECT_URI, DEFAULT_RESPONSE_TYPE, UI_LOCALES_KO } from './constants';
 import {
@@ -41,6 +41,10 @@ import {
   RefreshTokenOptions,
 } from './types';
 import { CookieStorage, SessionStorage } from './utils';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import AuthWorker from './worker/auth.worker.ts';
 
 export const PassportFactory = (clientId: string) => {
   return new Passport({ clientId });

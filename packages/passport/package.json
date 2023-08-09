@@ -1,6 +1,6 @@
 {
   "name": "@maxverse/passport-web-sdk",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "keywords": [
     "auth0",
     "login",
@@ -21,9 +21,6 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.js",
-  "module": "./esm/index.mjs",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "esm"
