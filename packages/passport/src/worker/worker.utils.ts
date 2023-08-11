@@ -1,8 +1,9 @@
 import { Message } from './worker.types';
 
-export const sendMessage = (message: Message, targetWorker: SharedWorker) =>
+export const sendMessage = (message: Partial<Message>, targetWorker: SharedWorker) =>
   new Promise(function (resolve, reject) {
     targetWorker.port.onmessage = function (event) {
+      console.log(event);
       if (event.data.status === 'FAIL') {
         reject(new Error(event.data.json.error_message));
       } else {

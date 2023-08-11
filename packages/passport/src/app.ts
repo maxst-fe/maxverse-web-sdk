@@ -1,8 +1,7 @@
 /* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
-
-import { deprecateSession, oauthToken } from './api/auth-middleware';
+import { checkRefreshToken, deprecateSession, oauthToken } from './api/auth-middleware';
 import { DEFAULT_REDIRECT_URI, DEFAULT_RESPONSE_TYPE, UI_LOCALES_KO } from './constants';
 import {
   AUTHENTICATION_ACCESS_DENIED,
@@ -14,7 +13,7 @@ import {
   NOT_FOUND_QUERY_PARAMS_ERROR,
   NOT_FOUND_VALID_CODE_VERIFIER,
   NOT_FOUND_VALID_TRANSACTION,
-  NOT_SET_REDIRECT_URI_ERROR,
+  REFRESH_TOKEN_EXPIRED,
 } from './constants/error';
 import { CacheCookieManager } from './helpers/cache';
 import {
@@ -196,33 +195,38 @@ export class Passport {
   }
 
   public async onLoad(onLoad: OnLoad) {
+    onLoad = onLoad || this.#defaultOptions.onLoad;
+
     try {
-      if (onLoad === 'login-required' && this.isAuthenticated) {
-        return this.claims;
+      if (this.isAuthorizationCodeFlow) {
+        const claims = await this.onRedirectPage();
+
+        return claims;
       }
 
-      if (onLoad === 'check-sso') {
-        if (this.isAuthenticated) {
-          return this.claims;
-        }
-        if (this.isAuthorizationCodeFlow) {
-          const claims = await this.onRedirectPage();
+      const token_rotation = await this.checkIsEnableTokenRotation();
 
-          return claims;
-        }
+      if (!token_rotation) {
+        this.#cacheCookieManager.clearAll();
 
-        this.loginWithRedirect();
+        if (onLoad === 'check-sso') {
+          this.loginWithRedirect();
+        }
+      }
+
+      if (this.isAuthenticated) {
+        return this.claims;
       }
 
       return null;
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   }
 
   public async loginWithRedirect(options: Partial<AuthorizationOptions> = {}) {
     if (checkIsRedirectUriNotSet(this.#options.authorizationOptions?.redirect_uri, options.redirect_uri)) {
-      throw new Error(NOT_SET_REDIRECT_URI_ERROR);
+      options.redirect_uri = window.location.href;
     }
 
     const transaction = this.#transactionManager.get();
@@ -288,6 +292,16 @@ export class Passport {
     }
   }
 
+  public async checkIsEnableTokenRotation() {
+    if (!(this.#authWorker instanceof SharedWorker)) {
+      throw new Error(INVALID_WEB_WORKER_INSTANCE);
+    }
+
+    const { has_refresh_token } = await checkRefreshToken('check_refresh_token', this.#authWorker);
+
+    return has_refresh_token;
+  }
+
   public async updateToken() {
     try {
       if (this.isAuthenticated) {
@@ -295,6 +309,12 @@ export class Passport {
         const id_token = this.#idToken as string;
 
         return { token, id_token };
+      }
+
+      const has_refresh_token = await this.checkIsEnableTokenRotation();
+
+      if (!has_refresh_token) {
+        throw new Error(REFRESH_TOKEN_EXPIRED);
       }
 
       const { token, id_token } = await this.#requestToken(
@@ -326,7 +346,7 @@ export class Passport {
       const res = await deprecateSession(
         this.#authUrl,
         { client_id: this.#options.clientId, id_token },
-        'refresh_token',
+        'logout',
         this.#authWorker
       );
 

@@ -1,14 +1,8 @@
 /* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { buildQueryParams } from '../helpers/common/index';
-import {
-  AuthRequest,
-  EntireAccessTokenOptions,
-  LogoutOptions,
-  RefreshTokenOptions,
-  RequestTokenResult,
-} from '../types/index';
-import { Reply } from '../worker/worker.types';
+import { AuthRequest, EntireAccessTokenOptions, LogoutOptions, RefreshTokenOptions } from '../types/index';
+import { CheckRfTokenJson, LogoutJson, Reply, TokenJson } from '../worker/worker.types';
 import { sendMessage } from '../worker/worker.utils';
 
 export const oauthToken = async (
@@ -20,9 +14,9 @@ export const oauthToken = async (
   const params = buildQueryParams(options);
 
   try {
-    const { json } = (await sendMessage({ baseUrl, params, req }, worker)) as Reply<RequestTokenResult>;
+    const data = (await sendMessage({ baseUrl, params, req }, worker)) as Reply<TokenJson>;
 
-    return json;
+    return data.json;
   } catch (error) {
     throw error;
   }
@@ -37,9 +31,19 @@ export const deprecateSession = async (
   const params = buildQueryParams(options);
 
   try {
-    const { json } = (await sendMessage({ baseUrl, params, req }, worker)) as Reply<string>;
+    const data = (await sendMessage({ baseUrl, params, req }, worker)) as Reply<LogoutJson>;
 
-    return json;
+    return data.json;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const checkRefreshToken = async (req: AuthRequest, worker: SharedWorker) => {
+  try {
+    const data = (await sendMessage({ req }, worker)) as Reply<CheckRfTokenJson>;
+
+    return data.json;
   } catch (error) {
     throw error;
   }
