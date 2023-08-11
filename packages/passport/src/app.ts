@@ -199,9 +199,9 @@ export class Passport {
       throw new Error(INVALID_WEB_WORKER_INSTANCE);
     }
 
-    const { has_refresh_token } = await checkRefreshToken('check_refresh_token', this.#authWorker);
+    const tokenRotation = await checkRefreshToken('check_refresh_token', this.#authWorker);
 
-    return has_refresh_token;
+    return tokenRotation;
   }
 
   public async onLoad(onLoad: OnLoad) {

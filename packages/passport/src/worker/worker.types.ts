@@ -2,7 +2,7 @@ import { AuthRequest } from '../types';
 
 export type Identifier = 'refresh_token' | 'refresh_expires_in';
 
-export interface TokenJson {
+export interface TokenBody {
   token: string;
   refresh_token: string;
   id_token: string;
@@ -13,11 +13,9 @@ export interface TokenJson {
   scope: string;
 }
 
-export type LogoutJson = string;
+export type LogoutBody = string;
 
-export interface CheckRfTokenJson {
-  has_refresh_token: boolean;
-}
+export type CheckRfTokenBody = boolean;
 
 export interface Message {
   baseUrl: string;
@@ -26,7 +24,7 @@ export interface Message {
   headers?: { [key: string]: string };
 }
 
-export interface Reply<T extends TokenJson | LogoutJson | CheckRfTokenJson> {
+export interface Reply<T extends TokenBody | LogoutBody | CheckRfTokenBody> {
   status: string;
-  json: T;
+  body: T;
 }
