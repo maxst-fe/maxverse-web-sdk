@@ -199,9 +199,9 @@ export class Passport {
       throw new Error(INVALID_WEB_WORKER_INSTANCE);
     }
 
-    const { has_refresh_token } = await checkRefreshToken('check_refresh_token', this.#authWorker);
+    const tokenRotation = await checkRefreshToken('check_refresh_token', this.#authWorker);
 
-    return has_refresh_token;
+    return tokenRotation;
   }
 
   public async onLoad(onLoad: OnLoad) {
@@ -333,11 +333,7 @@ export class Passport {
 
   public async requestLogout() {
     try {
-      const id_token = this.#idToken;
-
-      if (!id_token) {
-        throw new Error(NOT_FOUND_ID_TOKEN);
-      }
+      const { token, id_token } = await this.updateToken();
 
       if (!(this.#authWorker instanceof SharedWorker)) {
         throw new Error(INVALID_WEB_WORKER_INSTANCE);
@@ -347,8 +343,13 @@ export class Passport {
         this.#authUrl,
         { client_id: this.#options.clientId, id_token },
         'logout',
-        this.#authWorker
+        this.#authWorker,
+        { Authorization: `Bearer ${token}` }
       );
+
+      if (res === 'SUCCESS') {
+        this.#cacheCookieManager.clearAll();
+      }
 
       return res;
     } catch (error: any) {

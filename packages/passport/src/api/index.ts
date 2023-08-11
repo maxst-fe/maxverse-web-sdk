@@ -19,7 +19,14 @@ export class HttpClient {
         headers: this.#headers,
       });
 
-      return res.json();
+      const contentType = res.headers.get('Content-Type');
+
+      if (contentType && contentType.includes('application/json')) {
+        return res.json();
+      }
+
+      return res.text();
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       throw new Error(error);

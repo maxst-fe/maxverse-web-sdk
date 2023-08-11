@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LogoutJson, TokenJson } from '../worker/worker.types';
+import { LogoutBody, TokenBody } from '../worker/worker.types';
 import { HttpClient, Options } from './index';
 
 export class AuthClient extends HttpClient {
@@ -7,7 +7,7 @@ export class AuthClient extends HttpClient {
     super(options);
   }
 
-  postAccessToken(params: string): Promise<TokenJson> {
+  postAccessToken(params: string): Promise<TokenBody> {
     try {
       return this.post('public/oauth/token', { body: params });
     } catch (error: any) {
@@ -15,7 +15,7 @@ export class AuthClient extends HttpClient {
     }
   }
 
-  postRefreshToken(params: string): Promise<TokenJson> {
+  postRefreshToken(params: string): Promise<TokenBody> {
     try {
       return this.post('public/oauth/token/refresh', { body: params });
     } catch (error: any) {
@@ -23,7 +23,7 @@ export class AuthClient extends HttpClient {
     }
   }
 
-  postLogout(params: string): Promise<LogoutJson> {
+  postLogout(params: string): Promise<LogoutBody> {
     try {
       return this.post('passport/logout', { body: params });
     } catch (error: any) {
