@@ -194,6 +194,16 @@ export class Passport {
     window.history.replaceState({}, '', originUrl);
   }
 
+  async #checkIsEnableTokenRotation() {
+    if (!(this.#authWorker instanceof SharedWorker)) {
+      throw new Error(INVALID_WEB_WORKER_INSTANCE);
+    }
+
+    const { has_refresh_token } = await checkRefreshToken('check_refresh_token', this.#authWorker);
+
+    return has_refresh_token;
+  }
+
   public async onLoad(onLoad: OnLoad) {
     onLoad = onLoad || this.#defaultOptions.onLoad;
 
@@ -204,7 +214,7 @@ export class Passport {
         return claims;
       }
 
-      const token_rotation = await this.checkIsEnableTokenRotation();
+      const token_rotation = await this.#checkIsEnableTokenRotation();
 
       if (!token_rotation) {
         this.#cacheCookieManager.clearAll();
@@ -292,16 +302,6 @@ export class Passport {
     }
   }
 
-  public async checkIsEnableTokenRotation() {
-    if (!(this.#authWorker instanceof SharedWorker)) {
-      throw new Error(INVALID_WEB_WORKER_INSTANCE);
-    }
-
-    const { has_refresh_token } = await checkRefreshToken('check_refresh_token', this.#authWorker);
-
-    return has_refresh_token;
-  }
-
   public async updateToken() {
     try {
       if (this.isAuthenticated) {
@@ -311,9 +311,9 @@ export class Passport {
         return { token, id_token };
       }
 
-      const has_refresh_token = await this.checkIsEnableTokenRotation();
+      const token_rotation = await this.#checkIsEnableTokenRotation();
 
-      if (!has_refresh_token) {
+      if (!token_rotation) {
         throw new Error(REFRESH_TOKEN_EXPIRED);
       }
 
