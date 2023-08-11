@@ -26,14 +26,15 @@ export const deprecateSession = async (
   baseUrl: string,
   options: Omit<LogoutOptions, 'refresh_token'>,
   req: AuthRequest,
-  worker: SharedWorker
+  worker: SharedWorker,
+  headers: { [key: string]: string }
 ) => {
   const params = buildQueryParams(options);
 
   try {
-    const data = (await sendMessage({ baseUrl, params, req }, worker)) as Reply<LogoutJson>;
+    const data = (await sendMessage({ baseUrl, params, req, headers }, worker)) as Reply<LogoutJson>;
 
-    return data.json;
+    return data.status;
   } catch (error) {
     throw error;
   }

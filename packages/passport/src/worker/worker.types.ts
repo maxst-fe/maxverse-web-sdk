@@ -13,9 +13,7 @@ export interface TokenJson {
   scope: string;
 }
 
-export interface LogoutJson {
-  status: string;
-}
+export type LogoutJson = string;
 
 export interface CheckRfTokenJson {
   has_refresh_token: boolean;
@@ -25,6 +23,7 @@ export interface Message {
   baseUrl: string;
   params: string;
   req: AuthRequest;
+  headers?: { [key: string]: string };
 }
 
 export interface Reply<T extends TokenJson | LogoutJson | CheckRfTokenJson> {
