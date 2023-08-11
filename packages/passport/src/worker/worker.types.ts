@@ -13,13 +13,13 @@ export interface TokenJson {
   scope: string;
 }
 
-export type LogoutJson = {
+export interface LogoutJson {
   status: string;
-};
+}
 
-export type CheckRfTokenJson = {
+export interface CheckRfTokenJson {
   has_refresh_token: boolean;
-};
+}
 
 export interface Message {
   baseUrl: string;
