@@ -15,7 +15,7 @@ export class AuthClient extends HttpClient {
     }
   }
 
-  postRefreshToken(params: string): Promise<LogoutJson> {
+  postRefreshToken(params: string): Promise<TokenJson> {
     try {
       return this.post('public/oauth/token/refresh', { body: params });
     } catch (error: any) {
@@ -23,7 +23,7 @@ export class AuthClient extends HttpClient {
     }
   }
 
-  postLogout(params: string) {
+  postLogout(params: string): Promise<LogoutJson> {
     try {
       return this.post('passport/logout', { body: params });
     } catch (error: any) {
