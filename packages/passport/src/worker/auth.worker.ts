@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AuthClient } from '../api/auth';
-import { RequestTokenResult } from '../types/index';
 import { CacheInMemoryManager, InMemoryStorage } from './cache.worker';
-import { Message } from './worker.types';
+import { CheckRfTokenJson, LogoutJson, Message, TokenJson } from './worker.types';
 import { calcRefreshTokenExpires } from './worker.utils';
 
 declare const self: SharedWorkerGlobalScope;
@@ -25,9 +24,15 @@ self.onconnect = function (e: MessageEvent) {
       },
     });
 
-    let json: RequestTokenResult | string | object = {};
+    let json: TokenJson | LogoutJson | CheckRfTokenJson | object = {};
 
     try {
+      if (req === 'check_refresh_token') {
+        const refresh_token = await cacheManager.getRefreshToken();
+
+        json = { has_refresh_token: Boolean(refresh_token) };
+      }
+
       if (req === 'token') {
         const data = await client.postAccessToken(params);
 
@@ -42,9 +47,9 @@ self.onconnect = function (e: MessageEvent) {
       if (req === 'refresh_token') {
         const refresh_token = await cacheManager.getRefreshToken();
 
-        cacheManager.deprecateRefreshTokenInfo();
-
         const data = await client.postRefreshToken(`${params}&refresh_token=${refresh_token}`);
+
+        cacheManager.deprecateRefreshTokenInfo();
 
         cacheManager.save('refresh_token', data.refresh_token);
         cacheManager.save('refresh_expires_in', data.refresh_expires_in);
@@ -55,9 +60,9 @@ self.onconnect = function (e: MessageEvent) {
       if (req === 'logout') {
         const refresh_token = await cacheManager.getRefreshToken();
 
-        cacheManager.deprecateRefreshTokenInfo();
-
         const data = await client.postLogout(`${params}&refresh_token=${refresh_token}`);
+
+        cacheManager.deprecateRefreshTokenInfo();
 
         json = data;
       }

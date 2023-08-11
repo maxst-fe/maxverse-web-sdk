@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.0.9...@maxverse/passport-web-sdk@0.1.0) (2023-08-11)
+
+
+### Bug Fixes
+
+* **packages/passport:** fix auth api response type ([#36](https://github.com/maxverse-dev/maxverse-web-sdk/issues/36)) ([40dd005](https://github.com/maxverse-dev/maxverse-web-sdk/commit/40dd005b42b4a273f3e87ced940474f1e6e6d53e))
+* **packages/passport:** fix logout response type ([#36](https://github.com/maxverse-dev/maxverse-web-sdk/issues/36)) ([bdc3487](https://github.com/maxverse-dev/maxverse-web-sdk/commit/bdc3487f72c3a999288371926a0927d864928421))
+
+
+### Features
+
+* **packages/passport:** add check token rotation api ([#36](https://github.com/maxverse-dev/maxverse-web-sdk/issues/36)) ([f72d7c5](https://github.com/maxverse-dev/maxverse-web-sdk/commit/f72d7c57a04cc18a733ef6c8cb898bf472ba35e0))
+* **packages/passport:** check refresh token remain in memory storage ([#36](https://github.com/maxverse-dev/maxverse-web-sdk/issues/36)) ([5ec1250](https://github.com/maxverse-dev/maxverse-web-sdk/commit/5ec1250ff0efb6e61c7c0dc7a14ba4d0436d7a08))
+* **packages/passport:** encapsulate check token rotation method ([#36](https://github.com/maxverse-dev/maxverse-web-sdk/issues/36)) ([937d86d](https://github.com/maxverse-dev/maxverse-web-sdk/commit/937d86dd365bd7b6eab5bed422adb54ccf727b08))
+
+
+
+
+
 ## [0.0.9](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.0.8...@maxverse/passport-web-sdk@0.0.9) (2023-08-09)
 
 **Note:** Version bump only for package @maxverse/passport-web-sdk

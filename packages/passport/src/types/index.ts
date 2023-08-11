@@ -2,7 +2,7 @@ export type OnLoad = 'check-sso' | 'login-required';
 
 export type AuthenticationError = 'access_denied' | 'invalid_scope' | null;
 
-export type AuthRequest = 'token' | 'refresh_token' | 'logout';
+export type AuthRequest = 'check_refresh_token' | 'token' | 'refresh_token' | 'logout';
 
 export interface CommonOption {
   redirect_uri: string;
@@ -33,17 +33,6 @@ export interface PassportClientOptions {
 
 export interface Transaction {
   code_verifier: string;
-}
-
-export interface RequestTokenResult {
-  token: string;
-  refresh_token: string;
-  id_token: string;
-  expires_in: string;
-  refresh_expires_in: string;
-  token_type: string;
-  session_state: string;
-  scope: string;
 }
 
 export interface EntireAuthorizationOptions extends AuthorizationOptions {
