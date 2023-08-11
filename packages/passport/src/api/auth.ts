@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { RequestTokenResult } from '../types/index';
+import { LogoutJson, TokenJson } from '../worker/worker.types';
 import { HttpClient, Options } from './index';
 
 export class AuthClient extends HttpClient {
@@ -7,7 +7,7 @@ export class AuthClient extends HttpClient {
     super(options);
   }
 
-  postAccessToken(params: string): Promise<RequestTokenResult> {
+  postAccessToken(params: string): Promise<TokenJson> {
     try {
       return this.post('public/oauth/token', { body: params });
     } catch (error: any) {
@@ -15,7 +15,7 @@ export class AuthClient extends HttpClient {
     }
   }
 
-  postRefreshToken(params: string): Promise<RequestTokenResult> {
+  postRefreshToken(params: string): Promise<LogoutJson> {
     try {
       return this.post('public/oauth/token/refresh', { body: params });
     } catch (error: any) {
