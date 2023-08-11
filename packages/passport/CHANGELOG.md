@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.0...@maxverse/passport-web-sdk@0.1.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* **packages/passport:** fix request logout flow ([#38](https://github.com/maxverse-dev/maxverse-web-sdk/issues/38)) ([c4b1b63](https://github.com/maxverse-dev/maxverse-web-sdk/commit/c4b1b63d35a5dbea6643c48b7d4a1bbf8b9288c2))
+
+
+
+
+
 # [0.1.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.0.9...@maxverse/passport-web-sdk@0.1.0) (2023-08-11)
 
 
