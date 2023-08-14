@@ -40,7 +40,7 @@ export class CacheInMemoryManager {
     this.#storage = storage.capsuledCache;
   }
 
-  #get<T extends string | number>(identifier: Identifier) {
+  get<T extends string | number>(identifier: Identifier) {
     return this.#storage.get<T>(identifier);
   }
 
@@ -48,9 +48,12 @@ export class CacheInMemoryManager {
     this.#storage.set<T>(identifier, value);
   }
 
+  /**
+   * @deprecated
+   */
   public async getRefreshToken() {
-    const refreshToken = this.#get<string>('refresh_token');
-    const expires = this.#get<number>('refresh_expires_in');
+    const refreshToken = this.get<string>('refresh_token');
+    const expires = this.get<number>('refresh_expires_in');
 
     if (!expires) {
       throw new Error(NOT_FOUND_REFRESH_TOKEN_EXPIRES);
