@@ -4,6 +4,6 @@
     "outDir": "./dist",
     "lib": ["dom", "dom.iterable", "ESNext", "ESNext.AsyncIterable", "WebWorker"]
   },
-  "extends": "../../tsconfig.json",
-  "include": ["src", "plugin"]
+  "extends": "../../tsconfig.build.json",
+  "include": ["src"]
 }

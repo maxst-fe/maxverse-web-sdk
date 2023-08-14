@@ -4,10 +4,15 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "editor.rulers": [120],
+  "editor.rulers": [
+    120
+  ],
   "eslint.nodePath": ".yarn/sdks",
   "eslint.packageManager": "yarn",
-  "eslint.validate": ["javascript", "typescript"],
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
   "files.trimTrailingWhitespace": true,
   "javascript.preferences.importModuleSpecifier": "project-relative",
   "javascript.preferences.quoteStyle": "single",

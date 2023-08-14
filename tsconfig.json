@@ -22,7 +22,8 @@
     "removeComments": false,
     "sourceMap": true,
     "allowJs": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "react-jsx"
   },
   "exclude": ["**/dist/*", "**/esm/*"]
 }

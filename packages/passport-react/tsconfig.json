@@ -2,8 +2,8 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "lib": ["dom", "dom.iterable", "ESNext", "ESNext.AsyncIterable", "WebWorker"]
+    "lib": ["dom", "dom.iterable", "ESNext", "ESNext.AsyncIterable"]
   },
   "extends": "../../tsconfig.json",
-  "include": ["src", "plugin"]
+  "include": ["src/**/*"]
 }
