@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "lib": ["dom", "dom.iterable", "ESNext", "ESNext.AsyncIterable", "WebWorker"]
+  },
+  "extends": "../../tsconfig.build.json",
+  "include": ["src"]
+}
