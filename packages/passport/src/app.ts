@@ -11,9 +11,10 @@ import {
   INVALID_WEB_WORKER_INSTANCE,
   NOT_FOUND_ID_TOKEN,
   NOT_FOUND_QUERY_PARAMS_ERROR,
+  NOT_FOUND_REFRESH_TOKEN,
+  NOT_FOUND_REFRESH_TOKEN_EXPIRES,
   NOT_FOUND_VALID_CODE_VERIFIER,
   NOT_FOUND_VALID_TRANSACTION,
-  REFRESH_TOKEN_EXPIRED,
 } from './constants/error';
 import { CacheCookieManager } from './helpers/cache';
 import {
@@ -199,9 +200,13 @@ export class Passport {
       throw new Error(INVALID_WEB_WORKER_INSTANCE);
     }
 
-    const tokenRotation = await checkRefreshToken('check_refresh_token', this.#authWorker);
+    try {
+      const has_refresh_token = await checkRefreshToken('check_refresh_token', this.#authWorker);
 
-    return tokenRotation;
+      return has_refresh_token;
+    } catch (error) {
+      throw error;
+    }
   }
 
   public async onLoad(onLoad: OnLoad) {
@@ -216,7 +221,15 @@ export class Passport {
 
       const token_rotation = await this.#checkIsEnableTokenRotation();
 
-      if (!token_rotation) {
+      if (token_rotation && this.isAuthenticated) {
+        return this.claims;
+      }
+
+      return null;
+    } catch (error: any) {
+      const refresh_token_error = error === NOT_FOUND_REFRESH_TOKEN_EXPIRES || error === NOT_FOUND_REFRESH_TOKEN;
+
+      if (refresh_token_error) {
         this.#cacheCookieManager.clearAll();
 
         if (onLoad === 'check-sso') {
@@ -224,12 +237,6 @@ export class Passport {
         }
       }
 
-      if (this.isAuthenticated) {
-        return this.claims;
-      }
-
-      return null;
-    } catch (error: any) {
       throw error;
     }
   }
@@ -311,11 +318,7 @@ export class Passport {
         return { token, id_token };
       }
 
-      const token_rotation = await this.#checkIsEnableTokenRotation();
-
-      if (!token_rotation) {
-        throw new Error(REFRESH_TOKEN_EXPIRED);
-      }
+      await this.#checkIsEnableTokenRotation();
 
       const { token, id_token } = await this.#requestToken(
         {

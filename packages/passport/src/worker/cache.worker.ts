@@ -48,24 +48,21 @@ export class CacheInMemoryManager {
     this.#storage.set<T>(identifier, value);
   }
 
-  /**
-   * @deprecated
-   */
   public async getRefreshToken() {
     const refreshToken = this.get<string>('refresh_token');
     const expires = this.get<number>('refresh_expires_in');
 
     if (!expires) {
-      throw new Error(NOT_FOUND_REFRESH_TOKEN_EXPIRES);
+      throw Error(NOT_FOUND_REFRESH_TOKEN_EXPIRES);
     }
     if (!refreshToken) {
-      throw new Error(NOT_FOUND_REFRESH_TOKEN);
+      throw Error(NOT_FOUND_REFRESH_TOKEN);
     }
 
     const isExpires = await checkRefreshTokenExpires(expires);
 
     if (isExpires) {
-      throw new Error(REFRESH_TOKEN_EXPIRED);
+      throw Error(REFRESH_TOKEN_EXPIRED);
     }
 
     return refreshToken;
