@@ -31,7 +31,7 @@ self.onconnect = function (e: MessageEvent) {
 
     try {
       if (req === 'check_refresh_token') {
-        const refresh_token = await cacheManager.get('refresh_token');
+        const refresh_token = await cacheManager.getRefreshToken();
 
         body = Boolean(refresh_token);
       }
@@ -48,7 +48,7 @@ self.onconnect = function (e: MessageEvent) {
       }
 
       if (req === 'refresh_token') {
-        const refresh_token = await cacheManager.get('refresh_token');
+        const refresh_token = await cacheManager.getRefreshToken();
 
         const data = await client.postRefreshToken(`${params}&refresh_token=${refresh_token}`);
 
@@ -61,7 +61,7 @@ self.onconnect = function (e: MessageEvent) {
       }
 
       if (req === 'logout') {
-        const refresh_token = await cacheManager.get('refresh_token');
+        const refresh_token = await cacheManager.getRefreshToken();
 
         const data = await client.postLogout(`${params}&refresh_token=${refresh_token}`);
 
