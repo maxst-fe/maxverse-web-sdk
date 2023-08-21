@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.2...@maxverse/passport-web-sdk@0.1.3) (2023-08-21)
+
+
+### Bug Fixes
+
+* **packages/passport:** fix error handle in check refresh token ([1f7e464](https://github.com/maxverse-dev/maxverse-web-sdk/commit/1f7e464095bf2dfbb82dbf923d14ce6a873b73d0))
+
+
+
+
+
 ## [0.1.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.1...@maxverse/passport-web-sdk@0.1.2) (2023-08-14)
 
 
