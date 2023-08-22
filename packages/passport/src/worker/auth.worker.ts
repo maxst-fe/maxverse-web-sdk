@@ -54,8 +54,10 @@ self.onconnect = function (e: MessageEvent) {
 
         cacheManager.deprecateRefreshTokenInfo();
 
+        const refresh_expires_in = calcRefreshTokenExpires(data.refresh_expires_in);
+
         cacheManager.save('refresh_token', data.refresh_token);
-        cacheManager.save('refresh_expires_in', data.refresh_expires_in);
+        cacheManager.save('refresh_expires_in', refresh_expires_in);
 
         body = data;
       }
