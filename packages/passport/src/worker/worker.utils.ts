@@ -16,7 +16,7 @@ export const sendMessage = (message: Partial<Message>, targetWorker: SharedWorke
 export const checkRefreshTokenExpires = (expires: number) => {
   const currentTime = new Date().getTime();
 
-  return expires >= currentTime;
+  return expires <= currentTime;
 };
 
 export const calcRefreshTokenExpires = (expires: string) => {
