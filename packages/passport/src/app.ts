@@ -21,7 +21,6 @@ import {
   buildQueryParams,
   checkIsRedirectUriNotSet,
   composeUrl,
-  generateProofKey,
   getAuthorizationOptions,
   getDomain,
   getUniqueScopes,
@@ -29,6 +28,7 @@ import {
   parseAuthenticationResult,
 } from './helpers/common';
 import { decode } from './helpers/jwt';
+import { bufferToBase64UrlEncoded, createRandomString, sha256 } from './helpers/pkce';
 import { TransactionManager } from './helpers/transaction';
 import {
   AuthorizationOptions,
@@ -144,7 +144,9 @@ export class Passport {
   }
 
   async #prebuildAuthorizationUrl(loginOptions: Partial<AuthorizationOptions>) {
-    const { code_challenge, code_verifier } = await generateProofKey();
+    const code_verifier = createRandomString();
+    const code_challenge_digested = await sha256(code_verifier);
+    const code_challenge = bufferToBase64UrlEncoded(code_challenge_digested);
 
     const initialOptions = {
       clientId: this.#options.clientId,

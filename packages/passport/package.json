@@ -65,7 +65,6 @@
     "module": "./src/index.ts"
   },
   "dependencies": {
-    "pkce-challenge": "3.1.0",
     "typescript-cookie": "1.0.6"
   }
 }

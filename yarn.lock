@@ -2210,7 +2210,6 @@ __metadata:
     babel-jest: ^29
     identity-obj-proxy: ^3.0.0
     jest: ^29.5.0
-    pkce-challenge: 3.1.0
     rollup: ^2.77.0
     rollup-plugin-web-worker-loader: ^1.6.1
     ts-jest: ^29.1.0
@@ -4700,13 +4699,6 @@ __metadata:
     shebang-command: ^2.0.0
     which: ^2.0.1
   checksum: 671cc7c7288c3a8406f3c69a3ae2fc85555c04169e9d611def9a675635472614f1c0ed0ef80955d5b6d4e724f6ced67f0ad1bb006c2ea643488fcfef994d7f52
-  languageName: node
-  linkType: hard
-
-"crypto-js@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "crypto-js@npm:4.1.1"
-  checksum: b3747c12ee3a7632fab3b3e171ea50f78b182545f0714f6d3e7e2858385f0f4101a15f2517e033802ce9d12ba50a391575ff4638c9de3dd9b2c4bc47768d5425
   languageName: node
   linkType: hard
 
@@ -9578,15 +9570,6 @@ __metadata:
   version: 4.0.5
   resolution: "pirates@npm:4.0.5"
   checksum: c9994e61b85260bec6c4fc0307016340d9b0c4f4b6550a957afaaff0c9b1ad58fbbea5cfcf083860a25cb27a375442e2b0edf52e2e1e40e69934e08dcc52d227
-  languageName: node
-  linkType: hard
-
-"pkce-challenge@npm:3.1.0":
-  version: 3.1.0
-  resolution: "pkce-challenge@npm:3.1.0"
-  dependencies:
-    crypto-js: ^4.1.1
-  checksum: 155b532634a24df95b870b3b956640d02604df7119013e1f5436773ae0e49bb1d7ff9528f770f6a3bca0b60f4b36d0395b8b7f62655f1aa228f9b86e65ede4d3
   languageName: node
   linkType: hard
 
