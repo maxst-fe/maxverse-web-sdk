@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.4...@maxverse/passport-web-sdk@0.1.5) (2023-08-22)
+
+
+### Bug Fixes
+
+* **package/passport:** remove Error instance in worker message handler ([#50](https://github.com/maxverse-dev/maxverse-web-sdk/issues/50)) ([30984d2](https://github.com/maxverse-dev/maxverse-web-sdk/commit/30984d247ac86484483699088b31486cd8edad4e))
+
+
+
+
+
 ## [0.1.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.3...@maxverse/passport-web-sdk@0.1.4) (2023-08-22)
 
 

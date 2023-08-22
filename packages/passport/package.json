@@ -1,6 +1,6 @@
 {
   "name": "@maxverse/passport-web-sdk",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "keywords": [
     "auth0",
     "login",
