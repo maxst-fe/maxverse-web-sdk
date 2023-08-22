@@ -1,4 +1,3 @@
-import pkceChallenge from 'pkce-challenge';
 import { CODE_CHALLENGE_METHOD, DEFAULT_REDIRECT_URI } from '../../constants';
 import {
   AuthenticationError,
@@ -18,11 +17,6 @@ export const getUniqueScopes = (...scopes: Array<string | undefined>) => {
 
 export const isServer = () => {
   return typeof window === 'undefined';
-};
-
-export const generateProofKey = async () => {
-  const proofKey = await pkceChallenge();
-  return proofKey;
 };
 
 export const getAuthorizationOptions = (

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.3...@maxverse/passport-web-sdk@0.1.4) (2023-08-22)
+
+
+### Features
+
+* **packages/passport:** generate PKCE challenge pair ([#48](https://github.com/maxverse-dev/maxverse-web-sdk/issues/48)) ([509bdbb](https://github.com/maxverse-dev/maxverse-web-sdk/commit/509bdbb622b98faf8748eb4666692c8c00618912))
+
+
+
+
+
 ## [0.1.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.2...@maxverse/passport-web-sdk@0.1.3) (2023-08-21)
 
 
