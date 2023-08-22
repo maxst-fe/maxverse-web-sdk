@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.5...@maxverse/passport-web-sdk@0.1.6) (2023-08-22)
+
+
+### Bug Fixes
+
+* **packages/passport:** change valid token expires ([#52](https://github.com/maxverse-dev/maxverse-web-sdk/issues/52)) ([a468202](https://github.com/maxverse-dev/maxverse-web-sdk/commit/a468202b4d6d34de0cc050ad8e0656d9bf0f1f71))
+* **packages/passport:** fix compare timestamp of refresh token expires ([#52](https://github.com/maxverse-dev/maxverse-web-sdk/issues/52)) ([d413ff3](https://github.com/maxverse-dev/maxverse-web-sdk/commit/d413ff3439d9287efb91f26cb4dcda0833064dd0))
+
+
+
+
+
 ## [0.1.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.4...@maxverse/passport-web-sdk@0.1.5) (2023-08-22)
 
 
