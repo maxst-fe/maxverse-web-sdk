@@ -13,7 +13,9 @@ import {
   NOT_FOUND_QUERY_PARAMS_ERROR,
   NOT_FOUND_REFRESH_TOKEN,
   NOT_FOUND_REFRESH_TOKEN_EXPIRES,
+  NOT_FOUND_VALID_CLIENT_ID,
   NOT_FOUND_VALID_CODE_VERIFIER,
+  NOT_FOUND_VALID_DOMAIN,
   NOT_FOUND_VALID_TRANSACTION,
 } from './constants/error';
 import { CacheCookieManager } from './helpers/cache';
@@ -46,8 +48,8 @@ import { CookieStorage, SessionStorage } from './utils';
 // @ts-ignore
 import AuthWorker from 'shared-worker:./worker/auth.worker.ts';
 
-export const PassportFactory = (clientId: string) => {
-  return new Passport({ clientId });
+export const PassportFactory = ({ domain, clientId }: Pick<PassportClientOptions, 'domain' | 'clientId'>) => {
+  return new Passport({ domain, clientId });
 };
 
 export class Passport {
@@ -76,6 +78,14 @@ export class Passport {
       throw new Error(INVALID_ACCESS_SELF_INSTANCE_ERROR);
     }
 
+    if (!options.domain) {
+      throw new Error(NOT_FOUND_VALID_DOMAIN);
+    }
+
+    if (!options.clientId) {
+      throw new Error(NOT_FOUND_VALID_CLIENT_ID);
+    }
+
     if (isServer()) {
       throw new Error(INVALID_ACCESS_SERVER_ENV_ERROR);
     }
@@ -101,9 +111,9 @@ export class Passport {
     );
     this.#transactionManager = new TransactionManager(sessionStorage, this.#options.clientId);
 
-    const baseUrl = getDomain('alpha-api.maxst.com/profile/v1');
+    const baseDomain = getDomain(options.domain);
 
-    this.#authUrl = `${baseUrl}`;
+    this.#authUrl = `${baseDomain}`;
 
     if (window.SharedWorker) {
       this.#authWorker = new AuthWorker();

@@ -16,6 +16,10 @@ export const NOT_FOUND_REFRESH_TOKEN_EXPIRES = 'Not found valid refresh token ex
 
 export const NOT_FOUND_REFRESH_TOKEN = 'Not found valid refresh token';
 
+export const NOT_FOUND_VALID_DOMAIN = 'Not found valid domain. domain option required';
+
+export const NOT_FOUND_VALID_CLIENT_ID = 'Not found valid clientId. clientId option required';
+
 export const NOT_FOUND_ID_TOKEN = 'Not found valid id token';
 
 export const REFRESH_TOKEN_EXPIRED = 'Current refresh token in memory expired. You need to perform re-authentication';
