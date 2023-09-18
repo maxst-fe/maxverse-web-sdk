@@ -26,6 +26,7 @@ export interface RefreshTokenOptions {
 }
 
 export interface PassportClientOptions {
+  domain: string;
   clientId: string;
   cookieDomain?: string;
   authorizationOptions?: Partial<AuthorizationOptions>;
