@@ -2,12 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { checkRefreshToken, deprecateSession, oauthToken } from './api/auth-middleware';
-import { DEFAULT_REDIRECT_URI, DEFAULT_RESPONSE_TYPE, UI_LOCALES_KO } from './constants';
+import { CACHE_LOCATION_MEMORY, DEFAULT_REDIRECT_URI, DEFAULT_RESPONSE_TYPE, UI_LOCALES_KO } from './constants';
 import {
   AUTHENTICATION_ACCESS_DENIED,
   AUTHENTICATION_INVALID_SCOPE,
   INVALID_ACCESS_SELF_INSTANCE_ERROR,
   INVALID_ACCESS_SERVER_ENV_ERROR,
+  INVALID_CACHE_LOCATION,
   INVALID_WEB_WORKER_INSTANCE,
   NOT_FOUND_ID_TOKEN,
   NOT_FOUND_QUERY_PARAMS_ERROR,
@@ -18,7 +19,7 @@ import {
   NOT_FOUND_VALID_DOMAIN,
   NOT_FOUND_VALID_TRANSACTION,
 } from './constants/error';
-import { CacheCookieManager } from './helpers/cache';
+import { CacheCookieManager, cacheFactory } from './helpers/cache';
 import {
   buildQueryParams,
   checkIsRedirectUriNotSet,
@@ -35,9 +36,10 @@ import { TransactionManager } from './helpers/transaction';
 import {
   AuthorizationOptions,
   AuthRequest,
+  CacheLocation,
+  Claims,
   EntireAccessTokenOptions,
   EntireAuthorizationOptions,
-  Idtoken,
   OnLoad,
   PassportClientOptions,
   RefreshTokenOptions,
@@ -47,6 +49,7 @@ import { CookieStorage, SessionStorage } from './utils';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import AuthWorker from 'shared-worker:./worker/auth.worker.ts';
+import { CacheManager } from './helpers/cache/cache-manager';
 
 export const PassportFactory = ({ domain, clientId }: Pick<PassportClientOptions, 'domain' | 'clientId'>) => {
   return new Passport({ domain, clientId });
@@ -69,6 +72,7 @@ export class Passport {
     authorizationOptions: AuthorizationOptions;
   };
   readonly #scope: string;
+  readonly #cacheManager: CacheManager;
   readonly #cacheCookieManager: CacheCookieManager;
   readonly #transactionManager: TransactionManager;
   readonly #authWorker?: SharedWorker;
@@ -101,9 +105,18 @@ export class Passport {
       },
     };
 
+    const cacheLocation: CacheLocation = options.cacheLocation || CACHE_LOCATION_MEMORY;
+
+    if (!cacheFactory(cacheLocation)) {
+      throw new Error(`${INVALID_CACHE_LOCATION}: ${cacheLocation}`);
+    }
+
+    const cache = cacheFactory(cacheLocation)();
+
     const cookieStorage = new CookieStorage();
     const sessionStorage = new SessionStorage();
 
+    this.#cacheManager = new CacheManager(cache, this.#options.clientId);
     this.#cacheCookieManager = new CacheCookieManager(
       cookieStorage,
       this.#options.clientId,
@@ -137,7 +150,7 @@ export class Passport {
       throw new Error(NOT_FOUND_ID_TOKEN);
     }
 
-    return decode<Idtoken>(id_token);
+    return decode<Claims>(id_token);
   }
 
   get #idToken() {
@@ -183,7 +196,7 @@ export class Passport {
       this.#cacheCookieManager.save('token', authResult.token, authResult.expires_in);
       this.#cacheCookieManager.save('id_token', authResult.id_token, authResult.expires_in);
 
-      const decoded = decode<Idtoken>(authResult.id_token);
+      const decoded = decode<Claims>(authResult.id_token);
 
       return {
         token: authResult.token,

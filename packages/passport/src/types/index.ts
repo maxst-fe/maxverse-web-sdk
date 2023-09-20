@@ -4,6 +4,8 @@ export type AuthenticationError = 'access_denied' | 'invalid_scope' | null;
 
 export type AuthRequest = 'check_refresh_token' | 'token' | 'refresh_token' | 'logout';
 
+export type CacheLocation = 'memory' | 'cookie';
+
 export interface CommonOption {
   redirect_uri: string;
 }
@@ -29,6 +31,7 @@ export interface PassportClientOptions {
   domain: string;
   clientId: string;
   cookieDomain?: string;
+  cacheLocation?: CacheLocation;
   authorizationOptions?: Partial<AuthorizationOptions>;
 }
 
@@ -59,7 +62,7 @@ export interface AuthenticationResult {
   error: AuthenticationError;
 }
 
-export interface Idtoken {
+export interface Claims {
   exp: number;
   iat: number;
   auth_time: number;

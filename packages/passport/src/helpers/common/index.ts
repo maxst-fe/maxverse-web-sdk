@@ -87,3 +87,5 @@ export const parseAuthenticationResult = (queryString: string): AuthenticationRe
 export const composeUrl = (domain: string, req: string, params: string) => {
   return `${domain}/public/oauth/${req}?${params}`;
 };
+
+export const nowTime = () => new Date().getTime();

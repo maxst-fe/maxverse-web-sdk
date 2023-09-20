@@ -1,4 +1,4 @@
-import { CACHE_STORAGE_KEY_PREFIX, DEFAULT_PASSPORT_PREFIX_POS } from '../../constants/index';
+import { CACHE_KEY_PREFIX, DEFAULT_PASSPORT_PREFIX_POS } from '../../constants/index';
 import { CookieStorage } from '../../utils/index';
 
 export class CacheCookieManager {
@@ -7,7 +7,7 @@ export class CacheCookieManager {
   #cookieDomain?: string;
 
   constructor(storage: CookieStorage, clientId: string, cookieDomain?: string) {
-    this.#storageKey = `${CACHE_STORAGE_KEY_PREFIX}.${clientId}`;
+    this.#storageKey = `${CACHE_KEY_PREFIX}.${clientId}`;
     this.#storage = storage;
     this.#cookieDomain = cookieDomain;
   }
