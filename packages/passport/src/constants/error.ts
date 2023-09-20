@@ -22,6 +22,8 @@ export const NOT_FOUND_VALID_CLIENT_ID = 'Not found valid clientId. clientId opt
 
 export const NOT_FOUND_ID_TOKEN = 'Not found valid id token';
 
+export const NOT_FOUND_REFRESH_TOKEN_ENTRY = 'Not found cached refresh token entry';
+
 export const REFRESH_TOKEN_EXPIRED = 'Current refresh token in memory expired. You need to perform re-authentication';
 
 export const AUTHENTICATION_ACCESS_DENIED =
@@ -41,3 +43,5 @@ export const INVALID_WEB_WORKER_INSTANCE = 'Auth worker must be instance of ""We
 export const REMAIN_PREV_TRANSACTION_INFO = 'Prev transaction info is remained in storage';
 
 export const NOT_AUTHENTICATED_USER = 'Current user is not authenticated. Please do re-authentication process';
+
+export const INVALID_CACHE_LOCATION = 'Invalid cache location';

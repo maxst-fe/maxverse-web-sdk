@@ -33,13 +33,6 @@ module.exports = {
     '@typescript-eslint/no-non-null-asserted-optional-chain': 'warn',
     '@typescript-eslint/no-inferrable-types': 'warn',
     '@typescript-eslint/no-empty-function': 'off',
-    '@typescript-eslint/naming-convention': [
-      'error',
-      { format: ['camelCase', 'UPPER_CASE', 'PascalCase'], selector: 'variable', leadingUnderscore: 'allow' },
-      { format: ['camelCase', 'PascalCase'], selector: 'function' },
-      { format: ['PascalCase'], selector: 'interface' },
-      { format: ['PascalCase'], selector: 'typeAlias' },
-    ],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
     '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
