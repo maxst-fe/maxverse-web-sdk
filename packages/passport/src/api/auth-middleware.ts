@@ -1,51 +1,98 @@
 /* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AuthRequest, Reply, TokenBody } from '../api/types';
 import { buildQueryParams } from '../helpers/common/index';
-import { AuthRequest, EntireAccessTokenOptions, LogoutOptions, RefreshTokenOptions } from '../types/index';
-import { CheckRfTokenBody, LogoutBody, Reply, TokenBody } from '../worker/worker.types';
+import { EntireAccessTokenOptions, LogoutOptions, RefreshTokenOptions } from '../types';
 import { sendMessage } from '../worker/worker.utils';
+import { AuthClient } from './auth';
 
-export const oauthToken = async (
+export const switchFetch = async (
   baseUrl: string,
-  options: EntireAccessTokenOptions | RefreshTokenOptions,
+  params: string,
   req: AuthRequest,
-  worker: SharedWorker
-) => {
+  worker: SharedWorker | null,
+  headers?: { [key: string]: string }
+): Promise<unknown> => {
+  if (worker) {
+    return oauthWithWorker(baseUrl, params, req, worker, headers);
+  }
+  return oauthWithoutWorker(baseUrl, params, req, headers);
+};
+
+export const oauthFetch = async <T = Reply<TokenBody | string>>(
+  baseUrl: string,
+  options: EntireAccessTokenOptions | RefreshTokenOptions | Omit<LogoutOptions, 'refresh_token'>,
+  req: AuthRequest,
+  worker: SharedWorker | null,
+  headers?: { [key: string]: string }
+): Promise<T> => {
   const params = buildQueryParams(options);
 
   try {
-    const data = (await sendMessage({ baseUrl, params, req }, worker)) as Reply<TokenBody>;
-
-    return data.body;
-  } catch (error) {
+    const data = (await switchFetch(baseUrl, params, req, worker, headers)) as T;
+    return data;
+  } catch (error: any) {
     throw error;
   }
 };
 
-export const deprecateSession = async (
+export const oauthWithWorker = async (
   baseUrl: string,
-  options: Omit<LogoutOptions, 'refresh_token'>,
+  params: string,
   req: AuthRequest,
   worker: SharedWorker,
-  headers: { [key: string]: string }
+  headers?: { [key: string]: string }
 ) => {
-  const params = buildQueryParams(options);
-
   try {
-    const data = (await sendMessage({ baseUrl, params, req, headers }, worker)) as Reply<LogoutBody>;
+    const data = await sendMessage({ baseUrl, params, req, headers }, worker);
 
-    return data.status;
-  } catch (error) {
-    throw error;
+    return data;
+  } catch (error: any) {
+    throw error.error_message;
   }
 };
 
-export const checkRefreshToken = async (req: AuthRequest, worker: SharedWorker) => {
-  try {
-    const data = (await sendMessage({ req }, worker)) as Reply<CheckRfTokenBody>;
+export const oauthWithoutWorker = async (
+  baseUrl: string,
+  params: string,
+  req: AuthRequest,
+  headers?: { [key: string]: string }
+): Promise<unknown> => {
+  const targetHeaders = {
+    ...headers,
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
 
-    return data.body;
-  } catch (error) {
-    throw error;
+  const client = new AuthClient({
+    baseUrl,
+    headers: targetHeaders,
+  });
+
+  let body: unknown;
+
+  try {
+    if (req === 'token') {
+      const data = await client.postAccessToken(params);
+
+      body = data;
+    }
+
+    if (req === 'refresh_token') {
+      const data = await client.postRefreshToken(params);
+
+      body = data;
+    }
+    if (req === 'logout') {
+      const data = await client.postLogout(params);
+
+      body = data;
+    }
+
+    return {
+      status: 'SUCCESS',
+      body,
+    };
+  } catch (error: any) {
+    throw error.message;
   }
 };

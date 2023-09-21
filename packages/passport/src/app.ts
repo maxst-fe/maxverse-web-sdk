@@ -1,7 +1,9 @@
 /* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { checkRefreshToken, deprecateSession, oauthToken } from './api/auth-middleware';
+
+import { oauthFetch } from './api/auth-middleware';
+import { AuthRequest, Reply, TokenBody } from './api/types';
 import { CACHE_LOCATION_MEMORY, DEFAULT_REDIRECT_URI, DEFAULT_RESPONSE_TYPE, UI_LOCALES_KO } from './constants';
 import {
   AUTHENTICATION_ACCESS_DENIED,
@@ -35,7 +37,6 @@ import { bufferToBase64UrlEncoded, createRandomString, sha256 } from './helpers/
 import { TransactionManager } from './helpers/transaction';
 import {
   AuthorizationOptions,
-  AuthRequest,
   CacheLocation,
   Claims,
   EntireAccessTokenOptions,
@@ -191,16 +192,16 @@ export class Passport {
     }
 
     try {
-      const authResult = await oauthToken(this.#authUrl, options, req, this.#authWorker);
+      const { body } = await oauthFetch<Reply<TokenBody>>(this.#authUrl, options, req, this.#authWorker);
 
-      this.#cacheCookieManager.save('token', authResult.token, authResult.expires_in);
-      this.#cacheCookieManager.save('id_token', authResult.id_token, authResult.expires_in);
+      this.#cacheCookieManager.save('token', body.token, body.expires_in);
+      this.#cacheCookieManager.save('id_token', body.id_token, body.expires_in);
 
-      const decoded = decode<Claims>(authResult.id_token);
+      const decoded = decode<Claims>(body.id_token);
 
       return {
-        token: authResult.token,
-        id_token: authResult.id_token,
+        token: body.token,
+        id_token: body.id_token,
         claims: decoded,
       };
     } catch (error) {
@@ -220,6 +221,9 @@ export class Passport {
     window.history.replaceState({}, '', originUrl);
   }
 
+  /**
+   * @deprecated
+   */
   async #checkIsEnableTokenRotation() {
     if (!(this.#authWorker instanceof SharedWorker)) {
       throw new Error(INVALID_WEB_WORKER_INSTANCE);
@@ -367,7 +371,7 @@ export class Passport {
         throw new Error(INVALID_WEB_WORKER_INSTANCE);
       }
 
-      const res = await deprecateSession(
+      const { status } = await oauthFetch<Reply<string>>(
         this.#authUrl,
         { client_id: this.#options.clientId, id_token },
         'logout',
@@ -375,13 +379,13 @@ export class Passport {
         { Authorization: `Bearer ${token}` }
       );
 
-      if (res === 'SUCCESS') {
+      if (status === 'SUCCESS') {
         this.#cacheCookieManager.clearAll();
       }
 
-      return res;
+      return status;
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   }
 }
