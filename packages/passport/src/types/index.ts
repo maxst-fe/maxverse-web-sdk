@@ -2,8 +2,6 @@ export type OnLoad = 'check-sso' | 'login-required';
 
 export type AuthenticationError = 'access_denied' | 'invalid_scope' | null;
 
-export type AuthRequest = 'check_refresh_token' | 'token' | 'refresh_token' | 'logout';
-
 export type CacheLocation = 'memory' | 'cookie';
 
 export interface CommonOption {
