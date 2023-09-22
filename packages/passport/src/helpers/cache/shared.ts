@@ -18,11 +18,9 @@ export interface RefreshTokenEntry {
   refresh_expires_at: number;
 }
 
-export type MaybePromise<T> = Promise<T> | T;
-
 export interface ICache {
-  get<T = CacheEntry>(key: string): MaybePromise<T | undefined>;
-  set<T = CacheEntry>(key: string, entry: T): MaybePromise<void>;
-  remove(key: string): MaybePromise<void>;
-  getAllKeys(): MaybePromise<string[]>;
+  get<T = CacheEntry>(key: string): T | undefined;
+  set<T = CacheEntry>(key: string, entry: T): void;
+  remove(key: string): void;
+  getAllKeys(): string[];
 }

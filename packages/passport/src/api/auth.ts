@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LogoutBody, TokenBody } from '../worker/worker.types';
+import { LogoutBody, TokenFetchResult } from '../api/types';
 import { HttpClient, Options } from './index';
 
 export class AuthClient extends HttpClient {
@@ -7,7 +7,7 @@ export class AuthClient extends HttpClient {
     super(options);
   }
 
-  postAccessToken(params: string): Promise<TokenBody> {
+  postAccessToken(params: string): Promise<TokenFetchResult> {
     try {
       return this.post('public/oauth/token', { body: params });
     } catch (error: any) {
@@ -15,7 +15,7 @@ export class AuthClient extends HttpClient {
     }
   }
 
-  postRefreshToken(params: string): Promise<TokenBody> {
+  postRefreshToken(params: string): Promise<TokenFetchResult> {
     try {
       return this.post('public/oauth/token/refresh', { body: params });
     } catch (error: any) {

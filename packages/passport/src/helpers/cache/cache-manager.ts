@@ -5,7 +5,7 @@ import {
   CACHE_KEY_PREFIX,
   CACHE_KEY_REFRESH_TOKEN_SUFFIX,
 } from '../../constants';
-import { NOT_FOUND_REFRESH_TOKEN_ENTRY, REFRESH_TOKEN_EXPIRED } from '../../constants/error';
+import { Claims } from '../../types';
 import { ICache, IdTokenEntry, RefreshTokenEntry } from '../cache/shared';
 import { nowTime } from '../common';
 
@@ -27,8 +27,8 @@ export class CacheManager {
     this.#refreshTokenPrefix = `${PREFIX}${CACHE_KEY_REFRESH_TOKEN_SUFFIX}`;
   }
 
-  async getIdToken() {
-    const idTokenEntry = await this.#cache.get<IdTokenEntry>(this.#idTokenPrefix);
+  getIdToken() {
+    const idTokenEntry = this.#cache.get<IdTokenEntry>(this.#idTokenPrefix);
 
     if (!idTokenEntry) {
       return;
@@ -37,55 +37,55 @@ export class CacheManager {
     return { id_token: idTokenEntry.id_token, claims: idTokenEntry.claims };
   }
 
-  async setIdToken(id_token: string, claims: string) {
-    await this.#cache.set(this.#idTokenPrefix, {
+  setIdToken(id_token: string, claims: Claims) {
+    this.#cache.set(this.#idTokenPrefix, {
       id_token,
       claims,
     });
   }
 
-  async getRefreshToken() {
-    const refreshTokenEntry = await this.#cache.get<RefreshTokenEntry>(this.#refreshTokenPrefix);
+  getRefreshToken() {
+    const refreshTokenEntry = this.#cache.get<RefreshTokenEntry>(this.#refreshTokenPrefix);
 
     if (!refreshTokenEntry) {
-      throw new Error(NOT_FOUND_REFRESH_TOKEN_ENTRY);
+      return;
     }
 
     if (this.#checkIsExpires(refreshTokenEntry.refresh_expires_at)) {
-      throw new Error(REFRESH_TOKEN_EXPIRED);
+      return;
     }
 
     return refreshTokenEntry.refresh_token;
   }
 
-  async setRefreshToken(refresh_token: string, refresh_expires_in: string) {
+  setRefreshToken(refresh_token: string, refresh_expires_in: string) {
     const refresh_expires_at = this.#calcExpires(refresh_expires_in);
 
-    await this.#cache.set(this.#refreshTokenPrefix, {
+    this.#cache.set(this.#refreshTokenPrefix, {
       refresh_token,
       refresh_expires_at,
     });
   }
 
-  async get() {
-    const authEntry = await this.#cache.get(this.#authPrefix);
+  get() {
+    const authEntry = this.#cache.get(this.#authPrefix);
 
     if (!authEntry) {
       return;
     }
 
     if (this.#checkIsExpires(authEntry.expires_at)) {
-      await this.remove();
+      this.remove();
       return;
     }
 
     return authEntry;
   }
 
-  async set(entry: Omit<TokenBody, 'id_token' | 'refresh_token' | 'refresh_expires_in'>) {
+  set(entry: Omit<TokenBody, 'id_token' | 'refresh_token' | 'refresh_expires_in'>) {
     const expires_at = this.#calcExpires(entry.expires_in);
 
-    await this.#cache.set(this.#authPrefix, {
+    this.#cache.set(this.#authPrefix, {
       token: entry.token,
       expires_at,
       token_type: entry.token_type,
@@ -94,19 +94,18 @@ export class CacheManager {
     });
   }
 
-  async remove() {
-    const keys = await this.#cache.getAllKeys();
+  remove() {
+    const keys = this.#cache.getAllKeys();
 
-    await keys
+    keys
       .filter(key => key.includes(this.#clientid))
-      .reduce(async (memo, key) => {
-        await memo;
-        await this.#cache.remove(key);
-      }, Promise.resolve());
+      .forEach(key => {
+        this.#cache.remove(key);
+      });
   }
 
   #calcExpires(expires_in: string) {
-    return nowTime() + Number(expires_in);
+    return nowTime() + Number(expires_in) * 1000;
   }
 
   #checkIsExpires(expires: number) {

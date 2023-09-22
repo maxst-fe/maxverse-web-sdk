@@ -23,6 +23,7 @@ export interface AccessTokenOptions extends CommonOption {
 export interface RefreshTokenOptions {
   client_id: string;
   grant_type: 'refresh_token';
+  refresh_token: string | undefined;
 }
 
 export interface PassportClientOptions {
@@ -49,7 +50,7 @@ export interface EntireAccessTokenOptions extends AccessTokenOptions {
 
 export interface LogoutOptions {
   client_id: string;
-  refresh_token: string;
+  refresh_token?: string | undefined;
   id_token: string;
 }
 

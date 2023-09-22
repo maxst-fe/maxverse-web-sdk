@@ -1,12 +1,12 @@
 import { getCookie, getCookies, removeCookie, setCookie } from 'typescript-cookie';
-import { CacheEntry, ICache, MaybePromise } from './shared';
+import { CacheEntry, ICache } from './shared';
 
 interface CookieOptions {
   domain?: string;
 }
 
 export class CookieCache implements ICache {
-  public get<T>(key: string): MaybePromise<T | undefined> {
+  public get<T>(key: string): T | undefined {
     const value = getCookie(key);
 
     if (typeof value === 'undefined') {
