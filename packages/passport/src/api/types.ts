@@ -1,21 +1,29 @@
-export type AuthRequest = 'check_refresh_token' | 'token' | 'refresh_token' | 'logout';
-
-export interface TokenBody {
+interface CommonTokenResult {
   token: string;
-  refresh_token: string;
   id_token: string;
   expires_in: string;
-  refresh_expires_in: string;
   token_type: string;
   session_state: string;
   scope: string;
 }
 
+export type AuthRequest = 'check_refresh_token_alive' | 'token' | 'refresh_token' | 'logout';
+
+export interface TokenFetchResult extends CommonTokenResult {
+  refresh_token: string;
+  refresh_expires_in: string;
+}
+
+export interface TokenBody extends CommonTokenResult {
+  refresh_token?: string;
+  refresh_expires_in?: string;
+}
+
 export type LogoutBody = string;
 
-export type CheckRfTokenBody = boolean;
+export type RefreshTokenAliveBody = boolean;
 
-export interface Reply<T extends TokenBody | LogoutBody> {
+export interface Reply<T extends TokenBody | LogoutBody | RefreshTokenAliveBody> {
   status: string;
   body: T;
 }

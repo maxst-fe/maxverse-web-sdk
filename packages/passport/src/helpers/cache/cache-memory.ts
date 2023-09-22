@@ -1,11 +1,11 @@
-import { CacheEntry, ICache, MaybePromise } from './shared';
+import { CacheEntry, ICache } from './shared';
 
 export class InMemoryCache {
   public capsuledCache: ICache = (function () {
     const cache: Record<string, unknown> = {};
 
     return {
-      get<T = CacheEntry>(key: string): MaybePromise<T | undefined> {
+      get<T = CacheEntry>(key: string): T | undefined {
         const value = cache[key] as T;
 
         if (!value) {

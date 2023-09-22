@@ -2,17 +2,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { oauthFetch } from './api/auth-middleware';
+import { checkRefreshTokenAlive, oauthFetch } from './api/auth-middleware';
 import { AuthRequest, Reply, TokenBody } from './api/types';
 import { CACHE_LOCATION_MEMORY, DEFAULT_REDIRECT_URI, DEFAULT_RESPONSE_TYPE, UI_LOCALES_KO } from './constants';
 import {
   AUTHENTICATION_ACCESS_DENIED,
   AUTHENTICATION_INVALID_SCOPE,
+  AUTHORIZATION_CODE_FLOW,
   INVALID_ACCESS_SELF_INSTANCE_ERROR,
   INVALID_ACCESS_SERVER_ENV_ERROR,
   INVALID_CACHE_LOCATION,
-  INVALID_WEB_WORKER_INSTANCE,
-  NOT_FOUND_ID_TOKEN,
+  INVALID_TOKEN_ROTATION,
   NOT_FOUND_QUERY_PARAMS_ERROR,
   NOT_FOUND_REFRESH_TOKEN,
   NOT_FOUND_REFRESH_TOKEN_EXPIRES,
@@ -21,7 +21,7 @@ import {
   NOT_FOUND_VALID_DOMAIN,
   NOT_FOUND_VALID_TRANSACTION,
 } from './constants/error';
-import { CacheCookieManager, cacheFactory } from './helpers/cache';
+import { cacheFactory } from './helpers/cache';
 import {
   buildQueryParams,
   checkIsRedirectUriNotSet,
@@ -45,7 +45,7 @@ import {
   PassportClientOptions,
   RefreshTokenOptions,
 } from './types';
-import { CookieStorage, SessionStorage } from './utils';
+import { SessionStorage } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -74,7 +74,6 @@ export class Passport {
   };
   readonly #scope: string;
   readonly #cacheManager: CacheManager;
-  readonly #cacheCookieManager: CacheCookieManager;
   readonly #transactionManager: TransactionManager;
   readonly #authWorker?: SharedWorker;
 
@@ -114,15 +113,9 @@ export class Passport {
 
     const cache = cacheFactory(cacheLocation)();
 
-    const cookieStorage = new CookieStorage();
     const sessionStorage = new SessionStorage();
 
     this.#cacheManager = new CacheManager(cache, this.#options.clientId);
-    this.#cacheCookieManager = new CacheCookieManager(
-      cookieStorage,
-      this.#options.clientId,
-      this.#options.cookieDomain
-    );
     this.#transactionManager = new TransactionManager(sessionStorage, this.#options.clientId);
 
     const baseDomain = getDomain(options.domain);
@@ -135,7 +128,10 @@ export class Passport {
   }
 
   public get isAuthenticated() {
-    return Boolean(this.#cacheCookieManager.get('token')) && Boolean(this.#cacheCookieManager.get('id_token'));
+    const id_token_entry = this.#cacheManager.getIdToken();
+    const auth_entry = this.#cacheManager.get();
+
+    return Boolean(id_token_entry?.id_token) && Boolean(auth_entry?.token);
   }
 
   public get isAuthorizationCodeFlow() {
@@ -145,21 +141,25 @@ export class Passport {
   }
 
   public get claims() {
-    const id_token = this.#idToken;
+    const id_token_entry = this.#cacheManager.getIdToken();
 
-    if (!id_token) {
-      throw new Error(NOT_FOUND_ID_TOKEN);
-    }
-
-    return decode<Claims>(id_token);
+    return id_token_entry?.claims;
   }
 
   get #idToken() {
-    return this.#cacheCookieManager.get('id_token');
+    const id_token_entry = this.#cacheManager.getIdToken();
+
+    return id_token_entry?.id_token;
   }
 
   get #accessToken() {
-    return this.#cacheCookieManager.get('token');
+    const auth_entry = this.#cacheManager.get();
+
+    return auth_entry?.token;
+  }
+
+  get #supportWorkerThread() {
+    return this.#authWorker instanceof SharedWorker;
   }
 
   #getUrl<T extends EntireAuthorizationOptions | EntireAccessTokenOptions>(req: string, options: T) {
@@ -187,21 +187,23 @@ export class Passport {
   }
 
   async #requestToken(options: EntireAccessTokenOptions | RefreshTokenOptions, req: AuthRequest) {
-    if (!(this.#authWorker instanceof SharedWorker)) {
-      throw new Error(INVALID_WEB_WORKER_INSTANCE);
-    }
-
     try {
       const { body } = await oauthFetch<Reply<TokenBody>>(this.#authUrl, options, req, this.#authWorker);
 
-      this.#cacheCookieManager.save('token', body.token, body.expires_in);
-      this.#cacheCookieManager.save('id_token', body.id_token, body.expires_in);
+      const { refresh_token, refresh_expires_in, id_token, ...entry } = body;
 
-      const decoded = decode<Claims>(body.id_token);
+      if (refresh_token && refresh_expires_in) {
+        this.#cacheManager.setRefreshToken(refresh_token, refresh_expires_in);
+      }
+
+      const decoded = decode<Claims>(id_token);
+      this.#cacheManager.setIdToken(id_token, decoded);
+
+      this.#cacheManager.set(entry);
 
       return {
-        token: body.token,
-        id_token: body.id_token,
+        token: entry.token,
+        id_token,
         claims: decoded,
       };
     } catch (error) {
@@ -221,19 +223,26 @@ export class Passport {
     window.history.replaceState({}, '', originUrl);
   }
 
-  /**
-   * @deprecated
-   */
   async #checkIsEnableTokenRotation() {
-    if (!(this.#authWorker instanceof SharedWorker)) {
-      throw new Error(INVALID_WEB_WORKER_INSTANCE);
-    }
-
     try {
-      const has_refresh_token = await checkRefreshToken('check_refresh_token', this.#authWorker);
+      const cache_refresh_token = this.#cacheManager.getRefreshToken();
 
-      return has_refresh_token;
-    } catch (error) {
+      if (!cache_refresh_token && !this.#supportWorkerThread) {
+        throw new Error(INVALID_TOKEN_ROTATION);
+      }
+      if (cache_refresh_token) {
+        return { isEnable: true, cache_refresh_token };
+      }
+      if (this.#supportWorkerThread) {
+        const alive_refresh_token = await checkRefreshTokenAlive(
+          'check_refresh_token_alive',
+          this.#authWorker as SharedWorker
+        );
+        return { isEnable: alive_refresh_token };
+      }
+
+      return { isEnable: false };
+    } catch (error: any) {
       throw error;
     }
   }
@@ -248,18 +257,22 @@ export class Passport {
         return claims;
       }
 
-      const token_rotation = await this.#checkIsEnableTokenRotation();
+      const { isEnable } = await this.#checkIsEnableTokenRotation();
 
-      if (token_rotation && this.isAuthenticated) {
+      if (isEnable && this.isAuthenticated) {
         return this.claims;
       }
 
       return null;
     } catch (error: any) {
-      const refresh_token_error = error === NOT_FOUND_REFRESH_TOKEN_EXPIRES || error === NOT_FOUND_REFRESH_TOKEN;
+      const refresh_token_error =
+        error === NOT_FOUND_REFRESH_TOKEN_EXPIRES ||
+        error === NOT_FOUND_REFRESH_TOKEN ||
+        error === INVALID_TOKEN_ROTATION;
 
       if (refresh_token_error) {
-        this.#cacheCookieManager.clearAll();
+        this.#cacheManager.remove();
+        this.#transactionManager.remove();
 
         if (onLoad === 'check-sso') {
           this.loginWithRedirect();
@@ -347,12 +360,17 @@ export class Passport {
         return { token, id_token };
       }
 
-      await this.#checkIsEnableTokenRotation();
+      if (this.isAuthorizationCodeFlow) {
+        throw new Error(AUTHORIZATION_CODE_FLOW);
+      }
+
+      const { cache_refresh_token } = await this.#checkIsEnableTokenRotation();
 
       const { token, id_token } = await this.#requestToken(
         {
           client_id: this.#options.clientId,
           grant_type: 'refresh_token',
+          refresh_token: cache_refresh_token,
         },
         'refresh_token'
       );
@@ -363,13 +381,12 @@ export class Passport {
     }
   }
 
+  /**
+   * @deprecated
+   */
   public async requestLogout() {
     try {
       const { token, id_token } = await this.updateToken();
-
-      if (!(this.#authWorker instanceof SharedWorker)) {
-        throw new Error(INVALID_WEB_WORKER_INSTANCE);
-      }
 
       const { status } = await oauthFetch<Reply<string>>(
         this.#authUrl,
@@ -380,7 +397,7 @@ export class Passport {
       );
 
       if (status === 'SUCCESS') {
-        this.#cacheCookieManager.clearAll();
+        this.#cacheManager.remove();
       }
 
       return status;

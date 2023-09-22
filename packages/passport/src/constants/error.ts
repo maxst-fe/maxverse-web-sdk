@@ -38,10 +38,12 @@ export const INVALID_DECODED_ID_TOKEN = 'Current id token could not be decoded';
 
 export const INVALID_BASE64_STRING = 'Base64 string is not of the correct length';
 
-export const INVALID_WEB_WORKER_INSTANCE = 'Auth worker must be instance of ""WebWorker""';
+export const INVALID_TOKEN_ROTATION = 'Token rotation is not valid status';
 
 export const REMAIN_PREV_TRANSACTION_INFO = 'Prev transaction info is remained in storage';
 
 export const NOT_AUTHENTICATED_USER = 'Current user is not authenticated. Please do re-authentication process';
+
+export const AUTHORIZATION_CODE_FLOW = 'Currently in code transaction phase, therefore access is not available';
 
 export const INVALID_CACHE_LOCATION = 'Invalid cache location';

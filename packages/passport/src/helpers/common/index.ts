@@ -61,11 +61,7 @@ export const getDomain = (originUrl: string) => {
 export const buildQueryParams = ({
   client_id,
   ...params
-}:
-  | EntireAuthorizationOptions
-  | EntireAccessTokenOptions
-  | RefreshTokenOptions
-  | Omit<LogoutOptions, 'refresh_token'>) => {
+}: EntireAuthorizationOptions | EntireAccessTokenOptions | RefreshTokenOptions | LogoutOptions) => {
   return Object.entries<string>(peelUndefinedInObj({ client_id, ...params }))
     .map(([k, v]) => {
       return encodeURIComponent(k) + '=' + encodeURIComponent(v);

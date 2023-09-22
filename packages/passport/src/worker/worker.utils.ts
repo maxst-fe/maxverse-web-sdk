@@ -4,7 +4,7 @@ export const sendMessage = (message: Partial<Message>, targetWorker: SharedWorke
   new Promise(function (resolve, reject) {
     targetWorker.port.onmessage = function (event) {
       if (event.data.status === 'FAIL') {
-        reject(event.data.json);
+        reject(event.data.json.error_message);
       } else {
         resolve(event.data);
       }
@@ -22,5 +22,5 @@ export const checkRefreshTokenExpires = (expires: number) => {
 export const calcRefreshTokenExpires = (expires: string) => {
   const currentTime = new Date().getTime();
 
-  return currentTime + Number(expires);
+  return currentTime + Number(expires) * 1000;
 };
