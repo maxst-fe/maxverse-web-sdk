@@ -61,11 +61,7 @@ export const getDomain = (originUrl: string) => {
 export const buildQueryParams = ({
   client_id,
   ...params
-}:
-  | EntireAuthorizationOptions
-  | EntireAccessTokenOptions
-  | RefreshTokenOptions
-  | Omit<LogoutOptions, 'refresh_token'>) => {
+}: EntireAuthorizationOptions | EntireAccessTokenOptions | RefreshTokenOptions | LogoutOptions) => {
   return Object.entries<string>(peelUndefinedInObj({ client_id, ...params }))
     .map(([k, v]) => {
       return encodeURIComponent(k) + '=' + encodeURIComponent(v);
@@ -87,3 +83,5 @@ export const parseAuthenticationResult = (queryString: string): AuthenticationRe
 export const composeUrl = (domain: string, req: string, params: string) => {
   return `${domain}/public/oauth/${req}?${params}`;
 };
+
+export const nowTime = () => new Date().getTime();

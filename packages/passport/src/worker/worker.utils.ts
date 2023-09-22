@@ -22,5 +22,5 @@ export const checkRefreshTokenExpires = (expires: number) => {
 export const calcRefreshTokenExpires = (expires: string) => {
   const currentTime = new Date().getTime();
 
-  return currentTime + Number(expires);
+  return currentTime + Number(expires) * 1000;
 };

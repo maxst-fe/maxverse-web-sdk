@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.7...@maxverse/passport-web-sdk@0.2.0) (2023-09-22)
+
+
+### Features
+
+* **packages/passport:** add optional cache storage strategy ([#56](https://github.com/maxverse-dev/maxverse-web-sdk/issues/56)) ([622b733](https://github.com/maxverse-dev/maxverse-web-sdk/commit/622b733f7d6ac65d88e4951a6e1d0b8c5cced837))
+* **packages/passport:** branching fetch API calls based on the presence of a Worker ([#58](https://github.com/maxverse-dev/maxverse-web-sdk/issues/58)) ([dd5bca9](https://github.com/maxverse-dev/maxverse-web-sdk/commit/dd5bca986160d71ac6b108b36b7974d89d9fb954))
+* **packages/passport:** updated cache storage response modified API ([#60](https://github.com/maxverse-dev/maxverse-web-sdk/issues/60)) ([7d60ee6](https://github.com/maxverse-dev/maxverse-web-sdk/commit/7d60ee6b22b3536d1345a15eadb02a50e81e4a75))
+
+
+
+
+
 ## [0.1.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.6...@maxverse/passport-web-sdk@0.1.7) (2023-09-18)
 
 **Note:** Version bump only for package @maxverse/passport-web-sdk

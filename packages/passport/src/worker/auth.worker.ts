@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AuthClient } from '../api/auth';
+import { TokenBody } from '../api/types';
 import { CacheInMemoryManager, InMemoryStorage } from './cache.worker';
 import { Message } from './worker.types';
 import { calcRefreshTokenExpires } from './worker.utils';
@@ -30,7 +31,7 @@ self.onconnect = function (e: MessageEvent) {
     let body: unknown;
 
     try {
-      if (req === 'check_refresh_token') {
+      if (req === 'check_refresh_token_alive') {
         const refresh_token = await cacheManager.getRefreshToken();
 
         body = Boolean(refresh_token);
@@ -39,10 +40,13 @@ self.onconnect = function (e: MessageEvent) {
       if (req === 'token') {
         const data = await client.postAccessToken(params);
 
-        const refresh_expires_in = calcRefreshTokenExpires(data.refresh_expires_in);
+        const refresh_expires_at = calcRefreshTokenExpires(data.refresh_expires_in);
 
         cacheManager.save<string>('refresh_token', data.refresh_token);
-        cacheManager.save<number>('refresh_expires_in', refresh_expires_in);
+        cacheManager.save<number>('refresh_expires_at', refresh_expires_at);
+
+        delete (data as Partial<TokenBody>)['refresh_token'];
+        delete (data as Partial<TokenBody>)['refresh_expires_in'];
 
         body = data;
       }
@@ -54,10 +58,13 @@ self.onconnect = function (e: MessageEvent) {
 
         cacheManager.deprecateRefreshTokenInfo();
 
-        const refresh_expires_in = calcRefreshTokenExpires(data.refresh_expires_in);
+        const refresh_expires_at = calcRefreshTokenExpires(data.refresh_expires_in);
 
         cacheManager.save('refresh_token', data.refresh_token);
-        cacheManager.save('refresh_expires_in', refresh_expires_in);
+        cacheManager.save('refresh_expires_at', refresh_expires_at);
+
+        delete (data as Partial<TokenBody>)['refresh_token'];
+        delete (data as Partial<TokenBody>)['refresh_expires_in'];
 
         body = data;
       }

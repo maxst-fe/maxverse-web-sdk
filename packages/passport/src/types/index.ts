@@ -2,7 +2,7 @@ export type OnLoad = 'check-sso' | 'login-required';
 
 export type AuthenticationError = 'access_denied' | 'invalid_scope' | null;
 
-export type AuthRequest = 'check_refresh_token' | 'token' | 'refresh_token' | 'logout';
+export type CacheLocation = 'memory' | 'cookie';
 
 export interface CommonOption {
   redirect_uri: string;
@@ -23,12 +23,14 @@ export interface AccessTokenOptions extends CommonOption {
 export interface RefreshTokenOptions {
   client_id: string;
   grant_type: 'refresh_token';
+  refresh_token: string | undefined;
 }
 
 export interface PassportClientOptions {
   domain: string;
   clientId: string;
   cookieDomain?: string;
+  cacheLocation?: CacheLocation;
   authorizationOptions?: Partial<AuthorizationOptions>;
 }
 
@@ -48,7 +50,7 @@ export interface EntireAccessTokenOptions extends AccessTokenOptions {
 
 export interface LogoutOptions {
   client_id: string;
-  refresh_token: string;
+  refresh_token?: string | undefined;
   id_token: string;
 }
 
@@ -59,7 +61,7 @@ export interface AuthenticationResult {
   error: AuthenticationError;
 }
 
-export interface Idtoken {
+export interface Claims {
   exp: number;
   iat: number;
   auth_time: number;
