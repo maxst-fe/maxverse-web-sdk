@@ -1,8 +1,5 @@
-import {
-  INVALID_BASE64_STRING,
-  INVALID_DECODED_ID_TOKEN,
-} from '../../constants/error';
-import { Idtoken } from '../../types/index';
+import { INVALID_BASE64_STRING, INVALID_DECODED_ID_TOKEN } from '../../constants/error';
+import { Claims } from '../../types';
 
 const VALID_PARTS_LENGTH = 3;
 
@@ -16,20 +13,15 @@ const base64DecodeUnicode = (str: string) => {
       }
 
       return `%${code}`;
-    }),
+    })
   );
 };
 
-export const decode = <T extends Idtoken>(token: string): T => {
+export const decode = <T extends Claims>(token: string): T => {
   const parts = token.split('.');
   const [header, payload, signature] = parts;
 
-  if (
-    parts.length !== VALID_PARTS_LENGTH ||
-    !header ||
-    !payload ||
-    !signature
-  ) {
+  if (parts.length !== VALID_PARTS_LENGTH || !header || !payload || !signature) {
     throw new Error(INVALID_DECODED_ID_TOKEN);
   }
 
