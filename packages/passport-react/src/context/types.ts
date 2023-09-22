@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import { Idtoken, OnLoad, Passport, PassportClientOptions } from '@maxverse/passport-web-sdk';
+import { Claims, OnLoad, Passport, PassportClientOptions } from '@maxverse/passport-web-sdk';
 
 export interface PassportResult {
   status: 'SUCCESS' | 'FAIL';
-  claims?: Idtoken;
+  claims?: Claims;
   error?: string;
 }
 
