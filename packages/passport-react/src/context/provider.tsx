@@ -11,6 +11,7 @@ export function PassportProvider({
   clientOptions,
   onSuccess,
   onError,
+  registerContext,
   children,
 }: PropsWithChildren<PassportProviderProps>) {
   const [initialized, setInitialized] = useState(false);
@@ -44,6 +45,10 @@ export function PassportProvider({
       .then(claims => {
         setInitialized(true);
         setPassport(passport);
+
+        if (registerContext) {
+          registerContext.forEach(callback => callback(passport));
+        }
 
         clientOptionsRef.current = clientOptions;
 

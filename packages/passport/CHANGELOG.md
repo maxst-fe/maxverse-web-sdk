@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.0...@maxverse/passport-web-sdk@0.2.1) (2023-09-22)
+
+
+### Bug Fixes
+
+* **packages/passport:** resolve type error of path ([#63](https://github.com/maxverse-dev/maxverse-web-sdk/issues/63)) ([6799052](https://github.com/maxverse-dev/maxverse-web-sdk/commit/679905258cb0ee74c2a2ed1493778014d66e21dd))
+
+
+
+
+
 # [0.2.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.1.7...@maxverse/passport-web-sdk@0.2.0) (2023-09-22)
 
 
