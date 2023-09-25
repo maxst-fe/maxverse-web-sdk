@@ -2,7 +2,6 @@
   "name": "@maxverse/passport-web-sdk",
   "version": "0.2.1",
   "keywords": [
-    "auth0",
     "login",
     "Authorization Code Grant Flow",
     "PKCE"

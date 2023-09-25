@@ -4,7 +4,7 @@
 
 import { checkRefreshTokenAlive, oauthFetch } from './api/auth-middleware';
 import { AuthRequest, Reply, TokenBody } from './api/types';
-import { CACHE_LOCATION_MEMORY, DEFAULT_REDIRECT_URI, DEFAULT_RESPONSE_TYPE, UI_LOCALES_KO } from './constants';
+import { CACHE_LOCATION_COOKIE, DEFAULT_REDIRECT_URI, DEFAULT_RESPONSE_TYPE, UI_LOCALES_KO } from './constants';
 import {
   AUTHENTICATION_ACCESS_DENIED,
   AUTHENTICATION_INVALID_SCOPE,
@@ -105,7 +105,7 @@ export class Passport {
       },
     };
 
-    const cacheLocation: CacheLocation = options.cacheLocation || CACHE_LOCATION_MEMORY;
+    const cacheLocation: CacheLocation = options.cacheLocation || CACHE_LOCATION_COOKIE;
 
     if (!cacheFactory(cacheLocation)) {
       throw new Error(`${INVALID_CACHE_LOCATION}: ${cacheLocation}`);
