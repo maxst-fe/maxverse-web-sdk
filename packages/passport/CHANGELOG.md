@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.1...@maxverse/passport-web-sdk@0.2.2) (2023-09-25)
+
+
+### Features
+
+* **packages/passport:** change the default cacheLocation to cookie ([#71](https://github.com/maxverse-dev/maxverse-web-sdk/issues/71)) ([5303166](https://github.com/maxverse-dev/maxverse-web-sdk/commit/53031661ccd9666ef593eaacf4b34fb2ee17014e))
+
+
+
+
+
 ## [0.2.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.0...@maxverse/passport-web-sdk@0.2.1) (2023-09-22)
 
 

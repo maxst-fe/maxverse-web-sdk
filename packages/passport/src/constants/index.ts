@@ -4,8 +4,6 @@ export const DEFAULT_REDIRECT_URI = 'noSet';
 
 export const UI_LOCALES_KO = 'ko';
 
-export const CACHE_LOCATION_COOKIE = 'cookie';
-
 export const TRANSACTION_STORAGE_KEY_PREFIX = 'passport.transaction.data';
 
 export const CACHE_KEY_PREFIX = 'passport.cache.data';
@@ -25,3 +23,5 @@ export const CODE_CHALLENGE_METHOD = 'S256';
 export const DEFAULT_MIN_VALIDITY = 1;
 
 export const CACHE_LOCATION_MEMORY = 'memory';
+
+export const CACHE_LOCATION_COOKIE = 'cookie';
