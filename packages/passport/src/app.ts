@@ -190,10 +190,10 @@ export class Passport {
     try {
       const { body } = await oauthFetch<Reply<TokenBody>>(this.#authUrl, options, req, this.#authWorker);
 
-      const { refresh_token, refresh_expires_in, id_token, ...entry } = body;
+      const { refresh_token, id_token, ...entry } = body;
 
-      if (refresh_token && refresh_expires_in) {
-        this.#cacheManager.setRefreshToken(refresh_token, refresh_expires_in);
+      if (refresh_token) {
+        this.#cacheManager.setRefreshToken(refresh_token);
       }
 
       const decoded = decode<Claims>(id_token);
@@ -202,7 +202,7 @@ export class Passport {
       this.#cacheManager.set(entry);
 
       return {
-        token: entry.token,
+        token: entry.access_token,
         id_token,
         claims: decoded,
       };
@@ -335,7 +335,7 @@ export class Passport {
       client_id: this.#options.clientId,
       grant_type: 'authorization_code',
       code: verifiedCode,
-      redirect_uri: baseUrl,
+      redirect_uri: this.#options.authorizationOptions?.redirect_uri || baseUrl,
       code_verifier: transaction.code_verifier,
     };
 
@@ -388,9 +388,9 @@ export class Passport {
     try {
       const { token, id_token } = await this.updateToken();
 
-      const { status } = await oauthFetch<Reply<string>>(
+      const { status } = await oauthFetch<Reply<unknown>>(
         this.#authUrl,
-        { client_id: this.#options.clientId, id_token },
+        { client_id: this.#options.clientId, id_token_hint: id_token },
         'logout',
         this.#authWorker,
         { Authorization: `Bearer ${token}` }

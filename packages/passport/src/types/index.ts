@@ -50,8 +50,7 @@ export interface EntireAccessTokenOptions extends AccessTokenOptions {
 
 export interface LogoutOptions {
   client_id: string;
-  refresh_token?: string | undefined;
-  id_token: string;
+  id_token_hint: string;
 }
 
 export interface AuthenticationResult {

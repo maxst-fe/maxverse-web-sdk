@@ -2,7 +2,7 @@ import { Claims } from '../../types';
 
 export interface CacheEntry {
   token: string;
-  expires_at: number;
+  expires_at?: number;
   token_type: string;
   session_state: string;
   scope: string;
