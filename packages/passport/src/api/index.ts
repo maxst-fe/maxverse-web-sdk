@@ -14,7 +14,7 @@ export class HttpClient {
 
   async #fetchJSON(endpoint: string, options: RequestInit = {}) {
     try {
-      const res = await fetch(`${this.#baseUrl}/${endpoint}`, {
+      const res = await fetch(`${this.#baseUrl}/api/passport/${endpoint}`, {
         ...options,
         headers: this.#headers,
       });
