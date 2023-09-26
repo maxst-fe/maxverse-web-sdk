@@ -71,17 +71,12 @@ export const oauthWithoutWorker = async (
   let body: unknown;
 
   try {
-    if (req === 'token') {
-      const data = await client.postAccessToken(params);
+    if (req === 'token' || req === 'refresh_token') {
+      const data = await client.postToken(params);
 
       body = data;
     }
 
-    if (req === 'refresh_token') {
-      const data = await client.postRefreshToken(params);
-
-      body = data;
-    }
     if (req === 'logout') {
       const data = await client.postLogout(params);
 

@@ -3,6 +3,7 @@ import { CacheEntry, ICache } from './shared';
 
 interface CookieOptions {
   domain?: string;
+  expires?: string;
 }
 
 export class CookieCache implements ICache {
@@ -16,7 +17,7 @@ export class CookieCache implements ICache {
     return <T>JSON.parse(value);
   }
 
-  public set<T = CacheEntry>(key: string, value: T) {
+  public set<T = CacheEntry>(key: string, value: T, options?: CookieOptions) {
     let cookieAttributes = {};
 
     if ('https' === window.location.protocol) {
@@ -24,6 +25,19 @@ export class CookieCache implements ICache {
         secure: true,
         sameSite: 'none',
       };
+    }
+
+    if (options?.expires) {
+      const secondsInOneDay = 24 * 60 * 60;
+
+      cookieAttributes = {
+        ...cookieAttributes,
+        expires: Number(options.expires) / secondsInOneDay,
+      };
+    }
+
+    if (options?.domain) {
+      cookieAttributes = { ...cookieAttributes, domain: options.domain };
     }
 
     setCookie(key, JSON.stringify(value), cookieAttributes);

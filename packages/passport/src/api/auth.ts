@@ -7,17 +7,9 @@ export class AuthClient extends HttpClient {
     super(options);
   }
 
-  postAccessToken(params: string): Promise<TokenFetchResult> {
+  postToken(params: string): Promise<TokenFetchResult> {
     try {
-      return this.post('public/oauth/token', { body: params });
-    } catch (error: any) {
-      throw new Error(error);
-    }
-  }
-
-  postRefreshToken(params: string): Promise<TokenFetchResult> {
-    try {
-      return this.post('public/oauth/token/refresh', { body: params });
+      return this.post('token', { body: params });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -25,7 +17,7 @@ export class AuthClient extends HttpClient {
 
   postLogout(params: string): Promise<LogoutBody> {
     try {
-      return this.post('passport/logout', { body: params });
+      return this.post('connect/logout', { body: params });
     } catch (error: any) {
       throw new Error(error);
     }

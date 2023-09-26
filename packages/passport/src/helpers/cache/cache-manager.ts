@@ -8,6 +8,7 @@ import {
 import { Claims } from '../../types';
 import { ICache, IdTokenEntry, RefreshTokenEntry } from '../cache/shared';
 import { nowTime } from '../common';
+import { CookieCache } from './cache-cookie';
 
 export class CacheManager {
   #clientid: string;
@@ -51,30 +52,21 @@ export class CacheManager {
       return;
     }
 
-    if (this.#checkIsExpires(refreshTokenEntry.refresh_expires_at)) {
-      return;
-    }
-
     return refreshTokenEntry.refresh_token;
   }
 
-  setRefreshToken(refresh_token: string, refresh_expires_in: string) {
-    const refresh_expires_at = this.#calcExpires(refresh_expires_in);
-
+  setRefreshToken(refresh_token: string) {
     this.#cache.set(this.#refreshTokenPrefix, {
       refresh_token,
-      refresh_expires_at,
     });
   }
 
   get() {
     const authEntry = this.#cache.get(this.#authPrefix);
 
-    if (!authEntry) {
-      return;
-    }
+    const expires_at = authEntry?.expires_at;
 
-    if (this.#checkIsExpires(authEntry.expires_at)) {
+    if (!authEntry || this.#checkIsExpires(expires_at)) {
       this.remove();
       return;
     }
@@ -82,14 +74,27 @@ export class CacheManager {
     return authEntry;
   }
 
-  set(entry: Omit<TokenBody, 'id_token' | 'refresh_token' | 'refresh_expires_in'>) {
+  set(entry: Omit<TokenBody, 'id_token' | 'refresh_token'>) {
+    if (this.#cache instanceof CookieCache) {
+      this.#cache.set(
+        this.#authPrefix,
+        {
+          token: entry.access_token,
+          token_type: entry.token_type,
+          scope: entry.scope,
+        },
+        { expires: entry.expires_in }
+      );
+
+      return;
+    }
+
     const expires_at = this.#calcExpires(entry.expires_in);
 
     this.#cache.set(this.#authPrefix, {
-      token: entry.token,
+      token: entry.access_token,
       expires_at,
       token_type: entry.token_type,
-      session_state: entry.session_state,
       scope: entry.scope,
     });
   }
@@ -108,7 +113,11 @@ export class CacheManager {
     return nowTime() + Number(expires_in) * 1000;
   }
 
-  #checkIsExpires(expires: number) {
+  #checkIsExpires(expires: number | undefined) {
+    if (!expires) {
+      return true;
+    }
+
     return expires <= nowTime();
   }
 }

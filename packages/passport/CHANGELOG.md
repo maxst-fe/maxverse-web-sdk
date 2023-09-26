@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.2...@maxverse/passport-web-sdk@0.2.3) (2023-09-26)
+
+
+### Features
+
+* **packages/passport:** error handling for domains not related to Passport authentication ([#73](https://github.com/maxverse-dev/maxverse-web-sdk/issues/73)) ([8a74477](https://github.com/maxverse-dev/maxverse-web-sdk/commit/8a744772bf38375b83147a5305a5eb67b9ad9bcc))
+* **packages/passport:** fix passport request flow related to authentication ([#73](https://github.com/maxverse-dev/maxverse-web-sdk/issues/73)) ([4ca238a](https://github.com/maxverse-dev/maxverse-web-sdk/commit/4ca238a2e9cce1e5a2a69142e2209fe00c2064ae))
+
+
+
+
+
 ## [0.2.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.1...@maxverse/passport-web-sdk@0.2.2) (2023-09-25)
 
 
