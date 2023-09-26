@@ -31,6 +31,7 @@ export interface PassportClientOptions {
   clientId: string;
   cookieDomain?: string;
   cacheLocation?: CacheLocation;
+  useWorker?: boolean;
   authorizationOptions?: Partial<AuthorizationOptions>;
 }
 

@@ -133,7 +133,9 @@ export class Passport {
 
     this.#authUrl = `${baseDomain}`;
 
-    if (window.SharedWorker) {
+    const useWorker = options.useWorker || false;
+
+    if (window.SharedWorker && useWorker) {
       this.#authWorker = new AuthWorker();
     }
   }
