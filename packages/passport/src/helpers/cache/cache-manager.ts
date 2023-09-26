@@ -66,7 +66,18 @@ export class CacheManager {
 
     const expires_at = authEntry?.expires_at;
 
-    if (!authEntry || this.#checkIsExpires(expires_at)) {
+    if (!expires_at) {
+      if (this.#cache instanceof CookieCache && !authEntry) {
+        this.remove();
+        return;
+      }
+
+      if (this.#cache instanceof CookieCache && authEntry) {
+        return authEntry;
+      }
+    }
+
+    if (this.#checkIsExpires(expires_at)) {
       this.remove();
       return;
     }
