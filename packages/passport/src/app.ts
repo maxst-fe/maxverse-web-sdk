@@ -4,13 +4,20 @@
 
 import { checkRefreshTokenAlive, oauthFetch } from './api/auth-middleware';
 import { AuthRequest, Reply, TokenBody } from './api/types';
-import { CACHE_LOCATION_COOKIE, DEFAULT_REDIRECT_URI, DEFAULT_RESPONSE_TYPE, UI_LOCALES_KO } from './constants';
+import {
+  ALLOWED_DOMAINS,
+  CACHE_LOCATION_COOKIE,
+  DEFAULT_REDIRECT_URI,
+  DEFAULT_RESPONSE_TYPE,
+  UI_LOCALES_KO,
+} from './constants';
 import {
   AUTHENTICATION_ACCESS_DENIED,
   AUTHENTICATION_INVALID_SCOPE,
   AUTHORIZATION_CODE_FLOW,
   INVALID_ACCESS_SELF_INSTANCE_ERROR,
   INVALID_ACCESS_SERVER_ENV_ERROR,
+  INVALID_AUTH_SERVER_DOMAIN,
   INVALID_CACHE_LOCATION,
   INVALID_TOKEN_ROTATION,
   NOT_FOUND_QUERY_PARAMS_ERROR,
@@ -84,6 +91,10 @@ export class Passport {
 
     if (!options.domain) {
       throw new Error(NOT_FOUND_VALID_DOMAIN);
+    }
+
+    if (!ALLOWED_DOMAINS.includes(options.domain)) {
+      throw new Error(INVALID_AUTH_SERVER_DOMAIN);
     }
 
     if (!options.clientId) {
@@ -381,9 +392,6 @@ export class Passport {
     }
   }
 
-  /**
-   * @deprecated
-   */
   public async requestLogout() {
     try {
       const { token, id_token } = await this.updateToken();

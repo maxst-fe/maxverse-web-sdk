@@ -25,3 +25,5 @@ export const DEFAULT_MIN_VALIDITY = 1;
 export const CACHE_LOCATION_MEMORY = 'memory';
 
 export const CACHE_LOCATION_COOKIE = 'cookie';
+
+export const ALLOWED_DOMAINS = ['https://alpha-api.maxst.com', 'https://api.maxst.com'];

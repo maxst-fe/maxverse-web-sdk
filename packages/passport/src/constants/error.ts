@@ -3,6 +3,8 @@ export const INVALID_ACCESS_SELF_INSTANCE_ERROR = 'Invalid access: PassportClien
 export const INVALID_ACCESS_SERVER_ENV_ERROR =
   "'Invalid access: PassportClient must be initialized on the client side'";
 
+export const INVALID_AUTH_SERVER_DOMAIN = 'Invalid access:: Need to use the Passport domain for the authentication';
+
 export const NOT_SET_REDIRECT_URI_ERROR =
   'Redirect URI is required but was not provided. Please ensure to set a redirect URI in at least one place when creating an instance or attempting to log in.';
 
