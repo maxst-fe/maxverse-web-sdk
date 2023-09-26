@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.7...@maxverse/passport-web-sdk@0.2.8) (2023-09-26)
+
+
+### Features
+
+* **passport/cache-manager:** change expires handling in getter of cacheManager ([#83](https://github.com/maxverse-dev/maxverse-web-sdk/issues/83)) ([3c65abb](https://github.com/maxverse-dev/maxverse-web-sdk/commit/3c65abbaad5a9c34d8219583fe92ba8233804d3d))
+
+
+
+
+
 ## [0.2.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.6...@maxverse/passport-web-sdk@0.2.7) (2023-09-26)
 
 
