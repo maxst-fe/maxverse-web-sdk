@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.5...@maxverse/passport-web-sdk@0.2.6) (2023-09-26)
+
+
+### Bug Fixes
+
+* **api:** add passport url ([#79](https://github.com/maxverse-dev/maxverse-web-sdk/issues/79)) ([bbef39e](https://github.com/maxverse-dev/maxverse-web-sdk/commit/bbef39efa7800a56295838a5569491598de94f08))
+
+
+
+
+
 ## [0.2.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.4...@maxverse/passport-web-sdk@0.2.5) (2023-09-26)
 
 
