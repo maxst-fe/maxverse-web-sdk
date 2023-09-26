@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.6...@maxverse/passport-web-sdk@0.2.7) (2023-09-26)
+
+
+### Features
+
+* **packages/passport:** change useWorker default option value to true ([#81](https://github.com/maxverse-dev/maxverse-web-sdk/issues/81)) ([29d3041](https://github.com/maxverse-dev/maxverse-web-sdk/commit/29d30413e03b873b055fe12582c1bc7b3482436c))
+
+
+
+
+
 ## [0.2.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.5...@maxverse/passport-web-sdk@0.2.6) (2023-09-26)
 
 
