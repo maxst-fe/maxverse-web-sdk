@@ -72,7 +72,7 @@ export class CacheManager {
   setRefreshToken(refresh_token: string, refresh_expires_in: string) {
     if (this.#cache instanceof CookieCache) {
       this.#cache.set(
-        this.#authPrefix,
+        this.#refreshTokenPrefix,
         {
           refresh_token,
         },

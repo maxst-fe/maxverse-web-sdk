@@ -71,5 +71,6 @@ export class CacheInMemoryManager {
 
   public deprecateRefreshTokenInfo() {
     this.#storage.remove('refresh_token');
+    this.#storage.remove('refresh_expires_at');
   }
 }
