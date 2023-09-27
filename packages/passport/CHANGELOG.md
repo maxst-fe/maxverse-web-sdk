@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.0...@maxverse/passport-web-sdk@0.3.1) (2023-09-27)
+
+
+### Features
+
+* **packages/passport:** branch processing id token ([#89](https://github.com/maxverse-dev/maxverse-web-sdk/issues/89)) ([a658850](https://github.com/maxverse-dev/maxverse-web-sdk/commit/a65885005d02fc5e627ca7caee0cb37be6a03443))
+* **packages/passport:** fix refresh token prefix ([#89](https://github.com/maxverse-dev/maxverse-web-sdk/issues/89)) ([6a69894](https://github.com/maxverse-dev/maxverse-web-sdk/commit/6a69894089caba653a57d4286764a64b2a4381f8))
+
+
+
+
+
 # [0.3.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.2.9...@maxverse/passport-web-sdk@0.3.0) (2023-09-27)
 
 
