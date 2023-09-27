@@ -209,15 +209,19 @@ export class Passport {
         this.#cacheManager.setRefreshToken(refresh_token, refresh_expires_in);
       }
 
-      const decoded = decode<Claims>(id_token);
-      this.#cacheManager.setIdToken(id_token, decoded);
+      let claims = this.claims;
+
+      if (req === 'token' || id_token) {
+        claims = decode<Claims>(id_token);
+        this.#cacheManager.setIdToken(id_token, claims);
+      }
 
       this.#cacheManager.set(entry);
 
       return {
         token: entry.access_token,
         id_token,
-        claims: decoded,
+        claims,
       };
     } catch (error) {
       throw error;
