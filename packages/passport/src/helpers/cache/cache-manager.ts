@@ -48,16 +48,45 @@ export class CacheManager {
   getRefreshToken() {
     const refreshTokenEntry = this.#cache.get<RefreshTokenEntry>(this.#refreshTokenPrefix);
 
-    if (!refreshTokenEntry) {
+    const refresh_expires_at = refreshTokenEntry?.refresh_expires_at;
+
+    if (!refresh_expires_at) {
+      if (this.#cache instanceof CookieCache && !refreshTokenEntry) {
+        this.remove();
+        return;
+      }
+
+      if (this.#cache instanceof CookieCache && refreshTokenEntry) {
+        return refreshTokenEntry.refresh_token;
+      }
+    }
+
+    if (this.#checkIsExpires(refresh_expires_at)) {
+      this.remove();
       return;
     }
 
-    return refreshTokenEntry.refresh_token;
+    return refreshTokenEntry?.refresh_token;
   }
 
-  setRefreshToken(refresh_token: string) {
+  setRefreshToken(refresh_token: string, refresh_expires_in: string) {
+    if (this.#cache instanceof CookieCache) {
+      this.#cache.set(
+        this.#authPrefix,
+        {
+          refresh_token,
+        },
+        { expires: refresh_expires_in }
+      );
+
+      return;
+    }
+
+    const refresh_expires_at = this.#calcExpires(refresh_expires_in);
+
     this.#cache.set(this.#refreshTokenPrefix, {
       refresh_token,
+      refresh_expires_at,
     });
   }
 
