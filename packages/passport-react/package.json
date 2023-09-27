@@ -1,6 +1,6 @@
 {
   "name": "@maxverse/passport-react",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "keywords": [
     "login",
     "Authorization Code Grant Flow",
@@ -39,7 +39,7 @@
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-typescript": "^7.18.6",
     "@babel/runtime": "^7.16.3",
-    "@maxverse/passport-web-sdk": "^0.2.8",
+    "@maxverse/passport-web-sdk": "^0.2.9",
     "@types/babel__core": "^7",
     "@types/babel__preset-env": "^7",
     "@types/jest": "^29.5.1",
