@@ -203,10 +203,10 @@ export class Passport {
     try {
       const { body } = await oauthFetch<Reply<TokenBody>>(this.#authUrl, options, req, this.#authWorker);
 
-      const { refresh_token, id_token, ...entry } = body;
+      const { refresh_token, refresh_expires_in, id_token, ...entry } = body;
 
-      if (refresh_token) {
-        this.#cacheManager.setRefreshToken(refresh_token);
+      if (refresh_token && refresh_expires_in) {
+        this.#cacheManager.setRefreshToken(refresh_token, refresh_expires_in);
       }
 
       const decoded = decode<Claims>(id_token);

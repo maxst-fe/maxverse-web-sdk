@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { NOT_FOUND_REFRESH_TOKEN } from '../constants/error';
+import { NOT_FOUND_REFRESH_TOKEN, NOT_FOUND_REFRESH_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRED } from '../constants/error';
 import { Identifier } from './worker.types';
+import { checkRefreshTokenExpires } from './worker.utils';
 
 interface CapsuledCache {
   set<T>(key: string, value: T): void;
@@ -48,13 +49,24 @@ export class CacheInMemoryManager {
   }
 
   public async getRefreshToken() {
-    const refreshToken = this.get<string>('refresh_token');
+    const refresh_token = this.get<string>('refresh_token');
+    const refresh_expires_at = this.get<number>('refresh_expires_at');
 
-    if (!refreshToken) {
+    if (!refresh_expires_at) {
+      throw Error(NOT_FOUND_REFRESH_TOKEN_EXPIRES);
+    }
+
+    if (!refresh_token) {
       throw Error(NOT_FOUND_REFRESH_TOKEN);
     }
 
-    return refreshToken;
+    const isExpires = await checkRefreshTokenExpires(refresh_expires_at);
+
+    if (isExpires) {
+      throw Error(REFRESH_TOKEN_EXPIRED);
+    }
+
+    return refresh_token;
   }
 
   public deprecateRefreshTokenInfo() {

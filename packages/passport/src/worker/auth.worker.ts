@@ -4,6 +4,7 @@ import { AuthClient } from '../api/auth';
 import { TokenBody } from '../api/types';
 import { CacheInMemoryManager, InMemoryStorage } from './cache.worker';
 import { Message } from './worker.types';
+import { calcRefreshTokenExpires } from './worker.utils';
 
 declare const self: SharedWorkerGlobalScope;
 
@@ -39,9 +40,13 @@ self.onconnect = function (e: MessageEvent) {
       if (req === 'token') {
         const data = await client.postToken(params);
 
+        const refresh_expires_at = calcRefreshTokenExpires(data.refresh_expires_in);
+
         cacheManager.save<string>('refresh_token', data.refresh_token);
+        cacheManager.save<number>('refresh_expires_at', refresh_expires_at);
 
         delete (data as Partial<TokenBody>)['refresh_token'];
+        delete (data as Partial<TokenBody>)['refresh_expires_in'];
 
         body = data;
       }
@@ -53,7 +58,10 @@ self.onconnect = function (e: MessageEvent) {
 
         cacheManager.deprecateRefreshTokenInfo();
 
+        const refresh_expires_at = calcRefreshTokenExpires(data.refresh_expires_in);
+
         cacheManager.save('refresh_token', data.refresh_token);
+        cacheManager.save('refresh_expires_at', refresh_expires_at);
 
         delete (data as Partial<TokenBody>)['refresh_token'];
 
