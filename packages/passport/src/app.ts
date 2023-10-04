@@ -107,11 +107,19 @@ export class Passport {
 
     this.#scope = getUniqueScopes('openid', options?.authorizationOptions?.scope);
 
+    let redirect_uri =
+      options.authorizationOptions?.redirect_uri ?? this.#defaultOptions.authorizationOptions.redirect_uri;
+
+    if (redirect_uri?.includes('?code')) {
+      redirect_uri = redirect_uri.split('?code')[0];
+    }
+
     this.#options = {
       ...options,
       authorizationOptions: {
         ...this.#defaultOptions.authorizationOptions,
         ...options.authorizationOptions,
+        redirect_uri,
         scope: this.#scope,
       },
     };
@@ -302,7 +310,13 @@ export class Passport {
 
   public async loginWithRedirect(options: Partial<AuthorizationOptions> = {}) {
     if (checkIsRedirectUriNotSet(this.#options.authorizationOptions?.redirect_uri, options.redirect_uri)) {
-      options.redirect_uri = window.location.href;
+      let redirect_uri = window.location.href.toString();
+
+      if (redirect_uri.includes('?code')) {
+        redirect_uri = redirect_uri.split('?code')[0];
+      }
+
+      options.redirect_uri = redirect_uri;
     }
 
     const transaction = this.#transactionManager.get();
@@ -321,7 +335,7 @@ export class Passport {
   }
 
   public async onRedirectPage(url: string = window.location.href) {
-    const [baseUrl, queryString] = url.split('?');
+    const [baseUrl, queryString] = url.split('?code');
 
     if (queryString.length === 0) {
       throw new Error(NOT_FOUND_QUERY_PARAMS_ERROR);
@@ -352,7 +366,7 @@ export class Passport {
       client_id: this.#options.clientId,
       grant_type: 'authorization_code',
       code: verifiedCode,
-      redirect_uri: this.#options.authorizationOptions?.redirect_uri || baseUrl,
+      redirect_uri: baseUrl,
       code_verifier: transaction.code_verifier,
     };
 
