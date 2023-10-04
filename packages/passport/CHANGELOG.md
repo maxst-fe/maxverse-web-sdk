@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.1...@maxverse/passport-web-sdk@0.3.2) (2023-10-04)
+
+
+### Features
+
+* **packages/passport:** remove authorization code from redirect_uri ([0bbc73a](https://github.com/maxverse-dev/maxverse-web-sdk/commit/0bbc73a301d6d37f76473963adabf378a38606b4))
+
+
+
+
+
 ## [0.3.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.0...@maxverse/passport-web-sdk@0.3.1) (2023-09-27)
 
 

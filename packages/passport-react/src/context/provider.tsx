@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Passport, PassportClientOptions } from '@maxverse/passport-web-sdk';
-import { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { checkClientOptionsDiff } from '../helpers/index';
+import { Passport } from '@maxverse/passport-web-sdk';
+import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { PassportContext } from './context';
 import { getPassportInstance } from './passport-instance';
 import { PassportProviderProps } from './types';
@@ -17,14 +16,7 @@ export function PassportProvider({
   const [initialized, setInitialized] = useState(false);
   const [passport, setPassport] = useState(getPassportInstance());
 
-  const clientOptionsRef = useRef<PassportClientOptions | null>(null);
-
-  const isDiff = useMemo(() => {
-    const { current } = clientOptionsRef;
-    return checkClientOptionsDiff(current, clientOptions);
-  }, [clientOptions]);
-
-  const { onLoad } = clientOptions;
+  const { onLoad, authorizationOptions } = clientOptions;
 
   const init = useCallback(
     async (passport: Passport) => {
@@ -35,7 +27,7 @@ export function PassportProvider({
         throw new Error(error);
       }
     },
-    [isDiff]
+    [onLoad]
   );
 
   useEffect(() => {
@@ -50,8 +42,6 @@ export function PassportProvider({
           registerContext.forEach(callback => callback(passport));
         }
 
-        clientOptionsRef.current = clientOptions;
-
         if (!claims) {
           onSuccess && onSuccess({ status: 'SUCCESS' });
           return;
@@ -64,7 +54,7 @@ export function PassportProvider({
         setPassport(passport);
         setInitialized(false);
       });
-  }, [isDiff, init]);
+  }, [onLoad, authorizationOptions?.redirect_uri, init]);
 
   return <PassportContext.Provider value={{ initialized, passport }}>{children}</PassportContext.Provider>;
 }
