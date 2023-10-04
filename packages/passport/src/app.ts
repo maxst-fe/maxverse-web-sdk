@@ -335,7 +335,9 @@ export class Passport {
   }
 
   public async onRedirectPage(url: string = window.location.href) {
-    const [baseUrl, queryString] = url.split('?code');
+    const [baseUrl, queryString] = url?.split('?code');
+
+    const redirect_uri = isServer() || !baseUrl ? this.#options.authorizationOptions.redirect_uri : baseUrl;
 
     if (queryString.length === 0) {
       throw new Error(NOT_FOUND_QUERY_PARAMS_ERROR);
@@ -366,7 +368,7 @@ export class Passport {
       client_id: this.#options.clientId,
       grant_type: 'authorization_code',
       code: verifiedCode,
-      redirect_uri: baseUrl,
+      redirect_uri,
       code_verifier: transaction.code_verifier,
     };
 
