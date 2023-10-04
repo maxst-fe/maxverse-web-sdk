@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.2.1...@maxverse/passport-react@0.2.2) (2023-10-04)
+
+
+### Features
+
+* **pacakges/passport-react:** fix dependencies in passport provider ([#91](https://github.com/maxverse-dev/maxverse-web-sdk/issues/91)) ([6965d9f](https://github.com/maxverse-dev/maxverse-web-sdk/commit/6965d9fcf41290e8804ad0549610f3dbb7a23b11))
+
+
+
+
+
 ## [0.2.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.2.0...@maxverse/passport-react@0.2.1) (2023-09-27)
 
 **Note:** Version bump only for package @maxverse/passport-react
