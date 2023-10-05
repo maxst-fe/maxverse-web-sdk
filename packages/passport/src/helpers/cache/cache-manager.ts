@@ -97,7 +97,7 @@ export class CacheManager {
 
     if (!expires_at) {
       if (this.#cache instanceof CookieCache && !authEntry) {
-        this.remove();
+        this.removeAccessToken();
         return;
       }
 
@@ -107,7 +107,7 @@ export class CacheManager {
     }
 
     if (this.#checkIsExpires(expires_at)) {
-      this.remove();
+      this.removeAccessToken();
       return;
     }
 
@@ -137,6 +137,10 @@ export class CacheManager {
       token_type: entry.token_type,
       scope: entry.scope,
     });
+  }
+
+  removeAccessToken() {
+    this.#cache.remove(this.#authPrefix);
   }
 
   remove() {
