@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.2.3...@maxverse/passport-react@0.2.4) (2023-10-05)
+
+
+### Features
+
+* **packages/passport:** wrap passport requestLogout ([8656d7b](https://github.com/maxverse-dev/maxverse-web-sdk/commit/8656d7bcf9c787259b155b90d7d364d7aeb45f4a))
+
+
+
+
+
 ## [0.2.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.2.2...@maxverse/passport-react@0.2.3) (2023-10-05)
 
 

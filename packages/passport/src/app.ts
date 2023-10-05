@@ -243,7 +243,7 @@ export class Passport {
   #replaceHref() {
     const transactionUrl = window.location.href;
 
-    const [originUrl] = transactionUrl.split('?');
+    const [originUrl] = transactionUrl.split('?code');
 
     window.history.replaceState({}, '', originUrl);
   }
@@ -335,7 +335,7 @@ export class Passport {
   }
 
   public async onRedirectPage(url: string = window.location.href) {
-    const [baseUrl, queryString] = url?.split('?code');
+    const [baseUrl, queryString] = url.split('?');
 
     const redirect_uri = isServer() || !baseUrl ? this.#options.authorizationOptions.redirect_uri : baseUrl;
 
