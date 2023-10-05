@@ -213,13 +213,15 @@ export class Passport {
 
       const { refresh_token, refresh_expires_in, id_token, ...entry } = body;
 
+      this.#cacheManager.remove();
+
       if (refresh_token && refresh_expires_in) {
         this.#cacheManager.setRefreshToken(refresh_token, refresh_expires_in);
       }
 
       let claims = this.claims;
 
-      if (req === 'token' || id_token) {
+      if (id_token) {
         claims = decode<Claims>(id_token);
         this.#cacheManager.setIdToken(id_token, claims);
       }
