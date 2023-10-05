@@ -22,6 +22,7 @@ export class CookieCache implements ICache {
 
     if ('https' === window.location.protocol) {
       cookieAttributes = {
+        ...cookieAttributes,
         secure: true,
         sameSite: 'none',
       };
@@ -32,6 +33,7 @@ export class CookieCache implements ICache {
 
       cookieAttributes = {
         ...cookieAttributes,
+
         expires: Number(options.expires) / secondsInOneDay,
       };
     }
@@ -39,6 +41,8 @@ export class CookieCache implements ICache {
     if (options?.domain) {
       cookieAttributes = { ...cookieAttributes, domain: options.domain };
     }
+
+    cookieAttributes = { ...cookieAttributes, path: '/' };
 
     setCookie(key, JSON.stringify(value), cookieAttributes);
   }
@@ -49,6 +53,8 @@ export class CookieCache implements ICache {
     if (options?.domain) {
       cookieAttributes = { ...cookieAttributes, domain: options.domain };
     }
+
+    cookieAttributes = { ...cookieAttributes, path: '/' };
 
     removeCookie(key, cookieAttributes);
   }
