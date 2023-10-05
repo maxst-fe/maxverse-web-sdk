@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.4...@maxverse/passport-web-sdk@0.3.5) (2023-10-05)
+
+
+### Features
+
+* **packages/passport:** add remove cached value after token rotation ([ef03fc3](https://github.com/maxverse-dev/maxverse-web-sdk/commit/ef03fc31807dc3e335702f1cb0531c0dca3dffef))
+* **packages/passport:** remove unnecessary case ([82b61f3](https://github.com/maxverse-dev/maxverse-web-sdk/commit/82b61f30dbc182aeb796dee9814da52d41dd0360))
+
+
+
+
+
 ## [0.3.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.3...@maxverse/passport-web-sdk@0.3.4) (2023-10-05)
 
 
