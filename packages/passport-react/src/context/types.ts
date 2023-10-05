@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Claims, OnLoad, Passport, PassportClientOptions } from '@maxverse/passport-web-sdk';
+import { Dispatch, SetStateAction } from 'react';
 
 export type RegisterFunctionEntry = Array<(passport: Passport) => unknown>;
 
@@ -18,5 +19,6 @@ export interface PassportProviderProps {
 
 export interface PassportClient {
   initialized: boolean;
+  setInitialized: Dispatch<SetStateAction<boolean>> | null;
   passport: Passport;
 }

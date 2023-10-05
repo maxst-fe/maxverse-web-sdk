@@ -62,5 +62,7 @@ export function PassportProvider({
       });
   }, [onLoad, authorizationOptions?.redirect_uri, init, initialized]);
 
-  return <PassportContext.Provider value={{ initialized, passport }}>{children}</PassportContext.Provider>;
+  return (
+    <PassportContext.Provider value={{ initialized, setInitialized, passport }}>{children}</PassportContext.Provider>
+  );
 }
