@@ -31,12 +31,15 @@ export function PassportProvider({
   );
 
   useEffect(() => {
+    if (initialized) {
+      return;
+    }
+
     const passport = getPassportInstance(clientOptions);
 
     init(passport)
       .then(claims => {
         setInitialized(true);
-        setPassport(passport);
 
         if (registerContext) {
           registerContext.forEach(callback => callback(passport));
@@ -49,12 +52,15 @@ export function PassportProvider({
 
         onSuccess && onSuccess({ status: 'SUCCESS', claims });
       })
-      .catch((reason: any) => {
-        onError && onError({ status: 'FAIL', error: reason });
-        setPassport(passport);
+      .catch((error: any) => {
         setInitialized(false);
+
+        onError && onError({ status: 'FAIL', error: error.message });
+      })
+      .finally(() => {
+        setPassport(passport);
       });
-  }, [onLoad, authorizationOptions?.redirect_uri, init]);
+  }, [onLoad, authorizationOptions?.redirect_uri, init, initialized]);
 
   return <PassportContext.Provider value={{ initialized, passport }}>{children}</PassportContext.Provider>;
 }

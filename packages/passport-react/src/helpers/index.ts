@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PassportClientOptions } from '@maxverse/passport-web-sdk';
 
+/**
+ * @deprecated
+ */
 export const checkClientOptionsDiff = (
   prevoptions: (PassportClientOptions & { [key: string]: any }) | null,
-  newOptions: PassportClientOptions,
+  newOptions: PassportClientOptions
 ) => {
   if (!prevoptions) {
     return true;
