@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.2.2...@maxverse/passport-react@0.2.3) (2023-10-05)
+
+
+### Features
+
+* **pacakges/passport-react:** modifying the update timing for Passport ([10e8c97](https://github.com/maxverse-dev/maxverse-web-sdk/commit/10e8c9716259a23d0089eeee2e5a35334e155aad))
+
+
+
+
+
 ## [0.2.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.2.1...@maxverse/passport-react@0.2.2) (2023-10-04)
 
 
