@@ -213,6 +213,8 @@ export class Passport {
 
       const { refresh_token, refresh_expires_in, id_token, ...entry } = body;
 
+      this.#cacheManager.remove();
+
       if (refresh_token && refresh_expires_in) {
         this.#cacheManager.setRefreshToken(refresh_token, refresh_expires_in);
       }
