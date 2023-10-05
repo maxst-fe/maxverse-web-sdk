@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.5...@maxverse/passport-web-sdk@0.3.6) (2023-10-05)
+
+
+### Bug Fixes
+
+* **packages/passport:** declare default cookie path value ([eb59aab](https://github.com/maxverse-dev/maxverse-web-sdk/commit/eb59aab04254048c116ad40f6ebd23b014070362))
+
+
+### Features
+
+* **packages/passport:** add a seperate method for removing access token ([7c99ac1](https://github.com/maxverse-dev/maxverse-web-sdk/commit/7c99ac16c2cacf1565fce848d0fe90139c452c04))
+
+
+
+
+
 ## [0.3.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.4...@maxverse/passport-web-sdk@0.3.5) (2023-10-05)
 
 
