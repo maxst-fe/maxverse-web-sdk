@@ -255,7 +255,7 @@ export class Passport {
       const cache_refresh_token = this.#cacheManager.getRefreshToken();
 
       if (!cache_refresh_token && !this.#supportWorkerThread) {
-        throw new Error(INVALID_TOKEN_ROTATION);
+        throw INVALID_TOKEN_ROTATION;
       }
       if (cache_refresh_token) {
         return { isEnable: true, cache_refresh_token };
