@@ -134,7 +134,7 @@ export class Passport {
 
     const sessionStorage = new SessionStorage();
 
-    this.#cacheManager = new CacheManager(cache, this.#options.clientId);
+    this.#cacheManager = new CacheManager(cache, this.#options.clientId, this.#options.cookieDomain);
     this.#transactionManager = new TransactionManager(sessionStorage, this.#options.clientId);
 
     const baseDomain = getDomain(options.domain);
