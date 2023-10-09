@@ -12,16 +12,18 @@ import { CookieCache } from './cache-cookie';
 
 export class CacheManager {
   #clientid: string;
+  #domain: string | undefined;
   #authPrefix: string;
   #idTokenPrefix: string;
   #refreshTokenPrefix: string;
   #cache: ICache;
 
-  constructor(cache: ICache, clientId: string) {
+  constructor(cache: ICache, clientId: string, domain: string | undefined) {
     const PREFIX = `${CACHE_KEY_PREFIX}.${clientId}_`;
 
     this.#clientid = clientId;
     this.#cache = cache;
+    this.#domain = domain;
 
     this.#authPrefix = `${PREFIX}${CACHE_KEY_AUTHENTICATED_SUFFIX}`;
     this.#idTokenPrefix = `${PREFIX}${CACHE_KEY_ID_TOKEN_SUFFIX}`;
@@ -39,10 +41,16 @@ export class CacheManager {
   }
 
   setIdToken(id_token: string, claims: Claims) {
-    this.#cache.set(this.#idTokenPrefix, {
-      id_token,
-      claims,
-    });
+    this.#cache.set(
+      this.#idTokenPrefix,
+      {
+        id_token,
+        claims,
+      },
+      {
+        domain: this.#domain,
+      }
+    );
   }
 
   getRefreshToken() {
@@ -76,7 +84,7 @@ export class CacheManager {
         {
           refresh_token,
         },
-        { expires: refresh_expires_in }
+        { domain: this.#domain, expires: refresh_expires_in }
       );
 
       return;
@@ -84,10 +92,14 @@ export class CacheManager {
 
     const refresh_expires_at = this.#calcExpires(refresh_expires_in);
 
-    this.#cache.set(this.#refreshTokenPrefix, {
-      refresh_token,
-      refresh_expires_at,
-    });
+    this.#cache.set(
+      this.#refreshTokenPrefix,
+      {
+        refresh_token,
+        refresh_expires_at,
+      },
+      { domain: this.#domain }
+    );
   }
 
   get() {
@@ -123,7 +135,7 @@ export class CacheManager {
           token_type: entry.token_type,
           scope: entry.scope,
         },
-        { expires: entry.expires_in }
+        { domain: this.#domain, expires: entry.expires_in }
       );
 
       return;
@@ -131,16 +143,20 @@ export class CacheManager {
 
     const expires_at = this.#calcExpires(entry.expires_in);
 
-    this.#cache.set(this.#authPrefix, {
-      token: entry.access_token,
-      expires_at,
-      token_type: entry.token_type,
-      scope: entry.scope,
-    });
+    this.#cache.set(
+      this.#authPrefix,
+      {
+        token: entry.access_token,
+        expires_at,
+        token_type: entry.token_type,
+        scope: entry.scope,
+      },
+      { domain: this.#domain }
+    );
   }
 
   removeAccessToken() {
-    this.#cache.remove(this.#authPrefix);
+    this.#cache.remove(this.#authPrefix, { domain: this.#domain });
   }
 
   remove() {
@@ -149,7 +165,7 @@ export class CacheManager {
     keys
       .filter(key => key.includes(this.#clientid))
       .forEach(key => {
-        this.#cache.remove(key);
+        this.#cache.remove(key, { domain: this.#domain });
       });
   }
 

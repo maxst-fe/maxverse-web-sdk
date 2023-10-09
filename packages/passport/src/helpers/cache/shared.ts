@@ -1,4 +1,5 @@
 import { Claims } from '../../types';
+import { CookieOptions } from './cache-cookie';
 
 export interface CacheEntry {
   token: string;
@@ -20,7 +21,7 @@ export interface RefreshTokenEntry {
 
 export interface ICache {
   get<T = CacheEntry>(key: string): T | undefined;
-  set<T = CacheEntry>(key: string, entry: T): void;
-  remove(key: string): void;
+  set<T = CacheEntry>(key: string, entry: T, options?: CookieOptions): void;
+  remove(key: string, options?: CookieOptions): void;
   getAllKeys(): string[];
 }

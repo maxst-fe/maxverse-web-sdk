@@ -1,7 +1,7 @@
 import { getCookie, getCookies, removeCookie, setCookie } from 'typescript-cookie';
 import { CacheEntry, ICache } from './shared';
 
-interface CookieOptions {
+export interface CookieOptions {
   domain?: string;
   expires?: string;
 }
