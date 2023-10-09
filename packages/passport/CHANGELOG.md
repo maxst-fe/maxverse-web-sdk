@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.7...@maxverse/passport-web-sdk@0.3.8) (2023-10-09)
+
+
+### Features
+
+* **packages/passport:** add cookie domain option ([31bc850](https://github.com/maxverse-dev/maxverse-web-sdk/commit/31bc850474b7173aee3cffccba5de1fe4eee4d70))
+
+
+
+
+
 ## [0.3.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.6...@maxverse/passport-web-sdk@0.3.7) (2023-10-05)
 
 
