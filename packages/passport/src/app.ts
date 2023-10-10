@@ -250,7 +250,7 @@ export class Passport {
     window.history.replaceState({}, '', originUrl);
   }
 
-  async #checkIsEnableTokenRotation() {
+  public async checkIsEnableTokenRotation() {
     try {
       const cache_refresh_token = this.#cacheManager.getRefreshToken();
 
@@ -284,7 +284,7 @@ export class Passport {
         return claims;
       }
 
-      const { isEnable } = await this.#checkIsEnableTokenRotation();
+      const { isEnable } = await this.checkIsEnableTokenRotation();
 
       if (isEnable && this.isAuthenticated) {
         return this.claims;
@@ -403,7 +403,7 @@ export class Passport {
         throw new Error(AUTHORIZATION_CODE_FLOW);
       }
 
-      const { cache_refresh_token } = await this.#checkIsEnableTokenRotation();
+      const { cache_refresh_token } = await this.checkIsEnableTokenRotation();
 
       const { token, id_token } = await this.#requestToken(
         {
