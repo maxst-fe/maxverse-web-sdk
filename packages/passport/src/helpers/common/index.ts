@@ -38,8 +38,8 @@ export const getAuthorizationOptions = (
   };
 };
 
-export const checkIsRedirectUriNotSet = (initialRedirectUri: string, loginRedirectUri: string | undefined) => {
-  return !loginRedirectUri && initialRedirectUri === DEFAULT_REDIRECT_URI;
+export const checkIsRedirectUriNotSet = (initialRedirectUri: string) => {
+  return initialRedirectUri === DEFAULT_REDIRECT_URI;
 };
 
 export const getDomain = (originUrl: string) => {
