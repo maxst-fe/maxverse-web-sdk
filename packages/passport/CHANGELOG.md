@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.9...@maxverse/passport-web-sdk@0.4.0) (2023-10-10)
+
+
+### Features
+
+* **common/checkIsRedirectUriNotSet:** remove loginRedirecturi case ([ec841cd](https://github.com/maxverse-dev/maxverse-web-sdk/commit/ec841cda3715e0f5e32fd5b568f495f42a329dbd))
+
+
+
+
+
 ## [0.3.9](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.8...@maxverse/passport-web-sdk@0.3.9) (2023-10-10)
 
 
