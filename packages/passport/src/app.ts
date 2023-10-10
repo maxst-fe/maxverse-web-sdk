@@ -311,7 +311,7 @@ export class Passport {
   }
 
   public async loginWithRedirect(options: Partial<AuthorizationOptions> = {}) {
-    if (checkIsRedirectUriNotSet(this.#options.authorizationOptions?.redirect_uri, options.redirect_uri)) {
+    if (checkIsRedirectUriNotSet(this.#options.authorizationOptions?.redirect_uri) && !options.redirect_uri) {
       let redirect_uri = window.location.href.toString();
 
       if (redirect_uri.includes('?code')) {
@@ -341,7 +341,7 @@ export class Passport {
 
     let redirect_uri: string = this.#options.authorizationOptions.redirect_uri;
 
-    if (checkIsRedirectUriNotSet(this.#options.authorizationOptions?.redirect_uri, baseUrl)) {
+    if (checkIsRedirectUriNotSet(this.#options.authorizationOptions?.redirect_uri)) {
       redirect_uri = baseUrl;
     }
 
