@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.0...@maxverse/passport-web-sdk@0.4.1) (2023-10-10)
+
+
+### Features
+
+* **packages/passport:** change access modifier of checkIsEnableTokenRotation ([732a035](https://github.com/maxverse-dev/maxverse-web-sdk/commit/732a035547156b9cd25374c7fba6fa88840098fe))
+
+
+
+
+
 # [0.4.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.9...@maxverse/passport-web-sdk@0.4.0) (2023-10-10)
 
 
