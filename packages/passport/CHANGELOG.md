@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.9](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.8...@maxverse/passport-web-sdk@0.3.9) (2023-10-10)
+
+
+### Features
+
+* **package/passport:** change set redirect uri ([2128d64](https://github.com/maxverse-dev/maxverse-web-sdk/commit/2128d642a0e65c48063bc612ce706da0403454be))
+
+
+
+
+
 ## [0.3.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.3.7...@maxverse/passport-web-sdk@0.3.8) (2023-10-09)
 
 
