@@ -339,7 +339,11 @@ export class Passport {
   public async onRedirectPage(url: string = window.location.href) {
     const [baseUrl, queryString] = url.split('?');
 
-    const redirect_uri = isServer() || !baseUrl ? this.#options.authorizationOptions.redirect_uri : baseUrl;
+    let redirect_uri: string = this.#options.authorizationOptions.redirect_uri;
+
+    if (checkIsRedirectUriNotSet(this.#options.authorizationOptions?.redirect_uri, baseUrl)) {
+      redirect_uri = baseUrl;
+    }
 
     if (queryString.length === 0) {
       throw new Error(NOT_FOUND_QUERY_PARAMS_ERROR);
