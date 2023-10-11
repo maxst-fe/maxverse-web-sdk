@@ -81,7 +81,7 @@ export const parseAuthenticationResult = (queryString: string): AuthenticationRe
 };
 
 export const composeUrl = (domain: string, req: string, params: string) => {
-  return `${domain}/api/passport/${req}?${params}`;
+  return `${domain}/passport/${req}?${params}`;
 };
 
 export const nowTime = () => new Date().getTime();
