@@ -12,6 +12,7 @@ const staticPassportClient = {
   onRedirectPage: (_url: string) => Promise.resolve(false),
   updateToken: () => Promise.resolve(false),
   requestLogout: () => Promise.resolve(false),
+  checkIsEnableTokenRotation: () => Promise.resolve(false),
 } as unknown as Passport;
 
 export const getPassportInstance = (clientOptions?: PassportClientOptions) => {

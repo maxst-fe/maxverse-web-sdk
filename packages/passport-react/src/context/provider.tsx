@@ -15,6 +15,7 @@ export function PassportProvider({
 }: PropsWithChildren<PassportProviderProps>) {
   const [initialized, setInitialized] = useState(false);
   const [passport, setPassport] = useState(getPassportInstance());
+  const [isAuthenticated, setAuthenticated] = useState(false);
 
   const { onLoad, authorizationOptions } = clientOptions;
 
@@ -62,7 +63,28 @@ export function PassportProvider({
       });
   }, [onLoad, authorizationOptions?.redirect_uri, init, initialized]);
 
+  useEffect(() => {
+    if (!initialized) {
+      setAuthenticated(false);
+      return;
+    }
+
+    const checkAuthenticated = async () => {
+      try {
+        const { isEnable } = await passport.checkIsEnableTokenRotation();
+
+        setAuthenticated(isEnable);
+      } catch (error) {
+        setAuthenticated(false);
+      }
+    };
+
+    checkAuthenticated();
+  }, [initialized, passport.isAuthenticated]);
+
   return (
-    <PassportContext.Provider value={{ initialized, setInitialized, passport }}>{children}</PassportContext.Provider>
+    <PassportContext.Provider value={{ initialized, setInitialized, isAuthenticated, passport }}>
+      {children}
+    </PassportContext.Provider>
   );
 }

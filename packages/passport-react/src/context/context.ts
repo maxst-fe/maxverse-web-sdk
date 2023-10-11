@@ -5,6 +5,7 @@ import { PassportClient } from './types';
 export const PassportContext = createContext<PassportClient>({
   initialized: false,
   setInitialized: null,
+  isAuthenticated: false,
   passport: getPassportInstance(),
 });
 
