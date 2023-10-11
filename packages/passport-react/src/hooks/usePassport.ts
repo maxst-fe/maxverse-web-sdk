@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { PassportContext } from '../context/context';
 
 export function usePassport() {
-  const { initialized, setInitialized, passport } = useContext(PassportContext);
+  const { initialized, setInitialized, isAuthenticated, passport } = useContext(PassportContext);
 
   const requestLogoutWithFallback = async () => {
     try {
@@ -12,9 +12,9 @@ export function usePassport() {
         setInitialized(false);
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.log(error);
     }
   };
 
-  return { initialized, passport, requestLogoutWithFallback };
+  return { initialized, isAuthenticated, passport, requestLogoutWithFallback };
 }

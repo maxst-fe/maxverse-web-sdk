@@ -20,5 +20,6 @@ export interface PassportProviderProps {
 export interface PassportClient {
   initialized: boolean;
   setInitialized: Dispatch<SetStateAction<boolean>> | null;
+  isAuthenticated: boolean;
   passport: Passport;
 }
