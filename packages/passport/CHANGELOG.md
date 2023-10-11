@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.1...@maxverse/passport-web-sdk@0.4.2) (2023-10-11)
+
+
+### Features
+
+* **packages/passport:** change passport domain ([8646507](https://github.com/maxverse-dev/maxverse-web-sdk/commit/8646507df24b56ce26b55c67f1136382f7a327f1))
+* **packages/passport:** seperate error handler of refresh token rotation ([01fe2f9](https://github.com/maxverse-dev/maxverse-web-sdk/commit/01fe2f970b36a5f2fb879ee6856c61ae8aa1eb62))
+
+
+
+
+
 ## [0.4.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.0...@maxverse/passport-web-sdk@0.4.1) (2023-10-10)
 
 
