@@ -245,9 +245,29 @@ export class Passport {
   #replaceHref() {
     const transactionUrl = window.location.href;
 
-    const [originUrl] = transactionUrl.split('?code');
+    const [originUrl] = transactionUrl.split('?');
 
     window.history.replaceState({}, '', originUrl);
+  }
+
+  #handleRefreshTokenRotationError(error: any, onLoad: OnLoad) {
+    if (this.checkRefreshTokenError(error)) {
+      this.#cacheManager.remove();
+      this.#transactionManager.remove();
+
+      if (onLoad === 'check-sso') {
+        this.loginWithRedirect();
+      }
+    }
+  }
+
+  public checkRefreshTokenError(error: any) {
+    const isRefreshTokenError =
+      error === NOT_FOUND_REFRESH_TOKEN_EXPIRES ||
+      error === NOT_FOUND_REFRESH_TOKEN ||
+      error === INVALID_TOKEN_ROTATION;
+
+    return isRefreshTokenError;
   }
 
   public async checkIsEnableTokenRotation() {
@@ -274,8 +294,8 @@ export class Passport {
     }
   }
 
-  public async onLoad(onLoad: OnLoad) {
-    onLoad = onLoad || this.#defaultOptions.onLoad;
+  public async onLoad(onLoad?: OnLoad) {
+    onLoad = onLoad ?? this.#defaultOptions.onLoad;
 
     try {
       if (this.isAuthorizationCodeFlow) {
@@ -292,19 +312,7 @@ export class Passport {
 
       return null;
     } catch (error: any) {
-      const refresh_token_error =
-        error === NOT_FOUND_REFRESH_TOKEN_EXPIRES ||
-        error === NOT_FOUND_REFRESH_TOKEN ||
-        error === INVALID_TOKEN_ROTATION;
-
-      if (refresh_token_error) {
-        this.#cacheManager.remove();
-        this.#transactionManager.remove();
-
-        if (onLoad === 'check-sso') {
-          this.loginWithRedirect();
-        }
-      }
+      this.#handleRefreshTokenRotationError(error, onLoad);
 
       throw error;
     }
@@ -400,7 +408,7 @@ export class Passport {
       }
 
       if (this.isAuthorizationCodeFlow) {
-        throw new Error(AUTHORIZATION_CODE_FLOW);
+        throw AUTHORIZATION_CODE_FLOW;
       }
 
       const { cache_refresh_token } = await this.checkIsEnableTokenRotation();
@@ -416,6 +424,8 @@ export class Passport {
 
       return { token, id_token };
     } catch (error: any) {
+      this.#handleRefreshTokenRotationError(error, this.#defaultOptions.onLoad);
+
       throw error;
     }
   }
