@@ -188,7 +188,10 @@ export class Passport {
     return composeUrl(this.#authUrl, req, params);
   }
 
-  async #prebuildAuthorizationUrl(loginOptions: Partial<AuthorizationOptions>) {
+  async #prebuildAuthorizationUrl(loginOptions: {
+    client_id: string | undefined;
+    authorizationOptions: Partial<AuthorizationOptions>;
+  }) {
     const code_verifier = createRandomString();
     const code_challenge_digested = await sha256(code_verifier);
     const code_challenge = bufferToBase64UrlEncoded(code_challenge_digested);
@@ -318,8 +321,14 @@ export class Passport {
     }
   }
 
-  public async loginWithRedirect(options: Partial<AuthorizationOptions> = {}) {
-    if (checkIsRedirectUriNotSet(this.#options.authorizationOptions?.redirect_uri) && !options.redirect_uri) {
+  public async loginWithRedirect(
+    loginOptions: Partial<Pick<PassportClientOptions, 'clientId' | 'authorizationOptions'>> = {}
+  ) {
+    const { authorizationOptions, clientId } = loginOptions;
+
+    const options: Partial<AuthorizationOptions> = authorizationOptions ?? {};
+
+    if (checkIsRedirectUriNotSet(this.#options.authorizationOptions?.redirect_uri) && !options?.redirect_uri) {
       let redirect_uri = window.location.href.toString();
 
       if (redirect_uri.includes('?code')) {
@@ -335,7 +344,10 @@ export class Passport {
       this.#initializeTransaction();
     }
 
-    const { url, code_verifier } = await this.#prebuildAuthorizationUrl(options);
+    const { url, code_verifier } = await this.#prebuildAuthorizationUrl({
+      authorizationOptions: options,
+      client_id: clientId,
+    });
 
     this.#transactionManager.create({
       code_verifier,
