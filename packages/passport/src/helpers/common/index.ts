@@ -23,15 +23,17 @@ export const getAuthorizationOptions = (
   initialOptions: Pick<PassportClientOptions, 'clientId'> & {
     authorizationOptions: AuthorizationOptions;
   },
-  loginOptions: Partial<AuthorizationOptions>,
+  loginOptions: { client_id: string | undefined; authorizationOptions: Partial<AuthorizationOptions> },
   scope: string,
   code_challenge: string
 ) => {
+  const { client_id, authorizationOptions } = loginOptions;
+
   return {
-    client_id: initialOptions.clientId,
-    response_type: loginOptions.response_type || initialOptions.authorizationOptions.response_type,
+    client_id: client_id ?? initialOptions.clientId,
+    response_type: authorizationOptions.response_type ?? initialOptions.authorizationOptions.response_type,
     scope,
-    redirect_uri: loginOptions.redirect_uri || initialOptions.authorizationOptions.redirect_uri,
+    redirect_uri: authorizationOptions.redirect_uri ?? initialOptions.authorizationOptions.redirect_uri,
     code_challenge,
     code_challenge_method: CODE_CHALLENGE_METHOD,
     ui_locales: initialOptions.authorizationOptions.ui_locales,
