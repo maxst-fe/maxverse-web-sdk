@@ -201,7 +201,7 @@ export class Passport {
       authorizationOptions: this.#options.authorizationOptions,
     };
 
-    const options = getAuthorizationOptions(initialOptions, loginOptions, this.#scope, code_challenge);
+    const options = getAuthorizationOptions(initialOptions, loginOptions, code_challenge);
     const url = this.#getUrl('authorize', options);
 
     return {

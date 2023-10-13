@@ -24,7 +24,6 @@ export const getAuthorizationOptions = (
     authorizationOptions: AuthorizationOptions;
   },
   loginOptions: { client_id: string | undefined; authorizationOptions: Partial<AuthorizationOptions> },
-  scope: string,
   code_challenge: string
 ) => {
   const { client_id, authorizationOptions } = loginOptions;
@@ -32,7 +31,9 @@ export const getAuthorizationOptions = (
   return {
     client_id: client_id ?? initialOptions.clientId,
     response_type: authorizationOptions.response_type ?? initialOptions.authorizationOptions.response_type,
-    scope,
+    scope: authorizationOptions.scope
+      ? getUniqueScopes('openid', authorizationOptions.scope)
+      : initialOptions.authorizationOptions.scope,
     redirect_uri: authorizationOptions.redirect_uri ?? initialOptions.authorizationOptions.redirect_uri,
     code_challenge,
     code_challenge_method: CODE_CHALLENGE_METHOD,
