@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.3...@maxverse/passport-web-sdk@0.4.4) (2023-10-13)
+
+
+### Features
+
+* **packages/passport:** add conditional scope option ([365c64f](https://github.com/maxverse-dev/maxverse-web-sdk/commit/365c64f24b63c2c102ef094ac97c53bc062d2324))
+
+
+
+
+
 ## [0.4.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.2...@maxverse/passport-web-sdk@0.4.3) (2023-10-12)
 
 
