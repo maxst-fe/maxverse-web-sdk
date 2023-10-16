@@ -14,9 +14,9 @@ export const switchFetch = async (
   headers?: { [key: string]: string }
 ): Promise<unknown> => {
   if (worker) {
-    return oauthWithWorker(baseUrl, params, req, worker, headers);
+    return await oauthWithWorker(baseUrl, params, req, worker, headers);
   }
-  return oauthWithoutWorker(baseUrl, params, req, headers);
+  return await oauthWithoutWorker(baseUrl, params, req, headers);
 };
 
 export const oauthFetch = async <T = Reply<TokenBody | string>>(

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.4...@maxverse/passport-web-sdk@0.4.5) (2023-10-16)
+
+
+### Features
+
+* **api/auth-middleware:** add await in auth-middleware ([4d41742](https://github.com/maxverse-dev/maxverse-web-sdk/commit/4d4174297a12f691066ac8d757ca8c13ff25fe5f))
+
+
+
+
+
 ## [0.4.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.3...@maxverse/passport-web-sdk@0.4.4) (2023-10-13)
 
 
