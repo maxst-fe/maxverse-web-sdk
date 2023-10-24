@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.5.0...@maxverse/passport-web-sdk@0.5.1) (2023-10-24)
+
+
+### Bug Fixes
+
+* **packages/passport:** change length inspection to not operation ([32a3f17](https://github.com/maxverse-dev/maxverse-web-sdk/commit/32a3f17f075385c8b9f30b3b5575ee0ef88e73e3))
+
+
+
+
+
 # [0.5.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.8...@maxverse/passport-web-sdk@0.5.0) (2023-10-24)
 
 
