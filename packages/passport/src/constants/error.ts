@@ -46,6 +46,8 @@ export const INVALID_BASE64_STRING = 'Base64 string is not of the correct length
 
 export const INVALID_TOKEN_ROTATION = 'Token rotation is not valid status';
 
+export const INVALID_AUTHORIZATION_CODE_FLOW = 'Currently Invalid authorization code flow';
+
 export const REMAIN_PREV_TRANSACTION_INFO = 'Prev transaction info is remained in storage';
 
 export const NOT_AUTHENTICATED_USER = 'Current user is not authenticated. Please do re-authentication process';

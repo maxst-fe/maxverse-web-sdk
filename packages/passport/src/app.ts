@@ -17,13 +17,13 @@ import {
   AUTHORIZATION_CODE_FLOW,
   INVALID_ACCESS_SELF_INSTANCE_ERROR,
   INVALID_ACCESS_SERVER_ENV_ERROR,
+  INVALID_AUTHORIZATION_CODE_FLOW,
   INVALID_AUTH_SERVER_DOMAIN,
   INVALID_CACHE_LOCATION,
   INVALID_TOKEN_ROTATION,
   NOT_FOUND_ACCESS_TOKEN,
   NOT_FOUND_AUTH_IDENTIIFER,
   NOT_FOUND_ID_TOKEN,
-  NOT_FOUND_QUERY_PARAMS_ERROR,
   NOT_FOUND_REFRESH_TOKEN,
   NOT_FOUND_REFRESH_TOKEN_EXPIRES,
   NOT_FOUND_VALID_CLIENT_ID,
@@ -258,7 +258,7 @@ export class Passport {
 
   async #reconcileAuthorizationCodeFlow(error: any, onLoad: OnLoad) {
     if (this.checkAuthenticationError(error)) {
-      this.#transactionManager.remove();
+      this.#initializeTransaction();
 
       if (onLoad === 'check-sso') {
         this.#cacheManager.remove();
@@ -389,10 +389,14 @@ export class Passport {
     }
 
     if (queryString.length === 0) {
-      throw new Error(NOT_FOUND_QUERY_PARAMS_ERROR);
+      this.#reconcileAuthorizationCodeFlow(INVALID_AUTHORIZATION_CODE_FLOW, this.#defaultOptions.onLoad);
     }
 
     const { code, error } = parseAuthenticationResult(queryString);
+
+    if (!code) {
+      this.#reconcileAuthorizationCodeFlow(INVALID_AUTHORIZATION_CODE_FLOW, this.#defaultOptions.onLoad);
+    }
 
     const transaction = this.#transactionManager.get();
 
