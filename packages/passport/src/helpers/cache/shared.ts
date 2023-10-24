@@ -12,6 +12,7 @@ export interface CacheEntry {
 export interface IdTokenEntry {
   id_token: string;
   claims: Claims;
+  expires_at?: number;
 }
 
 export interface RefreshTokenEntry {

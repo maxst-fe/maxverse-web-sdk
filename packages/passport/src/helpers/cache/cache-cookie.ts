@@ -3,7 +3,7 @@ import { CacheEntry, ICache } from './shared';
 
 export interface CookieOptions {
   domain?: string;
-  expires?: string;
+  expires?: string | number;
 }
 
 export class CookieCache implements ICache {
@@ -29,12 +29,10 @@ export class CookieCache implements ICache {
     }
 
     if (options?.expires) {
-      const secondsInOneDay = 24 * 60 * 60;
-
       cookieAttributes = {
         ...cookieAttributes,
 
-        expires: Number(options.expires) / secondsInOneDay,
+        expires: options.expires,
       };
     }
 

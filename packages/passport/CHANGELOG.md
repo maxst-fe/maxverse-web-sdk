@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.5...@maxverse/passport-web-sdk@0.4.6) (2023-10-24)
+
+
+### Features
+
+* **packages/passport:** add reconcile authorization code flow feature ([cfd5991](https://github.com/maxverse-dev/maxverse-web-sdk/commit/cfd59913b66340df94d37669eb844f0a3971c3e6))
+
+
+
+
+
 ## [0.4.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.4...@maxverse/passport-web-sdk@0.4.5) (2023-10-16)
 
 
