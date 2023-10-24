@@ -20,6 +20,9 @@ import {
   INVALID_AUTH_SERVER_DOMAIN,
   INVALID_CACHE_LOCATION,
   INVALID_TOKEN_ROTATION,
+  NOT_FOUND_ACCESS_TOKEN,
+  NOT_FOUND_AUTH_IDENTIIFER,
+  NOT_FOUND_ID_TOKEN,
   NOT_FOUND_QUERY_PARAMS_ERROR,
   NOT_FOUND_REFRESH_TOKEN,
   NOT_FOUND_REFRESH_TOKEN_EXPIRES,
@@ -253,22 +256,35 @@ export class Passport {
     window.history.replaceState({}, '', originUrl);
   }
 
-  #handleRefreshTokenRotationError(error: any, onLoad: OnLoad) {
-    if (this.checkRefreshTokenError(error)) {
+  async #reconcileAuthorizationCodeFlow(error: any, onLoad: OnLoad) {
+    if (this.checkAuthenticationError(error)) {
       this.#cacheManager.remove();
       this.#transactionManager.remove();
 
       if (onLoad === 'check-sso') {
-        this.loginWithRedirect();
+        await this.loginWithRedirect();
+      }
+
+      if (onLoad === 'login-required') {
+        const id_token = this.#idToken;
+
+        if (!id_token) {
+          return;
+        }
+
+        await this.loginWithRedirect();
       }
     }
   }
 
-  public checkRefreshTokenError(error: any) {
+  public checkAuthenticationError(error: any) {
     const isRefreshTokenError =
       error === NOT_FOUND_REFRESH_TOKEN_EXPIRES ||
       error === NOT_FOUND_REFRESH_TOKEN ||
-      error === INVALID_TOKEN_ROTATION;
+      error === INVALID_TOKEN_ROTATION ||
+      error === NOT_FOUND_ID_TOKEN ||
+      error === NOT_FOUND_ACCESS_TOKEN ||
+      error === NOT_FOUND_AUTH_IDENTIIFER;
 
     return isRefreshTokenError;
   }
@@ -313,9 +329,13 @@ export class Passport {
         return this.claims;
       }
 
+      if (!this.isAuthenticated && this.#options.cacheLocation === 'cookie') {
+        await this.#reconcileAuthorizationCodeFlow(NOT_FOUND_AUTH_IDENTIIFER, onLoad);
+      }
+
       return null;
     } catch (error: any) {
-      this.#handleRefreshTokenRotationError(error, onLoad);
+      await this.#reconcileAuthorizationCodeFlow(error, onLoad);
 
       throw error;
     }
@@ -436,7 +456,7 @@ export class Passport {
 
       return { token, id_token };
     } catch (error: any) {
-      this.#handleRefreshTokenRotationError(error, this.#defaultOptions.onLoad);
+      this.#reconcileAuthorizationCodeFlow(error, this.#defaultOptions.onLoad);
 
       throw error;
     }

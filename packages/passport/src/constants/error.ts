@@ -24,6 +24,10 @@ export const NOT_FOUND_VALID_CLIENT_ID = 'Not found valid clientId. clientId opt
 
 export const NOT_FOUND_ID_TOKEN = 'Not found valid id token';
 
+export const NOT_FOUND_ACCESS_TOKEN = 'Not found valid access token';
+
+export const NOT_FOUND_AUTH_IDENTIIFER = 'Not found valid id token or access token';
+
 export const NOT_FOUND_REFRESH_TOKEN_ENTRY = 'Not found cached refresh token entry';
 
 export const REFRESH_TOKEN_EXPIRED = 'Current refresh token in memory expired. You need to perform re-authentication';

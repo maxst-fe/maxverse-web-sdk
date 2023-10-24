@@ -33,7 +33,25 @@ export class CacheManager {
   getIdToken() {
     const idTokenEntry = this.#cache.get<IdTokenEntry>(this.#idTokenPrefix);
 
+    const expires_at = idTokenEntry?.expires_at;
+
     if (!idTokenEntry) {
+      return;
+    }
+
+    if (!expires_at) {
+      if (this.#cache instanceof CookieCache && !idTokenEntry) {
+        this.removeIdToken();
+        return;
+      }
+
+      if (this.#cache instanceof CookieCache && idTokenEntry) {
+        return idTokenEntry;
+      }
+    }
+
+    if (this.#checkIsApochExpires(expires_at)) {
+      this.removeIdToken();
       return;
     }
 
@@ -41,16 +59,29 @@ export class CacheManager {
   }
 
   setIdToken(id_token: string, claims: Claims) {
-    this.#cache.set(
-      this.#idTokenPrefix,
-      {
-        id_token,
-        claims,
-      },
-      {
-        domain: this.#domain,
-      }
-    );
+    if (this.#cache instanceof CookieCache) {
+      const cookie_expires = this.#calcApochExpires(claims.exp);
+
+      this.#cache.set(
+        this.#idTokenPrefix,
+        {
+          id_token,
+          claims,
+        },
+        {
+          domain: this.#domain,
+          expires: cookie_expires,
+        }
+      );
+
+      return;
+    }
+
+    this.#cache.set(this.#idTokenPrefix, {
+      id_token,
+      claims,
+      expires_at: claims.exp,
+    });
   }
 
   getRefreshToken() {
@@ -69,7 +100,7 @@ export class CacheManager {
       }
     }
 
-    if (this.#checkIsExpires(refresh_expires_at)) {
+    if (this.#checkIsSecondPerMinuteExpires(refresh_expires_at)) {
       this.remove();
       return;
     }
@@ -77,29 +108,26 @@ export class CacheManager {
     return refreshTokenEntry?.refresh_token;
   }
 
-  setRefreshToken(refresh_token: string, refresh_expires_in: string) {
+  setRefreshToken(refresh_token: string, refresh_expires_in: number) {
     if (this.#cache instanceof CookieCache) {
+      const cookie_expires = this.#calcSecondPerMinutesExpiresCookie(refresh_expires_in);
       this.#cache.set(
         this.#refreshTokenPrefix,
         {
           refresh_token,
         },
-        { domain: this.#domain, expires: refresh_expires_in }
+        { domain: this.#domain, expires: cookie_expires }
       );
 
       return;
     }
 
-    const refresh_expires_at = this.#calcExpires(refresh_expires_in);
+    const refresh_expires_at = this.#calcSecondPerMiuteExpiresMemory(refresh_expires_in);
 
-    this.#cache.set(
-      this.#refreshTokenPrefix,
-      {
-        refresh_token,
-        refresh_expires_at,
-      },
-      { domain: this.#domain }
-    );
+    this.#cache.set(this.#refreshTokenPrefix, {
+      refresh_token,
+      refresh_expires_at,
+    });
   }
 
   get() {
@@ -118,7 +146,7 @@ export class CacheManager {
       }
     }
 
-    if (this.#checkIsExpires(expires_at)) {
+    if (this.#checkIsSecondPerMinuteExpires(expires_at)) {
       this.removeAccessToken();
       return;
     }
@@ -128,6 +156,7 @@ export class CacheManager {
 
   set(entry: Omit<TokenBody, 'id_token' | 'refresh_token'>) {
     if (this.#cache instanceof CookieCache) {
+      const cookie_expires = this.#calcSecondPerMinutesExpiresCookie(entry.expires_in);
       this.#cache.set(
         this.#authPrefix,
         {
@@ -135,28 +164,36 @@ export class CacheManager {
           token_type: entry.token_type,
           scope: entry.scope,
         },
-        { domain: this.#domain, expires: entry.expires_in }
+        { domain: this.#domain, expires: cookie_expires }
       );
 
       return;
     }
 
-    const expires_at = this.#calcExpires(entry.expires_in);
+    const expires_at = this.#calcSecondPerMiuteExpiresMemory(entry.expires_in);
 
-    this.#cache.set(
-      this.#authPrefix,
-      {
-        token: entry.access_token,
-        expires_at,
-        token_type: entry.token_type,
-        scope: entry.scope,
-      },
-      { domain: this.#domain }
-    );
+    this.#cache.set(this.#authPrefix, {
+      token: entry.access_token,
+      expires_at,
+      token_type: entry.token_type,
+      scope: entry.scope,
+    });
   }
 
   removeAccessToken() {
-    this.#cache.remove(this.#authPrefix, { domain: this.#domain });
+    if (this.#cache instanceof CookieCache) {
+      this.#cache.remove(this.#authPrefix, { domain: this.#domain });
+      return;
+    }
+    this.#cache.remove(this.#authPrefix);
+  }
+
+  removeIdToken() {
+    if (this.#cache instanceof CookieCache) {
+      this.#cache.remove(this.#idTokenPrefix, { domain: this.#domain });
+      return;
+    }
+    this.#cache.remove(this.#idTokenPrefix);
   }
 
   remove() {
@@ -165,19 +202,47 @@ export class CacheManager {
     keys
       .filter(key => key.includes(this.#clientid))
       .forEach(key => {
-        this.#cache.remove(key, { domain: this.#domain });
+        if (this.#cache instanceof CookieCache) {
+          this.#cache.remove(key, { domain: this.#domain });
+        } else {
+          this.#cache.remove(key);
+        }
       });
   }
 
-  #calcExpires(expires_in: string) {
-    return nowTime() + Number(expires_in) * 1000;
+  #checkIsApochExpires(expires: number | undefined) {
+    if (!expires) {
+      return true;
+    }
+
+    const currentEpochTime = Math.floor(Date.now() / 1000);
+
+    return currentEpochTime >= expires;
   }
 
-  #checkIsExpires(expires: number | undefined) {
+  #calcApochExpires(expires: number) {
+    const currentEpochTime = Math.floor(Date.now() / 1000);
+
+    const remainingSeconds = expires - currentEpochTime;
+
+    return remainingSeconds / 86400;
+  }
+
+  #checkIsSecondPerMinuteExpires(expires: number | undefined) {
     if (!expires) {
       return true;
     }
 
     return expires <= nowTime();
+  }
+
+  #calcSecondPerMiuteExpiresMemory(expires_in: number) {
+    return nowTime() + expires_in * 1000;
+  }
+
+  #calcSecondPerMinutesExpiresCookie(expires_in: number) {
+    const secondsInOneDay = 24 * 60 * 60;
+
+    return expires_in / secondsInOneDay;
   }
 }
