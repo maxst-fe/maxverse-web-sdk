@@ -392,7 +392,7 @@ export class Passport {
       redirect_uri = baseUrl;
     }
 
-    if (queryString.length === 0) {
+    if (!queryString) {
       this.#reconcileAuthorizationCodeFlow(INVALID_AUTHORIZATION_CODE_FLOW, this.#defaultOptions.onLoad);
     }
 
