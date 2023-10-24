@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.5.2...@maxverse/passport-web-sdk@0.5.3) (2023-10-24)
+
+**Note:** Version bump only for package @maxverse/passport-web-sdk
+
+
+
+
+
 ## [0.5.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.5.1...@maxverse/passport-web-sdk@0.5.2) (2023-10-24)
 
 

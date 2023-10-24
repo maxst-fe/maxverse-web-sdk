@@ -369,8 +369,6 @@ export class Passport {
       this.#initializeTransaction();
     }
 
-    console.log('test');
-
     const { url, code_verifier } = await this.#prebuildAuthorizationUrl({
       authorizationOptions: options,
       client_id: clientId,
