@@ -1,6 +1,6 @@
 {
   "name": "@maxverse/passport-web-sdk",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "keywords": [
     "login",
     "Authorization Code Grant Flow",
