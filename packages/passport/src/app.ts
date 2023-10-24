@@ -258,10 +258,10 @@ export class Passport {
 
   async #reconcileAuthorizationCodeFlow(error: any, onLoad: OnLoad) {
     if (this.checkAuthenticationError(error)) {
-      this.#cacheManager.remove();
       this.#transactionManager.remove();
 
       if (onLoad === 'check-sso') {
+        this.#cacheManager.remove();
         await this.loginWithRedirect();
       }
 
@@ -269,8 +269,11 @@ export class Passport {
         const id_token = this.#idToken;
 
         if (!id_token) {
+          this.#cacheManager.remove();
           return;
         }
+
+        this.#cacheManager.remove();
 
         await this.loginWithRedirect();
       }
