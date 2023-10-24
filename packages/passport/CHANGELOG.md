@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.7...@maxverse/passport-web-sdk@0.4.8) (2023-10-24)
+
+
+### Features
+
+* **packages/passport:** modify the timing of cache clearing during the reconcile phase ([d74cadc](https://github.com/maxverse-dev/maxverse-web-sdk/commit/d74cadc21c57c59c3e9b2f2b6a62fcac7f4dd352))
+
+
+
+
+
 ## [0.4.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.6...@maxverse/passport-web-sdk@0.4.7) (2023-10-24)
 
 
