@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.8...@maxverse/passport-web-sdk@0.5.0) (2023-10-24)
+
+
+### Bug Fixes
+
+* **packages/passport:** reconcile authoirzation code flow ([e4e2c08](https://github.com/maxverse-dev/maxverse-web-sdk/commit/e4e2c08f7697edfc0bb55f57f6b6408770058d5d))
+* **packages/passport:** remove sharedworker interface when checking supportedThread ([db6406a](https://github.com/maxverse-dev/maxverse-web-sdk/commit/db6406a692e79c6d2d277d44e23df8b8c2c3ba4e))
+
+
+
+
+
 ## [0.4.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.7...@maxverse/passport-web-sdk@0.4.8) (2023-10-24)
 
 
