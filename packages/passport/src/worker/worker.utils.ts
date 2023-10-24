@@ -19,8 +19,8 @@ export const checkRefreshTokenExpires = (expires: number) => {
   return expires <= currentTime;
 };
 
-export const calcRefreshTokenExpires = (expires: string) => {
+export const calcRefreshTokenExpires = (expires: number) => {
   const currentTime = new Date().getTime();
 
-  return currentTime + Number(expires) * 1000;
+  return currentTime + expires * 1000;
 };
