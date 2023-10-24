@@ -117,8 +117,11 @@ export class Passport {
       redirect_uri = redirect_uri.split('?code')[0];
     }
 
+    const useWorker = options.useWorker ?? false;
+
     this.#options = {
       ...options,
+      useWorker,
       authorizationOptions: {
         ...this.#defaultOptions.authorizationOptions,
         ...options.authorizationOptions,
@@ -143,8 +146,6 @@ export class Passport {
     const baseDomain = getDomain(options.domain);
 
     this.#authUrl = `${baseDomain}`;
-
-    const useWorker = options.useWorker ?? true;
 
     if (window.SharedWorker && useWorker) {
       this.#authWorker = new AuthWorker();
@@ -182,8 +183,8 @@ export class Passport {
     return auth_entry?.token;
   }
 
-  get #supportWorkerThread() {
-    return this.#authWorker instanceof SharedWorker;
+  get #supportAuthWorker() {
+    return Boolean(this.#authWorker) && this.#options.useWorker;
   }
 
   #getUrl<T extends EntireAuthorizationOptions | EntireAccessTokenOptions>(req: string, options: T) {
@@ -287,7 +288,8 @@ export class Passport {
       error === INVALID_TOKEN_ROTATION ||
       error === NOT_FOUND_ID_TOKEN ||
       error === NOT_FOUND_ACCESS_TOKEN ||
-      error === NOT_FOUND_AUTH_IDENTIIFER;
+      error === NOT_FOUND_AUTH_IDENTIIFER ||
+      error === INVALID_AUTHORIZATION_CODE_FLOW;
 
     return isRefreshTokenError;
   }
@@ -296,13 +298,13 @@ export class Passport {
     try {
       const cache_refresh_token = this.#cacheManager.getRefreshToken();
 
-      if (!cache_refresh_token && !this.#supportWorkerThread) {
+      if (!cache_refresh_token && !this.#supportAuthWorker) {
         throw INVALID_TOKEN_ROTATION;
       }
       if (cache_refresh_token) {
         return { isEnable: true, cache_refresh_token };
       }
-      if (this.#supportWorkerThread) {
+      if (this.#supportAuthWorker) {
         const alive_refresh_token = await checkRefreshTokenAlive(
           'check_refresh_token_alive',
           this.#authWorker as SharedWorker
@@ -366,6 +368,8 @@ export class Passport {
     if (transaction) {
       this.#initializeTransaction();
     }
+
+    console.log('test');
 
     const { url, code_verifier } = await this.#prebuildAuthorizationUrl({
       authorizationOptions: options,
