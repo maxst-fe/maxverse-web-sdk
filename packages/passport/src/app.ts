@@ -380,7 +380,7 @@ export class Passport {
       code_verifier,
     });
 
-    window.location.assign(url);
+    window.location.replace(url);
   }
 
   public async onRedirectPage(url: string = window.location.href) {
