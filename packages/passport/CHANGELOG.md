@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.6...@maxverse/passport-web-sdk@0.4.7) (2023-10-24)
+
+
+### Bug Fixes
+
+* **passport/worker:** resolve type assertion error of build ([96affe6](https://github.com/maxverse-dev/maxverse-web-sdk/commit/96affe64b8bb197fc2d61324ab176b5d8b14e095))
+
+
+
+
+
 ## [0.4.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.4.5...@maxverse/passport-web-sdk@0.4.6) (2023-10-24)
 
 
