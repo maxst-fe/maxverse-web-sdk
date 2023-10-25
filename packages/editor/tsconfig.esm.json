@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "moduleResolution": "node"
+  },
+  "extends": "../../tsconfig.esm.json",
+  "include": ["src"]
+}

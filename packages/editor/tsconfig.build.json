@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "noUnusedLocals": false,
+    "noImplicitReturns": false,
+    "moduleResolution": "node"
+  },
+  "extends": "../../tsconfig.build.json",
+  "include": ["src"]
+}
