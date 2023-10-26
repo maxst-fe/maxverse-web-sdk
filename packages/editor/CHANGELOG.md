@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.2...@maxverse/editor-web-sdk@0.0.3) (2023-10-26)
+
+
+### Features
+
+* **plugin/PickPoint:** add uuid when generate sphere material ([f212085](https://github.com/maxverse-dev/maxverse-web-sdk/commit/f212085e645f77fe77b4030591c9f2a0edbc602c))
+
+
+
+
+
 ## [0.0.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.1...@maxverse/editor-web-sdk@0.0.2) (2023-10-26)
 
 
