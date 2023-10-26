@@ -128,7 +128,7 @@ class PickPoint implements BasePluginType {
     });
   }
 
-  generatePointsFromPosition(positions: Array<{ x: number; y: number; z: number }>) {
+  generatePointsFromPosition(positions: Array<{ uuid: string; x: number; y: number; z: number }>) {
     if (positions.length === 0) {
       return;
     }
@@ -139,6 +139,7 @@ class PickPoint implements BasePluginType {
       const sphere = pickPointService.makeSphere(true);
       const mapPointLabel = pickPointService.makeMeasurementLabel('mapPoint', sphere);
 
+      sphere.uuid = position.uuid;
       sphere.add(mapPointLabel);
 
       sphere.position.setX(position.x);
@@ -152,6 +153,7 @@ class PickPoint implements BasePluginType {
         type: 'point_initialize',
         target: sphere,
         id: sphere.id,
+        uuid: sphere.uuid,
       });
     });
   }

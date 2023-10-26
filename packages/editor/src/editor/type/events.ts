@@ -78,6 +78,7 @@ export interface PointInitializeEvent {
   type: string;
   target: Object3D;
   id: string | number;
+  uuid: string;
 }
 
 export interface PointUnClickEvent {
