@@ -13,6 +13,7 @@ export const EVENTS = {
   RENDER: 'render',
   OBJECT_CLICK: 'object_click',
   POINT_ENTER: 'point_enter',
+  POINT_INITIALIZE: 'point_initialize',
   POINT_UNCLICK: 'point_unclick',
   CHAHEING_TRANSFORM: 'chaging_transform',
 } as const;
@@ -73,6 +74,12 @@ export interface PointEnterEvent {
   id: string | number;
 }
 
+export interface PointInitializeEvent {
+  type: string;
+  target: Object3D;
+  id: string | number;
+}
+
 export interface PointUnClickEvent {
   type: string;
 }
@@ -93,6 +100,7 @@ export interface Events {
   [EVENTS.RENDER]: RenderEvent;
   [EVENTS.OBJECT_CLICK]: ObjectClickEvent;
   [EVENTS.POINT_ENTER]: PointEnterEvent;
+  [EVENTS.POINT_INITIALIZE]: PointInitializeEvent;
   [EVENTS.POINT_UNCLICK]: PointUnClickEvent;
   [EVENTS.CHAHEING_TRANSFORM]: ChagingTransformEvent;
 }

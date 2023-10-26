@@ -129,6 +129,10 @@ class PickPoint implements BasePluginType {
   }
 
   generatePointsFromPosition(positions: Array<{ x: number; y: number; z: number }>) {
+    if (positions.length === 0) {
+      return;
+    }
+
     const pickPointService = this.#PickPointService;
 
     positions.forEach(position => {
@@ -143,6 +147,12 @@ class PickPoint implements BasePluginType {
 
       this.#Editor.scene.add(sphere);
       this.#generatedPoints.push(sphere);
+
+      this.#Editor.trigger('point_initialize', {
+        type: 'point_initialize',
+        target: sphere,
+        id: sphere.id,
+      });
     });
   }
 
