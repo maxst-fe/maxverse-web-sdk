@@ -117,9 +117,9 @@ class PickPoint implements BasePluginType {
     this.#Editor.EditorControl.detachTransform();
   }
 
-  removeGeneratedPoint(id: string | number) {
+  removeGeneratedPoint(id: string | number, compare: 'id' | 'uuid' = 'id') {
     this.#generatedPoints.forEach(point => {
-      if (id === point.id) {
+      if (id === point[compare]) {
         this.#Editor.EditorControl.transformController.detach();
         point.clear();
         point.removeFromParent();
