@@ -128,6 +128,24 @@ class PickPoint implements BasePluginType {
     });
   }
 
+  generatePointsFromPosition(positions: Array<{ x: number; y: number; z: number }>) {
+    const pickPointService = this.#PickPointService;
+
+    positions.forEach(position => {
+      const sphere = pickPointService.makeSphere(true);
+      const mapPointLabel = pickPointService.makeMeasurementLabel('mapPoint', sphere);
+
+      sphere.add(mapPointLabel);
+
+      sphere.position.setX(position.x);
+      sphere.position.setY(position.y);
+      sphere.position.setZ(position.z);
+
+      this.#Editor.scene.add(sphere);
+      this.#generatedPoints.push(sphere);
+    });
+  }
+
   #mousedownCallback = (event: MouseEvent) => {
     if (this.#isTransformDragging) {
       return;

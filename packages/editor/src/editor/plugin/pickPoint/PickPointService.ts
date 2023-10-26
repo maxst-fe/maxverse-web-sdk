@@ -23,14 +23,14 @@ class PickPointService {
     return labelRenderer;
   }
 
-  public makeSphere() {
+  public makeSphere(visible = false) {
     const sphereGeometry = new THREE.SphereGeometry(0.1, 32, 32);
     const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
     const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 
     sphere.name = this.#PickPoint.SPHERE_NAME;
-    sphere.visible = false;
+    sphere.visible = visible;
 
     return sphere;
   }
