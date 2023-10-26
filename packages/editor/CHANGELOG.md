@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.3...@maxverse/editor-web-sdk@0.0.4) (2023-10-26)
+
+
+### Features
+
+* **editor/PickPoint:** add dynamic key of idenifier ([3de2b85](https://github.com/maxverse-dev/maxverse-web-sdk/commit/3de2b858adceb162d984548f9ef444b27a0bc36d))
+
+
+
+
+
 ## [0.0.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.2...@maxverse/editor-web-sdk@0.0.3) (2023-10-26)
 
 
