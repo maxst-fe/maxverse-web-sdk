@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.4...@maxverse/editor-web-sdk@0.0.5) (2023-10-30)
+
+
+### Features
+
+* **editor/app:** add method of set top view ([1771b9a](https://github.com/maxverse-dev/maxverse-web-sdk/commit/1771b9ae148283643ddab3f057fbcf0a087cd03e))
+
+
+
+
+
 ## [0.0.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.3...@maxverse/editor-web-sdk@0.0.4) (2023-10-26)
 
 
