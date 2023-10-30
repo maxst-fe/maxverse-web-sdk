@@ -118,6 +118,14 @@ class Editor extends Component<Events> {
   }
 
   /**
+   * @description set top view of screen
+   */
+  public setTopView() {
+    this.EditorCamera.camera.position.set(0, 20, 0);
+    this.EditorCamera.camera.lookAt(0, 0, 0);
+  }
+
+  /**
    * remove clicked object by transform controller.
    */
   public deleteObject() {
