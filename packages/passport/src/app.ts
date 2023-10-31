@@ -68,10 +68,8 @@ export const PassportFactory = ({ domain, clientId }: Pick<PassportClientOptions
 
 export class Passport {
   readonly #defaultOptions: {
-    onLoad: OnLoad;
     authorizationOptions: Omit<AuthorizationOptions, 'scope'>;
   } = {
-    onLoad: 'check-sso',
     authorizationOptions: {
       response_type: DEFAULT_RESPONSE_TYPE,
       redirect_uri: DEFAULT_REDIRECT_URI,
@@ -79,7 +77,7 @@ export class Passport {
     },
   };
   readonly #authUrl: string;
-  readonly #options: PassportClientOptions & {
+  readonly #options: PassportClientOptions & { onLoad: OnLoad } & {
     authorizationOptions: AuthorizationOptions;
   };
   readonly #scope: string;
@@ -87,7 +85,7 @@ export class Passport {
   readonly #transactionManager: TransactionManager;
   readonly #authWorker?: SharedWorker;
 
-  constructor(options: PassportClientOptions) {
+  constructor(options: PassportClientOptions & { onLoad?: OnLoad }) {
     if (!(this instanceof Passport)) {
       throw new Error(INVALID_ACCESS_SELF_INSTANCE_ERROR);
     }
@@ -117,11 +115,13 @@ export class Passport {
       redirect_uri = redirect_uri.split('?code')[0];
     }
 
+    const onLoad = options.onLoad ?? 'check-sso';
     const useWorker = options.useWorker ?? false;
 
     this.#options = {
       ...options,
       useWorker,
+      onLoad,
       authorizationOptions: {
         ...this.#defaultOptions.authorizationOptions,
         ...options.authorizationOptions,
@@ -319,7 +319,7 @@ export class Passport {
   }
 
   public async onLoad(onLoad?: OnLoad) {
-    onLoad = onLoad ?? this.#defaultOptions.onLoad;
+    onLoad = onLoad ?? this.#options.onLoad;
 
     try {
       if (this.isAuthorizationCodeFlow) {
@@ -391,13 +391,13 @@ export class Passport {
     }
 
     if (!queryString) {
-      this.#reconcileAuthorizationCodeFlow(INVALID_AUTHORIZATION_CODE_FLOW, this.#defaultOptions.onLoad);
+      this.#reconcileAuthorizationCodeFlow(INVALID_AUTHORIZATION_CODE_FLOW, this.#options.onLoad);
     }
 
     const { code, error } = parseAuthenticationResult(queryString);
 
     if (!code) {
-      this.#reconcileAuthorizationCodeFlow(INVALID_AUTHORIZATION_CODE_FLOW, this.#defaultOptions.onLoad);
+      this.#reconcileAuthorizationCodeFlow(INVALID_AUTHORIZATION_CODE_FLOW, this.#options.onLoad);
     }
 
     const transaction = this.#transactionManager.get();
@@ -465,7 +465,7 @@ export class Passport {
 
       return { token, id_token };
     } catch (error: any) {
-      this.#reconcileAuthorizationCodeFlow(error, this.#defaultOptions.onLoad);
+      this.#reconcileAuthorizationCodeFlow(error, this.#options.onLoad);
 
       throw error;
     }
