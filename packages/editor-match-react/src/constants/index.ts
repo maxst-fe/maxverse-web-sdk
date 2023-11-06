@@ -1,0 +1,10 @@
+export enum SYNC_INFO_STATUS {
+  ENTER = 'ENTER',
+  RE_ENTER = 'RE_ENTER',
+  CONFIRM = 'CONFIRM',
+  REVOKE = 'REVOKE',
+}
+
+export enum OBJECT_SORT {
+  POINT_SPHERE = 'POINT_SPHERE',
+}

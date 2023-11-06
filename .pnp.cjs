@@ -20,6 +20,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/editor"\
       },\
       {\
+        "name": "@maxverse/editor-match-react",\
+        "reference": "workspace:packages/editor-match-react"\
+      },\
+      {\
         "name": "@maxverse/media-web-sdk",\
         "reference": "workspace:packages/media"\
       },\
@@ -35,7 +39,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "enableTopLevelFallback": true,\
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
-      ["@maxverse/editor-web-sdk", ["workspace:packages/editor"]],\
+      ["@maxverse/editor-match-react", ["workspace:packages/editor-match-react"]],\
+      ["@maxverse/editor-web-sdk", ["virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#workspace:packages/editor", "workspace:packages/editor"]],\
       ["@maxverse/media-web-sdk", ["workspace:packages/media"]],\
       ["@maxverse/passport-react", ["workspace:packages/passport-react"]],\
       ["@maxverse/passport-web-sdk", ["workspace:packages/passport"]],\
@@ -4157,6 +4162,48 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@googlemaps/js-api-loader", [\
+        ["npm:1.16.2", {\
+          "packageLocation": "./.yarn/cache/@googlemaps-js-api-loader-npm-1.16.2-361944bb39-122ee57cc6.zip/node_modules/@googlemaps/js-api-loader/",\
+          "packageDependencies": [\
+            ["@googlemaps/js-api-loader", "npm:1.16.2"],\
+            ["fast-deep-equal", "npm:3.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@googlemaps/react-wrapper", [\
+        ["npm:1.1.35", {\
+          "packageLocation": "./.yarn/cache/@googlemaps-react-wrapper-npm-1.1.35-7aafeb1b40-76fa473b1b.zip/node_modules/@googlemaps/react-wrapper/",\
+          "packageDependencies": [\
+            ["@googlemaps/react-wrapper", "npm:1.1.35"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:1.1.35", {\
+          "packageLocation": "./.yarn/__virtual__/@googlemaps-react-wrapper-virtual-91022bd6a7/0/cache/@googlemaps-react-wrapper-npm-1.1.35-7aafeb1b40-76fa473b1b.zip/node_modules/@googlemaps/react-wrapper/",\
+          "packageDependencies": [\
+            ["@googlemaps/react-wrapper", "virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:1.1.35"],\
+            ["@googlemaps/js-api-loader", "npm:1.16.2"],\
+            ["@types/react", "npm:18.2.20"],\
+            ["react", "npm:17.0.2"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@googlemaps/typescript-guards", [\
+        ["npm:2.0.3", {\
+          "packageLocation": "./.yarn/cache/@googlemaps-typescript-guards-npm-2.0.3-ba05291045-7c0061eba3.zip/node_modules/@googlemaps/typescript-guards/",\
+          "packageDependencies": [\
+            ["@googlemaps/typescript-guards", "npm:2.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@humanwhocodes/config-array", [\
         ["npm:0.5.0", {\
           "packageLocation": "./.yarn/cache/@humanwhocodes-config-array-npm-0.5.0-5ded120470-44ee6a9f05.zip/node_modules/@humanwhocodes/config-array/",\
@@ -4609,7 +4656,76 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@maxverse/editor-match-react", [\
+        ["workspace:packages/editor-match-react", {\
+          "packageLocation": "./packages/editor-match-react/",\
+          "packageDependencies": [\
+            ["@maxverse/editor-match-react", "workspace:packages/editor-match-react"],\
+            ["@babel/core", "npm:7.21.8"],\
+            ["@babel/preset-env", "virtual:c161cc1a332d1aa7b4ad0e6afca07aaf081dd698039c3df08032c762ecce8e1b5774dd8292f163f1f19af7bd0bd9342a22cc0ae5174b8831b12dacad911d86bb#npm:7.21.5"],\
+            ["@babel/preset-typescript", "virtual:c161cc1a332d1aa7b4ad0e6afca07aaf081dd698039c3df08032c762ecce8e1b5774dd8292f163f1f19af7bd0bd9342a22cc0ae5174b8831b12dacad911d86bb#npm:7.21.5"],\
+            ["@babel/runtime", "npm:7.21.5"],\
+            ["@egjs/component", "npm:3.0.4"],\
+            ["@googlemaps/react-wrapper", "virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:1.1.35"],\
+            ["@googlemaps/typescript-guards", "npm:2.0.3"],\
+            ["@maxverse/editor-web-sdk", "virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#workspace:packages/editor"],\
+            ["@types/babel__core", "npm:7.20.0"],\
+            ["@types/babel__preset-env", "npm:7.9.2"],\
+            ["@types/google.maps", "npm:3.54.3"],\
+            ["@types/jest", "npm:29.5.1"],\
+            ["@types/lodash", "npm:4.14.200"],\
+            ["@types/node", "npm:14.18.47"],\
+            ["@types/react", "npm:18.2.20"],\
+            ["@types/three", "npm:0.154.0"],\
+            ["@yarnpkg/pnpify", "npm:4.0.0-rc.44"],\
+            ["babel-jest", "virtual:586da68990211a82835011d688872fdca2ca77181201b8b2393f1f621118f7469eb84af4fbb3cf4997be6ed83b726447111fc1f91fb71c028a5702cfdd869eba#npm:29.5.0"],\
+            ["jest", "virtual:d76d66bfb09144044c026d80a3698adfd3fa018ebfc17f1f707c1532aa237f18994b164bdfbf7ab128313dd3ad0caab7192efb04de9d3fecb768e984d59283a3#npm:29.5.0"],\
+            ["lodash", "npm:4.17.21"],\
+            ["react", "npm:17.0.2"],\
+            ["react-dom", "virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:17.0.2"],\
+            ["rollup", "npm:2.79.1"],\
+            ["rollup-plugin-web-worker-loader", "virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:1.6.1"],\
+            ["three", "npm:0.154.0"],\
+            ["ts-jest", "virtual:c161cc1a332d1aa7b4ad0e6afca07aaf081dd698039c3df08032c762ecce8e1b5774dd8292f163f1f19af7bd0bd9342a22cc0ae5174b8831b12dacad911d86bb#npm:29.1.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@maxverse/editor-web-sdk", [\
+        ["virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#workspace:packages/editor", {\
+          "packageLocation": "./.yarn/__virtual__/@maxverse-editor-web-sdk-virtual-02206aac30/1/packages/editor/",\
+          "packageDependencies": [\
+            ["@maxverse/editor-web-sdk", "virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#workspace:packages/editor"],\
+            ["@babel/core", "npm:7.21.8"],\
+            ["@babel/preset-env", "virtual:c161cc1a332d1aa7b4ad0e6afca07aaf081dd698039c3df08032c762ecce8e1b5774dd8292f163f1f19af7bd0bd9342a22cc0ae5174b8831b12dacad911d86bb#npm:7.21.5"],\
+            ["@babel/preset-typescript", "virtual:c161cc1a332d1aa7b4ad0e6afca07aaf081dd698039c3df08032c762ecce8e1b5774dd8292f163f1f19af7bd0bd9342a22cc0ae5174b8831b12dacad911d86bb#npm:7.21.5"],\
+            ["@babel/runtime", "npm:7.21.5"],\
+            ["@egjs/component", "npm:3.0.4"],\
+            ["@types/babel__core", "npm:7.20.0"],\
+            ["@types/babel__preset-env", "npm:7.9.2"],\
+            ["@types/egjs__component", null],\
+            ["@types/jest", "npm:29.5.1"],\
+            ["@types/node", "npm:14.18.47"],\
+            ["@types/three", "npm:0.154.0"],\
+            ["@types/webxr", "npm:0.5.2"],\
+            ["@yarnpkg/pnpify", "npm:4.0.0-rc.44"],\
+            ["babel-jest", "virtual:586da68990211a82835011d688872fdca2ca77181201b8b2393f1f621118f7469eb84af4fbb3cf4997be6ed83b726447111fc1f91fb71c028a5702cfdd869eba#npm:29.5.0"],\
+            ["identity-obj-proxy", "npm:3.0.0"],\
+            ["jest", "virtual:d76d66bfb09144044c026d80a3698adfd3fa018ebfc17f1f707c1532aa237f18994b164bdfbf7ab128313dd3ad0caab7192efb04de9d3fecb768e984d59283a3#npm:29.5.0"],\
+            ["rollup", "npm:2.79.1"],\
+            ["three", "npm:0.154.0"],\
+            ["ts-jest", "virtual:c161cc1a332d1aa7b4ad0e6afca07aaf081dd698039c3df08032c762ecce8e1b5774dd8292f163f1f19af7bd0bd9342a22cc0ae5174b8831b12dacad911d86bb#npm:29.1.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307"]\
+          ],\
+          "packagePeers": [\
+            "@egjs/component",\
+            "@types/egjs__component",\
+            "@types/three",\
+            "three"\
+          ],\
+          "linkType": "SOFT"\
+        }],\
         ["workspace:packages/editor", {\
           "packageLocation": "./packages/editor/",\
           "packageDependencies": [\
@@ -4682,9 +4798,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["identity-obj-proxy", "npm:3.0.0"],\
             ["jest", "virtual:d76d66bfb09144044c026d80a3698adfd3fa018ebfc17f1f707c1532aa237f18994b164bdfbf7ab128313dd3ad0caab7192efb04de9d3fecb768e984d59283a3#npm:29.5.0"],\
             ["react", "npm:17.0.2"],\
-            ["react-dom", "virtual:9259c44c2ef908c68a342b48c384f8253478b9afafcbea6b617673139c8cdc9278c360330a9c128f6b803e0a494d2ad6d8b3f39339eb69281c1d1d8231e8f548#npm:17.0.2"],\
+            ["react-dom", "virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:17.0.2"],\
             ["rollup", "npm:2.79.1"],\
-            ["rollup-plugin-web-worker-loader", "virtual:d83fcaa3e2654d10c6ccab71ba9a8593df9e78c00898ac68c783ef3f453591f63a1de4f9c88dc14f9304cef65d28eeca7ccde931a3d4cc112ac3ae94bf74c514#npm:1.6.1"],\
+            ["rollup-plugin-web-worker-loader", "virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:1.6.1"],\
             ["ts-jest", "virtual:c161cc1a332d1aa7b4ad0e6afca07aaf081dd698039c3df08032c762ecce8e1b5774dd8292f163f1f19af7bd0bd9342a22cc0ae5174b8831b12dacad911d86bb#npm:29.1.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307"]\
           ],\
@@ -4709,7 +4825,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["identity-obj-proxy", "npm:3.0.0"],\
             ["jest", "virtual:d76d66bfb09144044c026d80a3698adfd3fa018ebfc17f1f707c1532aa237f18994b164bdfbf7ab128313dd3ad0caab7192efb04de9d3fecb768e984d59283a3#npm:29.5.0"],\
             ["rollup", "npm:2.79.1"],\
-            ["rollup-plugin-web-worker-loader", "virtual:d83fcaa3e2654d10c6ccab71ba9a8593df9e78c00898ac68c783ef3f453591f63a1de4f9c88dc14f9304cef65d28eeca7ccde931a3d4cc112ac3ae94bf74c514#npm:1.6.1"],\
+            ["rollup-plugin-web-worker-loader", "virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:1.6.1"],\
             ["ts-jest", "virtual:c161cc1a332d1aa7b4ad0e6afca07aaf081dd698039c3df08032c762ecce8e1b5774dd8292f163f1f19af7bd0bd9342a22cc0ae5174b8831b12dacad911d86bb#npm:29.1.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307"],\
             ["typescript-cookie", "npm:1.0.6"]\
@@ -5697,6 +5813,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/google.maps", [\
+        ["npm:3.54.3", {\
+          "packageLocation": "./.yarn/cache/@types-google.maps-npm-3.54.3-f28083b912-bbfcf8524a.zip/node_modules/@types/google.maps/",\
+          "packageDependencies": [\
+            ["@types/google.maps", "npm:3.54.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/graceful-fs", [\
         ["npm:4.1.6", {\
           "packageLocation": "./.yarn/cache/@types-graceful-fs-npm-4.1.6-1eadcf742d-c3070ccdc9.zip/node_modules/@types/graceful-fs/",\
@@ -5792,6 +5917,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/keyv", "npm:3.1.4"],\
             ["@types/node", "npm:20.1.7"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/lodash", [\
+        ["npm:4.14.200", {\
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.200-8559f51fce-6471f8bb5d.zip/node_modules/@types/lodash/",\
+          "packageDependencies": [\
+            ["@types/lodash", "npm:4.14.200"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13720,10 +13854,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:9259c44c2ef908c68a342b48c384f8253478b9afafcbea6b617673139c8cdc9278c360330a9c128f6b803e0a494d2ad6d8b3f39339eb69281c1d1d8231e8f548#npm:17.0.2", {\
-          "packageLocation": "./.yarn/__virtual__/react-dom-virtual-2b40659b36/0/cache/react-dom-npm-17.0.2-f551215af1-1c1eaa3bca.zip/node_modules/react-dom/",\
+        ["virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:17.0.2", {\
+          "packageLocation": "./.yarn/__virtual__/react-dom-virtual-07ae2cffb1/0/cache/react-dom-npm-17.0.2-f551215af1-1c1eaa3bca.zip/node_modules/react-dom/",\
           "packageDependencies": [\
-            ["react-dom", "virtual:9259c44c2ef908c68a342b48c384f8253478b9afafcbea6b617673139c8cdc9278c360330a9c128f6b803e0a494d2ad6d8b3f39339eb69281c1d1d8231e8f548#npm:17.0.2"],\
+            ["react-dom", "virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:17.0.2"],\
             ["@types/react", "npm:18.2.20"],\
             ["loose-envify", "npm:1.4.0"],\
             ["object-assign", "npm:4.1.1"],\
@@ -14139,10 +14273,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:d83fcaa3e2654d10c6ccab71ba9a8593df9e78c00898ac68c783ef3f453591f63a1de4f9c88dc14f9304cef65d28eeca7ccde931a3d4cc112ac3ae94bf74c514#npm:1.6.1", {\
-          "packageLocation": "./.yarn/__virtual__/rollup-plugin-web-worker-loader-virtual-b26dfd3f64/0/cache/rollup-plugin-web-worker-loader-npm-1.6.1-ee2e4494aa-1239c2657b.zip/node_modules/rollup-plugin-web-worker-loader/",\
+        ["virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:1.6.1", {\
+          "packageLocation": "./.yarn/__virtual__/rollup-plugin-web-worker-loader-virtual-02ba9be26e/0/cache/rollup-plugin-web-worker-loader-npm-1.6.1-ee2e4494aa-1239c2657b.zip/node_modules/rollup-plugin-web-worker-loader/",\
           "packageDependencies": [\
-            ["rollup-plugin-web-worker-loader", "virtual:d83fcaa3e2654d10c6ccab71ba9a8593df9e78c00898ac68c783ef3f453591f63a1de4f9c88dc14f9304cef65d28eeca7ccde931a3d4cc112ac3ae94bf74c514#npm:1.6.1"],\
+            ["rollup-plugin-web-worker-loader", "virtual:4dc0355decd5c519fcb176f0c1e20e7978175ffb139225cabc9e2dfd3e0fd56b4f6841222d5c2e15cbe4f2a919fa6877eafec91293d8eb13e462788a0a9aac0e#npm:1.6.1"],\
             ["@types/rollup", null],\
             ["rollup", "npm:2.79.1"]\
           ],\
