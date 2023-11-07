@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.2...@maxverse/editor-match-react@0.0.3) (2023-11-07)
+
+
+### Features
+
+* **map/customMarker:** add null type of map ([bd94461](https://github.com/maxverse-dev/maxverse-web-sdk/commit/bd94461e3054c8db1f718462769bb7bf7d33e053))
+
+
+
+
+
 ## 0.0.2 (2023-11-07)
 
 

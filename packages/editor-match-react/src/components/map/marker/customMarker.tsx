@@ -7,7 +7,7 @@ import { EVENTS } from './egjs.marker.events';
 
 interface Props {
   sync: SyncInfo;
-  map: google.maps.Map;
+  map: google.maps.Map | null;
 }
 
 export function CustomMarker({ sync, map }: Props) {
