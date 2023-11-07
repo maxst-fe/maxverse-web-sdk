@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { SyncInfo } from '../../../types';
 import { SYNC_INFO_STATUS } from '../../../constants';
 import { MarkerOverlayView } from './markerOverlayView';
+import { useMarkerEvents } from '../../../hooks';
 import { COMMON_ERROR_MESSAGE, MAP_ERROR_MESSAGE } from '../../../constants/error';
 import { EVENTS } from './egjs.marker.events';
 
@@ -15,6 +16,8 @@ export function CustomMarker({ sync, map }: Props) {
   const prevStatusRef = useRef<SYNC_INFO_STATUS>();
 
   const { id, label, status, latlng } = sync;
+
+  useMarkerEvents(markerOverlayView);
 
   useEffect(() => {
     if (!sync) {
