@@ -56,13 +56,16 @@ export function useMarkerEvents(markerOverlayView: MarkerOverlayView | null) {
     [removePickPointCallback]
   );
 
-  useMarkerEventsEffect(markerOverlayView => {
-    markerOverlayView.on(EVENTS.REVOKE_MARKER, (event: RevokeMarkerEvent) => {
-      revokePickPointCallback(event.payload.id);
-    });
+  useMarkerEventsEffect(
+    markerOverlayView => {
+      markerOverlayView.on(EVENTS.REVOKE_MARKER, (event: RevokeMarkerEvent) => {
+        revokePickPointCallback(event.payload.id);
+      });
 
-    return () => {
-      markerOverlayView.off(EVENTS.REVOKE_MARKER);
-    };
-  }, []);
+      return () => {
+        markerOverlayView.off(EVENTS.REVOKE_MARKER);
+      };
+    },
+    [revokePickPointCallback]
+  );
 }
