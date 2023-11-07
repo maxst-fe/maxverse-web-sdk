@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.4...@maxverse/editor-match-react@0.0.5) (2023-11-07)
+
+
+### Features
+
+* **components/CustomMarker:** add marker events hook ([1547c18](https://github.com/maxverse-dev/maxverse-web-sdk/commit/1547c1832a65938262951c3e8951ab554bd654b3))
+* **hoooks/useMarkerEvents:** add revokePickPointCallback func to deps ([737e355](https://github.com/maxverse-dev/maxverse-web-sdk/commit/737e355ced49c71d5bc251de6b68771d84d89a6c))
+
+
+
+
+
 ## [0.0.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.3...@maxverse/editor-match-react@0.0.4) (2023-11-07)
 
 
