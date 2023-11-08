@@ -121,7 +121,7 @@ export function CustomMarker({ sync, map }: Props) {
 
       markerOverlayView.overlayView.setMap(null);
     };
-  }, []);
+  }, [markerOverlayView]);
 
   return null;
 }
