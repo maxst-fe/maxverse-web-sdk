@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.5...@maxverse/editor-match-react@0.0.6) (2023-11-08)
+
+
+### Features
+
+* **marker/customMarker:** add markerOverlayView instance in deps of useEffect ([7355208](https://github.com/maxverse-dev/maxverse-web-sdk/commit/7355208e430f05ef6c3524f513bdbad7b0d2a9f0))
+
+
+
+
+
 ## [0.0.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.4...@maxverse/editor-match-react@0.0.5) (2023-11-07)
 
 
