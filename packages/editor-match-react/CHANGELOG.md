@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.6...@maxverse/editor-match-react@0.0.7) (2023-11-08)
+
+
+### Features
+
+* **hooks/useMarkerEvents:** add updateGpsCoor callback event of effect ([fbef6b3](https://github.com/maxverse-dev/maxverse-web-sdk/commit/fbef6b316f490add9ca7eaf6ab804643ef129072))
+
+
+
+
+
 ## [0.0.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.5...@maxverse/editor-match-react@0.0.6) (2023-11-08)
 
 
