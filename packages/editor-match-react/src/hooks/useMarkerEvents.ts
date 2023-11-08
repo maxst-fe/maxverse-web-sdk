@@ -1,12 +1,23 @@
 import { useEffect } from 'react';
-import type { ConfirmMarkerEvent, FixMarkerEvent, RemoveMarkerEvent, RevokeMarkerEvent } from '../components/map';
+import type {
+  ConfirmMarkerEvent,
+  FixMarkerEvent,
+  LatlngChangeEvent,
+  RemoveMarkerEvent,
+  RevokeMarkerEvent,
+} from '../components/map';
 import { EVENTS, MarkerOverlayView } from '../components/map';
 import { useMatchService } from './useMatchService';
 import { MAP_ERROR_MESSAGE } from '../constants/error';
 
 export function useMarkerEvents(markerOverlayView: MarkerOverlayView | null) {
-  const { confirmPickPointCallback, fixPickPointCallback, removePickPointCallback, revokePickPointCallback } =
-    useMatchService();
+  const {
+    confirmPickPointCallback,
+    fixPickPointCallback,
+    removePickPointCallback,
+    revokePickPointCallback,
+    updateGpsCoorCallback,
+  } = useMatchService();
   const useMarkerEventsEffect = (callback: (markerOverlayView: MarkerOverlayView) => void, deps: any[] = []) =>
     useEffect(() => {
       if (!markerOverlayView) {
@@ -67,5 +78,18 @@ export function useMarkerEvents(markerOverlayView: MarkerOverlayView | null) {
       };
     },
     [revokePickPointCallback]
+  );
+
+  useMarkerEventsEffect(
+    markerOverlayView => {
+      markerOverlayView.on(EVENTS.LATLNG_CHANGE, (event: LatlngChangeEvent) => {
+        updateGpsCoorCallback(event.payload);
+      });
+
+      return () => {
+        markerOverlayView.off(EVENTS.LATLNG_CHANGE);
+      };
+    },
+    [updateGpsCoorCallback]
   );
 }
