@@ -9,16 +9,17 @@ import type {
 import { EVENTS, PickPoint } from '@maxverse/editor-web-sdk';
 import { MatchServiceContext } from './context';
 import { usePointMaterial, useSyncInfo } from '../hooks';
-import type { MappingPointData } from '../types';
+import type { MappingPointData, MatchEventCallbacks } from '../types';
 import { OBJECT_SORT, SYNC_INFO_STATUS } from '../constants';
 
 interface Props {
   plyData: ArrayBuffer | null;
   mappingPointsData: MappingPointData[];
+  matchEventCallbacks?: Partial<MatchEventCallbacks>;
   children: ReactNode;
 }
 
-export function MatchServiceProvider({ plyData, mappingPointsData, children }: Props) {
+export function MatchServiceProvider({ plyData, mappingPointsData, matchEventCallbacks, children }: Props) {
   mappingPointsData = mappingPointsData ?? [];
 
   const pickPointRef = useRef<PickPoint | null>(null);
@@ -36,6 +37,7 @@ export function MatchServiceProvider({ plyData, mappingPointsData, children }: P
   const [
     syncInfos,
     setSyncInfos,
+    getSyncInfo,
     addNewSyncInfo,
     takeTurnSyncInfoStatus,
     plainUpdateSyncInfoStatus,
@@ -59,6 +61,13 @@ export function MatchServiceProvider({ plyData, mappingPointsData, children }: P
       pickPointRef.current?.detachTransformFromPoint();
 
       plainUpdateSyncInfoStatus(id, SYNC_INFO_STATUS.CONFIRM);
+
+      const targetPointMaterial = getPointMaterial(id);
+      const targetSyncInfo = getSyncInfo(id);
+
+      if (matchEventCallbacks?.fixCallback) {
+        matchEventCallbacks.fixCallback({ targetPointMaterial, targetSyncInfo });
+      }
     },
     [plainUpdateSyncInfoStatus]
   );
@@ -85,6 +94,13 @@ export function MatchServiceProvider({ plyData, mappingPointsData, children }: P
       pickPointRef.current?.removeGeneratedPoint(id, identity);
 
       removeSyncInfo(id);
+
+      const targetPointMaterial = getPointMaterial(id);
+      const targetSyncInfo = getSyncInfo(id);
+
+      if (matchEventCallbacks?.removeCallback) {
+        matchEventCallbacks.removeCallback({ targetPointMaterial, targetSyncInfo });
+      }
     },
     [removePointMaterial, removeSyncInfo]
   );

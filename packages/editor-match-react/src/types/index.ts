@@ -1,10 +1,13 @@
 import { SYNC_INFO_STATUS } from '../constants';
+import { Object3D } from 'three';
 
 export type LatlngCandidate = 'lat' | 'lng';
 
 export type PositionCandidate = 'x' | 'y' | 'z';
 
 export type IdentityCandidate = 'id' | 'uuid';
+
+export type MatchEventPayload = { targetPointMaterial: Object3D | undefined; targetSyncInfo: SyncInfo | undefined };
 export interface Latlng {
   lat: number;
   lng: number;
@@ -44,4 +47,8 @@ export interface MappingPointData {
     pick_point: PickPointData;
     map: MapData;
   };
+}
+export interface MatchEventCallbacks {
+  fixCallback: (payload: MatchEventPayload) => void;
+  removeCallback: (payload: MatchEventPayload) => void;
 }
