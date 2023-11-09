@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.7...@maxverse/editor-match-react@0.0.8) (2023-11-09)
+
+
+### Features
+
+* **contexts/provider:** add fix/remove event callback props ([71168b0](https://github.com/maxverse-dev/maxverse-web-sdk/commit/71168b0169e8afc91009b5aa88478b5a84c8546e))
+
+
+
+
+
 ## [0.0.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.6...@maxverse/editor-match-react@0.0.7) (2023-11-08)
 
 
