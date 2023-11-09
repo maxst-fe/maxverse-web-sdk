@@ -8,6 +8,12 @@ export function useSyncInfo() {
   const useSyncInfoCallback = <T extends Function>(callback: T, deps: any[] = []) =>
     useCallback<T>(callback, [...deps, syncInfos]);
 
+  const getSyncInfo = useSyncInfoCallback((id: string | number) => {
+    const targetSyncInfo = syncInfos.find(syncInfo => syncInfo.id === id);
+
+    return targetSyncInfo;
+  });
+
   const undoRevokedSyncInfo = useSyncInfoCallback<(targetSyncInfos?: SyncInfo[]) => SyncInfo[]>(
     (targetSyncInfos?: SyncInfo[]) => {
       targetSyncInfos = targetSyncInfos ?? syncInfos;
@@ -98,6 +104,7 @@ export function useSyncInfo() {
   return [
     syncInfos,
     setSyncInfos,
+    getSyncInfo,
     addNewSyncInfo,
     takeTurnSyncInfotatus,
     plainUpdateSyncInfotatus,
