@@ -32,7 +32,7 @@ export function useSyncInfo() {
 
   const addNewSyncInfo = useSyncInfoCallback(
     (id: string | number, map: MapData | null = null, status: SYNC_INFO_STATUS = SYNC_INFO_STATUS.ENTER) => {
-      const latlng = map ? { lat: Number(map.x), lng: Number(map.y) } : { lat: 0, lng: 0 };
+      const latlng = map ? { lng: Number(map.x), lat: Number(map.y) } : { lat: 0, lng: 0 };
 
       const newSyncInfo: SyncInfo = {
         id,
