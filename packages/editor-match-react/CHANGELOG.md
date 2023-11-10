@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.9](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.8...@maxverse/editor-match-react@0.0.9) (2023-11-10)
+
+
+### Features
+
+* **components/customMarker:** add dependency values ([d807f28](https://github.com/maxverse-dev/maxverse-web-sdk/commit/d807f28838e307e8bbfd44fa247899eb663411d3))
+
+
+
+
+
 ## [0.0.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.7...@maxverse/editor-match-react@0.0.8) (2023-11-09)
 
 
