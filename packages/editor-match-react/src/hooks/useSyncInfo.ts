@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { useCallback, useState } from 'react';
-import type { GpsCoor, LatlngCandidate, MapData, SyncInfo } from '../types';
 import { SYNC_INFO_STATUS } from '../constants';
+import type { GpsCoor, LatlngCandidate, MapData, SyncInfo } from '../types';
 
 export function useSyncInfo() {
   const [syncInfos, setSyncInfos] = useState<SyncInfo[]>([]);
