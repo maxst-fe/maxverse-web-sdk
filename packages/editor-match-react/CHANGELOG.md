@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.1.0...@maxverse/editor-match-react@0.1.1) (2023-11-10)
+
+
+### Bug Fixes
+
+* **hooks/useSyncInfo:** correct valid value of lat/lng ([0cab886](https://github.com/maxverse-dev/maxverse-web-sdk/commit/0cab886facd24d28e106789efd96d8715ec8a31b))
+
+
+
+
+
 # [0.1.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.9...@maxverse/editor-match-react@0.1.0) (2023-11-10)
 
 
