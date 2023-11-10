@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-import { useCallback, useRef } from 'react';
 import type {
   ObjectClickEvent,
   PointEnterEvent,
@@ -7,10 +5,12 @@ import type {
   PointUnClickEvent,
 } from '@maxverse/editor-web-sdk';
 import { EVENTS, PickPoint } from '@maxverse/editor-web-sdk';
-import { MatchServiceContext } from './context';
+import type { ReactNode } from 'react';
+import { useCallback, useRef } from 'react';
+import { OBJECT_SORT, SYNC_INFO_STATUS } from '../constants';
 import { usePointMaterial, useSyncInfo } from '../hooks';
 import type { MappingPointData, MatchEventCallbacks } from '../types';
-import { OBJECT_SORT, SYNC_INFO_STATUS } from '../constants';
+import { MatchServiceContext } from './context';
 
 interface Props {
   plyData: ArrayBuffer | null;
@@ -69,7 +69,7 @@ export function MatchServiceProvider({ plyData, mappingPointsData, matchEventCal
         matchEventCallbacks.fixCallback({ targetPointMaterial, targetSyncInfo });
       }
     },
-    [plainUpdateSyncInfoStatus]
+    [getPointMaterial, getSyncInfo, matchEventCallbacks, plainUpdateSyncInfoStatus]
   );
 
   const revokePickPointCallback = useCallback(
@@ -102,7 +102,7 @@ export function MatchServiceProvider({ plyData, mappingPointsData, matchEventCal
         matchEventCallbacks.removeCallback({ targetPointMaterial, targetSyncInfo });
       }
     },
-    [removePointMaterial, removeSyncInfo]
+    [getPointMaterial, getSyncInfo, matchEventCallbacks, removePointMaterial, removeSyncInfo]
   );
 
   const clickSphereObjectEventCallback = useCallback(
@@ -112,9 +112,11 @@ export function MatchServiceProvider({ plyData, mappingPointsData, matchEventCal
         return;
       }
 
-      plainUpdateSyncInfoStatus(target.id, SYNC_INFO_STATUS.REVOKE);
+      const identity = takePointMaterialIdentity(target.uuid);
+
+      plainUpdateSyncInfoStatus(target[identity], SYNC_INFO_STATUS.REVOKE);
     },
-    [plainUpdateSyncInfoStatus]
+    [plainUpdateSyncInfoStatus, takePointMaterialIdentity]
   );
 
   const enterSphereObjectEventCallback = useCallback(

@@ -1,7 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
+/* eslint-disable @typescript-eslint/ban-types */
+import { ChagingTransformEvent } from '@maxverse/editor-web-sdk';
+import { useCallback, useState } from 'react';
 import { Object3D } from 'three';
 import type { IdentityCandidate, MappingPointData, PositionCandidate } from '../types';
-import { ChagingTransformEvent } from '@maxverse/editor-web-sdk';
 
 export function usePointMaterial(mappingPointsData: MappingPointData[]) {
   const [pointMaterials, setPointMaterials] = useState<Object3D[]>([]);
@@ -18,6 +19,7 @@ export function usePointMaterial(mappingPointsData: MappingPointData[]) {
     },
     [mappingPointsData]
   );
+
   const usePointMaterialCallback = <T extends Function>(callback: T, deps: any[] = []) =>
     useCallback<T>(callback, [...deps, pointMaterials, takePointMaterialIdentity]);
 
@@ -51,7 +53,9 @@ export function usePointMaterial(mappingPointsData: MappingPointData[]) {
     if (target.name !== 'POINT_SPHERE') {
       return;
     }
+
     const identity = takePointMaterialIdentity(target.uuid);
+
     const updatedPointMaterials = pointMaterials.map(pointMaterial => {
       return pointMaterial[identity] === target[identity] ? target : pointMaterial;
     });
