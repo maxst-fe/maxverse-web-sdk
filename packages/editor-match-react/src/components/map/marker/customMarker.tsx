@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import type { SyncInfo } from '../../../types';
 import { SYNC_INFO_STATUS } from '../../../constants';
-import { MarkerOverlayView } from './markerOverlayView';
-import { useMarkerEvents } from '../../../hooks';
 import { COMMON_ERROR_MESSAGE, MAP_ERROR_MESSAGE } from '../../../constants/error';
+import { useMarkerEvents } from '../../../hooks';
+import type { SyncInfo } from '../../../types';
 import { EVENTS } from './egjs.marker.events';
+import { MarkerOverlayView } from './markerOverlayView';
 
 interface Props {
   sync: SyncInfo;
@@ -47,7 +47,7 @@ export function CustomMarker({ sync, map }: Props) {
     markerOverlayViewInstance.overlayView.setMap(map);
 
     setMarkerOverlayView(markerOverlayViewInstance);
-  }, [id, label, latlng, map]);
+  }, [id, label, latlng, map, markerOverlayView, sync]);
 
   useEffect(() => {
     if (!markerOverlayView) {
