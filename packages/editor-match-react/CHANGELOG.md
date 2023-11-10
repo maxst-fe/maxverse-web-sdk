@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.9...@maxverse/editor-match-react@0.1.0) (2023-11-10)
+
+
+### Features
+
+* **match-editor-react/provider:** take conditional identity of current material ([3a34e83](https://github.com/maxverse-dev/maxverse-web-sdk/commit/3a34e830d944a2967286d209a8b83e7c6f66ae71))
+
+
+
+
+
 ## [0.0.9](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.0.8...@maxverse/editor-match-react@0.0.9) (2023-11-10)
 
 
