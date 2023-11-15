@@ -1,25 +1,25 @@
-import { createContext } from 'react';
-import type { MutableRefObject } from 'react';
-import { Object3D } from 'three';
-import { PickPoint } from '@maxverse/editor-web-sdk';
 import type {
+  ChagingTransformEvent,
+  ObjectClickEvent,
   PointEnterEvent,
   PointInitializeEvent,
-  ObjectClickEvent,
   PointUnClickEvent,
-  ChagingTransformEvent,
 } from '@maxverse/editor-web-sdk';
+import { PickPoint } from '@maxverse/editor-web-sdk';
+import type { MutableRefObject } from 'react';
+import { createContext } from 'react';
+import { Object3D } from 'three';
 import type {
-  SyncInfo,
   GpsCoor,
-  PositionCandidate,
-  LatlngCandidate,
   IdentityCandidate,
+  LatlngCandidate,
   MappingPointData,
+  PositionCandidate,
+  SyncInfo,
 } from '../types';
 
 export const MatchServiceContext = createContext<{
-  plyData: ArrayBuffer | null;
+  plyData: ArrayBuffer | null | undefined;
   mappingPointsData: MappingPointData[];
   pickPointRef: MutableRefObject<PickPoint | null>;
   pointMaterials: Object3D[];
