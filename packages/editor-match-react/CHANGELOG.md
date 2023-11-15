@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.1.1...@maxverse/editor-match-react@0.1.2) (2023-11-15)
+
+
+### Features
+
+* **packages/contexts:** add undefined type to plyData ([cd4d12f](https://github.com/maxverse-dev/maxverse-web-sdk/commit/cd4d12f1d18e1fdfe97f325045756c3fc3cf2b36))
+
+
+
+
+
 ## [0.1.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.1.0...@maxverse/editor-match-react@0.1.1) (2023-11-10)
 
 

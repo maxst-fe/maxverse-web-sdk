@@ -13,7 +13,7 @@ import type { MappingPointData, MatchEventCallbacks } from '../types';
 import { MatchServiceContext } from './context';
 
 interface Props {
-  plyData: ArrayBuffer | null;
+  plyData: ArrayBuffer | null | undefined;
   mappingPointsData: MappingPointData[];
   matchEventCallbacks?: Partial<MatchEventCallbacks>;
   children: ReactNode;
