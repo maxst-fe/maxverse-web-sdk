@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.5...@maxverse/editor-web-sdk@0.0.6) (2023-11-16)
+
+
+### Features
+
+* **plugin/PickPoint:** add a conditional case whether clicked control keys ([c786f51](https://github.com/maxverse-dev/maxverse-web-sdk/commit/c786f51d747f870ca63ae9a3d5d5340cc5b579df))
+
+
+
+
+
 ## [0.0.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.4...@maxverse/editor-web-sdk@0.0.5) (2023-10-30)
 
 

@@ -163,6 +163,12 @@ class PickPoint implements BasePluginType {
       return;
     }
 
+    const isSpecialKeyActive = event.altKey || event.shiftKey || event.metaKey || event.ctrlKey;
+
+    if (isSpecialKeyActive) {
+      return;
+    }
+
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
     const { canvas, camera, scene } = this.#Editor;
