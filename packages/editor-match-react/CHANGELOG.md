@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.1.3...@maxverse/editor-match-react@0.1.4) (2023-11-16)
+
+
+### Features
+
+* **packages/editor-match-react:** update editor package in editor-match-react ([77b41fd](https://github.com/maxverse-dev/maxverse-web-sdk/commit/77b41fd1483758bd1b82286118dea1dac17b03ac))
+
+
+
+
+
 ## [0.1.3](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.1.2...@maxverse/editor-match-react@0.1.3) (2023-11-16)
 
 **Note:** Version bump only for package @maxverse/editor-match-react
