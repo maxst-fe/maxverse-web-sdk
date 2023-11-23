@@ -218,6 +218,20 @@ class PickPoint implements BasePluginType {
       });
     }
 
+    for (let i = 0; i < intersection.length; i++) {
+      const item = intersection[0];
+
+      if (item.object.name === this.SPHERE_NAME) {
+        this.#Editor.trigger('object_click', {
+          type: 'object-click',
+          target: intersection[0].object,
+        });
+
+        this.#Editor.EditorControl.attachTransform(intersection[0].object);
+        return;
+      }
+    }
+
     if (intersection[0]) {
       if (intersection[0].object.name === this.SPHERE_NAME) {
         this.#Editor.trigger('object_click', {
