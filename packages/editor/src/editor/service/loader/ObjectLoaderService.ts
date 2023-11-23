@@ -34,8 +34,6 @@ class ObjectLoaderService implements IObjectLoader {
       });
       const pointModel = new THREE.Points(bufferGeometry, material);
 
-      pointModel.scale.set(0.1, 0.1, 0.1);
-
       pointModel.rotation.x = -1.5;
 
       resolve(pointModel);
