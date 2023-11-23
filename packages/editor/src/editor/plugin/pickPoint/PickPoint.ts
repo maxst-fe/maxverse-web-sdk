@@ -44,6 +44,19 @@ class PickPoint implements BasePluginType {
       this.#labelRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
     });
 
+    this.#Editor.on('render', () => {
+      const sphere = this.#sphere;
+      camera.updateProjectionMatrix();
+      const currentDistance = sphere.position.distanceTo(camera.position);
+
+      const scale = currentDistance / 10;
+      sphere.scale.set(scale, scale, scale);
+
+      this.generatedPoints.forEach(sphere => {
+        sphere.scale.set(scale, scale, scale);
+      });
+    });
+
     return undefined;
   }
 
@@ -173,6 +186,13 @@ class PickPoint implements BasePluginType {
     const raycaster = new THREE.Raycaster();
     const { canvas, camera, scene } = this.#Editor;
 
+    raycaster.near = camera.near;
+    raycaster.far = camera.far;
+
+    if (raycaster.params.Points) {
+      raycaster.params.Points.threshold = 0.01;
+    }
+
     const pointMaterial = this.#PickPointService.findPointObject(scene);
 
     if (!pointMaterial) {
@@ -198,6 +218,20 @@ class PickPoint implements BasePluginType {
       });
     }
 
+    for (let i = 0; i < intersection.length; i++) {
+      const item = intersection[0];
+
+      if (item.object.name === this.SPHERE_NAME) {
+        this.#Editor.trigger('object_click', {
+          type: 'object-click',
+          target: intersection[0].object,
+        });
+
+        this.#Editor.EditorControl.attachTransform(intersection[0].object);
+        return;
+      }
+    }
+
     if (intersection[0]) {
       if (intersection[0].object.name === this.SPHERE_NAME) {
         this.#Editor.trigger('object_click', {
@@ -211,8 +245,12 @@ class PickPoint implements BasePluginType {
 
       const spheres = this.#sphere;
 
+      if (spheres.material instanceof THREE.Material) {
+        spheres.material.side = THREE.DoubleSide;
+      }
+
       spheres.position.copy(intersection[0].point);
-      spheres.scale.set(1, 1, 1);
+      spheres.scale.set(0, 0, 0);
       spheres.visible = true;
 
       this.#Editor.EditorControl.attachTransform(spheres);

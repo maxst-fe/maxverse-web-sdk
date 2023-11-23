@@ -30,6 +30,10 @@ class EditorControl {
     this.#prevMatrix = new THREE.Matrix4();
   }
 
+  public get orbitControl() {
+    return this.#Services.OrbitControlService.orbitControls;
+  }
+
   private set isObjectDragging(value: boolean) {
     this.#isObjectDragging = value;
   }
@@ -60,6 +64,11 @@ class EditorControl {
   public init() {
     this.turnOnObjectClickEvent();
     this.#Services.TransformControlService.controller.name = IGNORE_CLICK_TARGET.TRANSFORM_CONTROLS;
+
+    this.#Services.OrbitControlService.orbitControls.mouseButtons = {
+      MIDDLE: 0,
+      RIGHT: 2,
+    };
   }
 
   public turnOffObjectClickEvent() {
