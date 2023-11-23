@@ -231,6 +231,10 @@ class PickPoint implements BasePluginType {
 
       const spheres = this.#sphere;
 
+      if (spheres.material instanceof THREE.Material) {
+        spheres.material.side = THREE.DoubleSide;
+      }
+
       spheres.position.copy(intersection[0].point);
       spheres.scale.set(0, 0, 0);
       spheres.visible = true;
