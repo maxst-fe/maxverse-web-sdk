@@ -81,7 +81,6 @@ class ObjectLoaderService implements IObjectLoader {
         });
         const coupleModel = new THREE.Points(bufferGeometry, material);
 
-        coupleModel.scale.set(0.1, 0.1, 0.1);
         coupleModel.rotation.x = -1.5;
 
         resolve(coupleModel);
