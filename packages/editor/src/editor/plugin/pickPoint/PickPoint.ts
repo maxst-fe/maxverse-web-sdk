@@ -186,6 +186,13 @@ class PickPoint implements BasePluginType {
     const raycaster = new THREE.Raycaster();
     const { canvas, camera, scene } = this.#Editor;
 
+    raycaster.near = camera.near;
+    raycaster.far = camera.far;
+
+    if (raycaster.params.Points) {
+      raycaster.params.Points.threshold = 0.01;
+    }
+
     const pointMaterial = this.#PickPointService.findPointObject(scene);
 
     if (!pointMaterial) {
