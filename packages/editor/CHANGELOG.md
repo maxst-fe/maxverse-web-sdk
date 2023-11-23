@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.6...@maxverse/editor-web-sdk@0.0.7) (2023-11-23)
+
+
+### Features
+
+* **domain/Editor.Control:** change mouse role in controller of scene ([97382d5](https://github.com/maxverse-dev/maxverse-web-sdk/commit/97382d5542ec3152c890ff21d0684259a9af3856))
+* **loader/ObjectLoaderService:** adjust ply data to 100 percent scale of raw ([c3f587a](https://github.com/maxverse-dev/maxverse-web-sdk/commit/c3f587a4cf2338bfe4a22f664a1abac2e85c5a15))
+* **plugin/PickPoint:** adjust pick point size  according to the screen ratio ([3bf3ab0](https://github.com/maxverse-dev/maxverse-web-sdk/commit/3bf3ab087404034c96cce5de4b992a1feb2d1715))
+* **plugin/PickPoint:** catch Sphere object in intersection list of raycater ([b864ca7](https://github.com/maxverse-dev/maxverse-web-sdk/commit/b864ca7971df5982cf5d6c9574cba5ed38358936))
+* **plugin/PickPoint:** change pick point material side to Double ([d5b4857](https://github.com/maxverse-dev/maxverse-web-sdk/commit/d5b4857b3457dfbcf82dbbb0530cf18003304326))
+* **plugin/PickPoint:** sync distance of raycater and camera ([f1f7dbb](https://github.com/maxverse-dev/maxverse-web-sdk/commit/f1f7dbbbe8ba5de91478536f6770f2ff3396ad8d))
+* **resize/ResizeService:** sovled the problem of ply data being distorted in the scene ([ef9a941](https://github.com/maxverse-dev/maxverse-web-sdk/commit/ef9a941990da8ea897771ec779278f053fc9e8c4))
+
+
+
+
+
 ## [0.0.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.5...@maxverse/editor-web-sdk@0.0.6) (2023-11-16)
 
 
