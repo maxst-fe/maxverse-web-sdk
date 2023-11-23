@@ -30,6 +30,10 @@ class EditorControl {
     this.#prevMatrix = new THREE.Matrix4();
   }
 
+  public get orbitControl() {
+    return this.#Services.OrbitControlService.orbitControls;
+  }
+
   private set isObjectDragging(value: boolean) {
     this.#isObjectDragging = value;
   }

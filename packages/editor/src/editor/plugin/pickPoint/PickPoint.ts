@@ -44,6 +44,19 @@ class PickPoint implements BasePluginType {
       this.#labelRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
     });
 
+    this.#Editor.on('render', () => {
+      const sphere = this.#sphere;
+      camera.updateProjectionMatrix();
+      const currentDistance = sphere.position.distanceTo(camera.position);
+
+      const scale = currentDistance / 10;
+      sphere.scale.set(scale, scale, scale);
+
+      this.generatedPoints.forEach(sphere => {
+        sphere.scale.set(scale, scale, scale);
+      });
+    });
+
     return undefined;
   }
 
@@ -212,7 +225,7 @@ class PickPoint implements BasePluginType {
       const spheres = this.#sphere;
 
       spheres.position.copy(intersection[0].point);
-      spheres.scale.set(1, 1, 1);
+      spheres.scale.set(0, 0, 0);
       spheres.visible = true;
 
       this.#Editor.EditorControl.attachTransform(spheres);
