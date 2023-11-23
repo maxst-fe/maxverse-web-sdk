@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.7...@maxverse/editor-web-sdk@0.0.8) (2023-11-23)
+
+
+### Features
+
+* **loader/ObjectLoaderService:** remove setter of model scale ([5f6566b](https://github.com/maxverse-dev/maxverse-web-sdk/commit/5f6566b70cbf7c2dbca7f7ac771007ad3b3513fb))
+
+
+
+
+
 ## [0.0.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.6...@maxverse/editor-web-sdk@0.0.7) (2023-11-23)
 
 
