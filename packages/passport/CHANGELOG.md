@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.5.4...@maxverse/passport-web-sdk@0.5.5) (2023-11-24)
+
+
+### Features
+
+* **passport/app:** change the access modifier of user's auth info ([2fd251a](https://github.com/maxverse-dev/maxverse-web-sdk/commit/2fd251a823d87e8a5904c4939963d3b1ca9644fb))
+
+
+
+
+
 ## [0.5.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.5.3...@maxverse/passport-web-sdk@0.5.4) (2023-10-31)
 
 

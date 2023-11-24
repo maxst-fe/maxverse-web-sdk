@@ -171,13 +171,13 @@ export class Passport {
     return id_token_entry?.claims;
   }
 
-  get #idToken() {
+  public get idToken() {
     const id_token_entry = this.#cacheManager.getIdToken();
 
     return id_token_entry?.id_token;
   }
 
-  get #accessToken() {
+  public get accessToken() {
     const auth_entry = this.#cacheManager.get();
 
     return auth_entry?.token;
@@ -267,7 +267,7 @@ export class Passport {
       }
 
       if (onLoad === 'login-required') {
-        const id_token = this.#idToken;
+        const id_token = this.idToken;
 
         if (!id_token) {
           this.#cacheManager.remove();
@@ -442,8 +442,8 @@ export class Passport {
   public async updateToken() {
     try {
       if (this.isAuthenticated) {
-        const token = this.#accessToken as string;
-        const id_token = this.#idToken as string;
+        const token = this.accessToken as string;
+        const id_token = this.idToken as string;
 
         return { token, id_token };
       }

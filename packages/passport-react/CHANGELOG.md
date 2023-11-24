@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.4.5...@maxverse/passport-react@0.4.6) (2023-11-24)
+
+**Note:** Version bump only for package @maxverse/passport-react
+
+
+
+
+
 ## [0.4.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.4.4...@maxverse/passport-react@0.4.5) (2023-10-31)
 
 
