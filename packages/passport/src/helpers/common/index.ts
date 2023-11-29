@@ -1,7 +1,5 @@
-import { CODE_CHALLENGE_METHOD, DEFAULT_REDIRECT_URI } from '../../constants';
+import { ALLOWED_AUTH_PARAMS, CODE_CHALLENGE_METHOD, DEFAULT_REDIRECT_URI } from '../../constants';
 import {
-  AuthenticationError,
-  AuthenticationResult,
   AuthorizationOptions,
   EntireAccessTokenOptions,
   EntireAuthorizationOptions,
@@ -72,15 +70,28 @@ export const buildQueryParams = ({
     .join('&');
 };
 
-export const parseAuthenticationResult = (queryString: string): AuthenticationResult => {
+/**
+ * @description
+ * Including the ui_locales value in the redirect URI for the OAuth 2.0 authorization code request does not adhere to the standard OAuth 2.0 specification.
+ * However, Passport authentication service currently includes a feature that allows users to change their language settings during the authentication process(in login page). Therefore, the passport package of client application needs to incorporate related functionality accordingly.
+ * To resolve this, the Passport client does not directly reference specific query parameter values that are received additionally. Instead, it passes all optional fields when the `keepOptionalAuthParams` option is set to true.
+ * https://github.com/maxverse-dev/maxverse-web-sdk/issues/187
+ */
+export const parseAuthenticationResult = (queryString: string, keepOptionalAuthParams: string[]) => {
   const searchParams = new URLSearchParams(queryString);
 
-  return {
-    state: searchParams.get('state'),
-    session_state: searchParams.get('session_state'),
-    code: searchParams.get('code'),
-    error: searchParams.get('error') as AuthenticationError,
-  };
+  const allowedAuthParams = [...new Set([...keepOptionalAuthParams, ...ALLOWED_AUTH_PARAMS])];
+  const authResult: { [key: string]: string } = {};
+
+  for (const [key, val] of searchParams) {
+    if (allowedAuthParams.includes(key)) {
+      authResult[key] = val;
+    }
+
+    return authResult;
+  }
+
+  return {};
 };
 
 export const composeUrl = (domain: string, req: string, params: string) => {

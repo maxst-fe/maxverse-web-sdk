@@ -27,3 +27,5 @@ export const CACHE_LOCATION_MEMORY = 'memory';
 export const CACHE_LOCATION_COOKIE = 'cookie';
 
 export const ALLOWED_DOMAINS = ['https://alpha-api.maxst.com', 'https://api.maxst.com'];
+
+export const ALLOWED_AUTH_PARAMS = ['code', 'state', 'session_state', 'error'];
