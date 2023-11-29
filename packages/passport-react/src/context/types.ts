@@ -13,7 +13,7 @@ export interface PassportResult {
 }
 
 export interface PassportProviderProps {
-  clientOptions: PassportClientOptions & { onLoad: OnLoad };
+  clientOptions: PassportClientOptions & { onLoad?: OnLoad; keepOptionalAuthParams?: string[] };
   onSuccess?: (result: PassportResult) => void;
   onError?: (result: PassportResult) => void;
   registerContext?: RegisterFunctionEntry;
