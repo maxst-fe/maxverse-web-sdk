@@ -22,8 +22,8 @@ export function PassportProvider({
   const init = useCallback(
     async (passport: Passport) => {
       try {
-        const claims = await passport.onLoad(onLoad || 'check-sso');
-        return claims;
+        const res = await passport.onLoad(onLoad || 'check-sso');
+        return res;
       } catch (error: any) {
         throw new Error(error);
       }
@@ -39,19 +39,21 @@ export function PassportProvider({
     const passport = getPassportInstance(clientOptions);
 
     init(passport)
-      .then(claims => {
+      .then(res => {
         setInitialized(true);
 
         if (registerContext) {
           registerContext.forEach(callback => callback(passport));
         }
 
-        if (!claims) {
+        if (!res) {
           onSuccess && onSuccess({ status: 'SUCCESS' });
           return;
         }
 
-        onSuccess && onSuccess({ status: 'SUCCESS', claims });
+        const { claims, ...additionalInfo } = res;
+
+        onSuccess && onSuccess({ status: 'SUCCESS', claims, additionalInfo });
       })
       .catch((error: any) => {
         setInitialized(false);

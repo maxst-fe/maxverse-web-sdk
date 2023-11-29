@@ -8,6 +8,8 @@ export interface PassportResult {
   status: 'SUCCESS' | 'FAIL';
   claims?: Claims;
   error?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  additionalInfo?: { [key: string]: any };
 }
 
 export interface PassportProviderProps {
