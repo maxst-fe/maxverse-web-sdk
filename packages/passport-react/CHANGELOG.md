@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.4.7...@maxverse/passport-react@0.4.8) (2023-11-29)
+
+
+### Features
+
+* **packages/passport-react:** modifying the handling of the res of the onLoad func ([d1bf639](https://github.com/maxverse-dev/maxverse-web-sdk/commit/d1bf639456371f4a9b4866fb7e4fae6ef40b5a5c))
+
+
+
+
+
 ## [0.4.7](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.4.6...@maxverse/passport-react@0.4.7) (2023-11-29)
 
 **Note:** Version bump only for package @maxverse/passport-react
