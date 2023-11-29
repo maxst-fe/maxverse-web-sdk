@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.6](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.5.5...@maxverse/passport-web-sdk@0.5.6) (2023-11-29)
+
+
+### Features
+
+* **packages/passport:** handling the query params that the user has allowed ([97ea3eb](https://github.com/maxverse-dev/maxverse-web-sdk/commit/97ea3eb855524b0973ed83f02bf620ec49093c6d))
+
+
+
+
+
 ## [0.5.5](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-web-sdk@0.5.4...@maxverse/passport-web-sdk@0.5.5) (2023-11-24)
 
 

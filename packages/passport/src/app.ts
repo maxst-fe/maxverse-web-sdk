@@ -77,7 +77,7 @@ export class Passport {
     },
   };
   readonly #authUrl: string;
-  readonly #options: PassportClientOptions & { onLoad: OnLoad } & {
+  readonly #options: PassportClientOptions & { onLoad: OnLoad; keepOptionalAuthParams: string[] } & {
     authorizationOptions: AuthorizationOptions;
   };
   readonly #scope: string;
@@ -85,7 +85,7 @@ export class Passport {
   readonly #transactionManager: TransactionManager;
   readonly #authWorker?: SharedWorker;
 
-  constructor(options: PassportClientOptions & { onLoad?: OnLoad }) {
+  constructor(options: PassportClientOptions & { onLoad?: OnLoad; keepOptionalAuthParams?: string[] }) {
     if (!(this instanceof Passport)) {
       throw new Error(INVALID_ACCESS_SELF_INSTANCE_ERROR);
     }
@@ -117,11 +117,13 @@ export class Passport {
 
     const onLoad = options.onLoad ?? 'check-sso';
     const useWorker = options.useWorker ?? false;
+    const keepOptionalAuthParams = options.keepOptionalAuthParams ?? [];
 
     this.#options = {
       ...options,
       useWorker,
       onLoad,
+      keepOptionalAuthParams,
       authorizationOptions: {
         ...this.#defaultOptions.authorizationOptions,
         ...options.authorizationOptions,
@@ -323,15 +325,15 @@ export class Passport {
 
     try {
       if (this.isAuthorizationCodeFlow) {
-        const claims = await this.onRedirectPage();
+        const res = await this.onRedirectPage();
 
-        return claims;
+        return res;
       }
 
       const { isEnable } = await this.checkIsEnableTokenRotation();
 
       if (isEnable && this.isAuthenticated) {
-        return this.claims;
+        return { claims: this.claims };
       }
 
       if (!this.isAuthenticated && this.#options.cacheLocation === 'cookie') {
@@ -394,7 +396,7 @@ export class Passport {
       this.#reconcileAuthorizationCodeFlow(INVALID_AUTHORIZATION_CODE_FLOW, this.#options.onLoad);
     }
 
-    const { code, error } = parseAuthenticationResult(queryString);
+    const { code, error, ...restParams } = parseAuthenticationResult(queryString, this.#options.keepOptionalAuthParams);
 
     if (!code) {
       this.#reconcileAuthorizationCodeFlow(INVALID_AUTHORIZATION_CODE_FLOW, this.#options.onLoad);
@@ -430,7 +432,7 @@ export class Passport {
     try {
       const { claims } = await this.#requestToken(options, 'token');
 
-      return claims;
+      return { claims, ...restParams };
     } catch (error: any) {
       throw error;
     } finally {
