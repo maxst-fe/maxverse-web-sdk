@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.9](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.4.8...@maxverse/passport-react@0.4.9) (2023-11-29)
+
+
+### Features
+
+* **passport-react/types:** chaging Provider props of client options ([6d1b83f](https://github.com/maxverse-dev/maxverse-web-sdk/commit/6d1b83f643f976a5614f7a420eb7e51c942ba120))
+
+
+
+
+
 ## [0.4.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/passport-react@0.4.7...@maxverse/passport-react@0.4.8) (2023-11-29)
 
 
