@@ -141,6 +141,21 @@ class PickPoint implements BasePluginType {
     });
   }
 
+  removeUnGeneratedPoint(id: string | number) {
+    if (!this.#sphere.visible) {
+      return;
+    }
+
+    const isExistedPickPoint = this.#generatedPoints.find(point => point.id === id);
+
+    if (isExistedPickPoint) {
+      return;
+    }
+
+    this.#sphere.visible = false;
+    this.#Editor.EditorControl.detachTransform();
+  }
+
   generatePointsFromPosition(positions: Array<{ uuid: string; x: number; y: number; z: number }>) {
     if (positions.length === 0) {
       return;

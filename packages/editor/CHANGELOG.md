@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.9](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.8...@maxverse/editor-web-sdk@0.0.9) (2023-12-05)
+
+
+### Features
+
+* **plugin/PickPoint:** add method that remove a ungenerated pick point ([80f29d8](https://github.com/maxverse-dev/maxverse-web-sdk/commit/80f29d83bdd2c8c65cd4613106dfd7bb59409b1c))
+
+
+
+
+
 ## [0.0.8](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.7...@maxverse/editor-web-sdk@0.0.8) (2023-11-23)
 
 
