@@ -105,6 +105,16 @@ export function MatchServiceProvider({ plyData, mappingPointsData, matchEventCal
     [getPointMaterial, getSyncInfo, matchEventCallbacks, removePointMaterial, removeSyncInfo]
   );
 
+  const cancelPickPointCallback = useCallback(
+    (id: string | number) => {
+      removePointMaterial(id);
+
+      pickPointRef.current?.removeUnGeneratedPoint(id);
+      removeSyncInfo(id);
+    },
+    [removePointMaterial, removeSyncInfo]
+  );
+
   const clickSphereObjectEventCallback = useCallback(
     (event: ObjectClickEvent) => {
       const { target } = event;
@@ -184,6 +194,7 @@ export function MatchServiceProvider({ plyData, mappingPointsData, matchEventCal
         confirmPickPointCallback,
         fixPickPointCallback,
         removePickPointCallback,
+        cancelPickPointCallback,
         revokePickPointCallback,
         updateGpsCoorCallback,
         enterSphereObjectEventCallback,
