@@ -21,11 +21,11 @@ export function CustomMarker({ sync, map }: Props) {
 
   useEffect(() => {
     if (!sync) {
-      console.error(COMMON_ERROR_MESSAGE.INVALID_SYNC_INFO);
+      console.warn(COMMON_ERROR_MESSAGE.INVALID_SYNC_INFO);
       return;
     }
     if (!map) {
-      console.error(MAP_ERROR_MESSAGE.INVALID_MAP_API);
+      console.warn(MAP_ERROR_MESSAGE.INVALID_MAP_API);
       return;
     }
 
@@ -51,11 +51,11 @@ export function CustomMarker({ sync, map }: Props) {
 
   useEffect(() => {
     if (!markerOverlayView) {
-      console.error(MAP_ERROR_MESSAGE.INVALID_MARKER_INSTANCE);
+      console.warn(MAP_ERROR_MESSAGE.INVALID_MARKER_INSTANCE);
       return;
     }
     if (!map) {
-      console.error(MAP_ERROR_MESSAGE.INVALID_MAP_API);
+      console.warn(MAP_ERROR_MESSAGE.INVALID_MAP_API);
       return;
     }
 
@@ -81,7 +81,7 @@ export function CustomMarker({ sync, map }: Props) {
 
   useEffect(() => {
     if (!markerOverlayView) {
-      console.error(MAP_ERROR_MESSAGE.INVALID_MARKER_INSTANCE);
+      console.warn(MAP_ERROR_MESSAGE.INVALID_MARKER_INSTANCE);
       return;
     }
 
@@ -98,7 +98,7 @@ export function CustomMarker({ sync, map }: Props) {
 
   useEffect(() => {
     if (!markerOverlayView) {
-      console.error(MAP_ERROR_MESSAGE.INVALID_MARKER_INSTANCE);
+      console.warn(MAP_ERROR_MESSAGE.INVALID_MARKER_INSTANCE);
       return;
     }
 
@@ -115,7 +115,7 @@ export function CustomMarker({ sync, map }: Props) {
   useEffect(() => {
     return () => {
       if (!markerOverlayView) {
-        console.error(MAP_ERROR_MESSAGE.INVALID_MARKER_INSTANCE);
+        console.warn(MAP_ERROR_MESSAGE.INVALID_MARKER_INSTANCE);
         return;
       }
 
