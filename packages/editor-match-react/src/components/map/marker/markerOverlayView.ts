@@ -1,14 +1,15 @@
 import Component from '@egjs/component';
 import _ from 'lodash';
+import { SYNC_INFO_STATUS } from '../../../constants';
 import type { SyncInfo } from '../../../types';
 import { Events, EVENTS } from './egjs.marker.events';
-
 export class MarkerOverlayView extends Component<Events> {
   readonly id: string | number;
   readonly label: string;
 
   overlayView: google.maps.OverlayView;
 
+  #status: SYNC_INFO_STATUS;
   #targetElement: HTMLDivElement | null;
   #onMousemove: (e: MouseEvent) => void;
   #onMousedown: ((e: MouseEvent) => void) | null;
@@ -34,6 +35,8 @@ export class MarkerOverlayView extends Component<Events> {
 
     this.overlayView = overlayView;
 
+    this.#status = SYNC_INFO_STATUS.ENTER;
+
     this.#onMousemove = _.bind(this.onMousemove, this);
     this.#onConfirmMarker = _.bind(this.onConfirmMarker, this);
     this.#onFixMarker = _.bind(this.onFixMarker, this);
@@ -46,6 +49,13 @@ export class MarkerOverlayView extends Component<Events> {
   }
 
   onMousemove(e: MouseEvent) {
+    if (this.#status === SYNC_INFO_STATUS.REVOKE) {
+      const $fixButton = this.#targetElement?.querySelector('#fix-button') as HTMLButtonElement;
+
+      $fixButton.style.visibility = 'visible';
+      $fixButton.style.position = 'relative';
+    }
+
     const origin = this.overlayView.get('origin');
     const left = origin.clientX - e.clientX;
     const top = origin.clientY - e.clientY;
@@ -132,7 +142,7 @@ export class MarkerOverlayView extends Component<Events> {
                 <div id="controls" style="position: relative; display: flex; gap: 3px; min-height: 32px;">
                 <button id="confirm-button" style="width: 49px; height: 32px; background-color: #657786; color: #ffffff ">생성</button>
                 <button id="cancel-button" style="width: 49px; height: 32px; background-color: #ffffff; color: #000000 ">취소</button>
-                <button id="fix-button" style="width: 49px; height: 32px; background-color: #657786; color: #ffffff; visibility: hidden; position: absolute;">수정</button>
+                <button id="fix-button" style="width: 49px; height: 32px; background-color: #657786; color: #ffffff; visibility: hidden; position: absolute;">변경</button>
                 <button id="remove-button" style="width: 49px; height: 32px; background-color: #ffffff; color: #000000; visibility: hidden; position: absolute;">삭제</button>
                 </div>
                 <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
@@ -246,6 +256,8 @@ export class MarkerOverlayView extends Component<Events> {
 
     this.#targetElement.style.opacity = '0.45';
 
+    this.#status = SYNC_INFO_STATUS.CONFIRM;
+
     this.#targetElement.addEventListener('click', this.#onRevokeMarker);
   }
 
@@ -258,16 +270,14 @@ export class MarkerOverlayView extends Component<Events> {
     this.#targetElement.style.cursor = 'move';
     this.#targetElement.addEventListener('mousedown', this.#onMousedown!);
 
-    const $fixButton = this.#targetElement.querySelector('#fix-button') as HTMLButtonElement;
     const $removeButton = this.#targetElement.querySelector('#remove-button') as HTMLButtonElement;
 
     this.#targetElement.style.opacity = '1';
 
-    $fixButton.style.visibility = 'visible';
-    $fixButton.style.position = 'relative';
-
     $removeButton.style.visibility = 'visible';
     $removeButton.style.position = 'relative';
+
+    this.#status = SYNC_INFO_STATUS.REVOKE;
 
     this.#targetElement.removeEventListener('click', this.#onRevokeMarker);
   }
