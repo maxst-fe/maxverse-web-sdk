@@ -16,6 +16,7 @@ export class MarkerOverlayView extends Component<Events> {
   readonly #onConfirmMarker: (e: Event) => void;
   readonly #onFixMarker: (e: Event) => void;
   readonly #onRemoveMarker: (e: Event) => void;
+  readonly #onCancelMarker: (e: Event) => void;
   readonly #onRevokeMarker: (e: Event) => void;
 
   constructor({ id, label }: Pick<SyncInfo, 'id' | 'label'>) {
@@ -37,6 +38,7 @@ export class MarkerOverlayView extends Component<Events> {
     this.#onConfirmMarker = _.bind(this.onConfirmMarker, this);
     this.#onFixMarker = _.bind(this.onFixMarker, this);
     this.#onRemoveMarker = _.bind(this.onRemoveMarker, this);
+    this.#onCancelMarker = _.bind(this.onCancelMarker, this);
     this.#onRevokeMarker = _.bind(this.onRevokeMarker, this);
 
     this.#onMousedown = null;
@@ -100,6 +102,15 @@ export class MarkerOverlayView extends Component<Events> {
     });
   }
 
+  onCancelMarker(e: Event) {
+    e.stopPropagation();
+
+    this.trigger(EVENTS.CANCEL_MARKER, {
+      type: EVENTS.CANCEL_MARKER,
+      payload: { id: this.id },
+    });
+  }
+
   onRevokeMarker(e: Event) {
     e.stopPropagation();
 
@@ -120,6 +131,7 @@ export class MarkerOverlayView extends Component<Events> {
                 <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; max-width: 176px; max-height: 165px;">
                 <div id="controls" style="position: relative; display: flex; gap: 3px; min-height: 32px;">
                 <button id="confirm-button" style="width: 49px; height: 32px; background-color: #657786; color: #ffffff ">생성</button>
+                <button id="cancel-button" style="width: 49px; height: 32px; background-color: #ffffff; color: #000000 ">취소</button>
                 <button id="fix-button" style="width: 49px; height: 32px; background-color: #657786; color: #ffffff; visibility: hidden; position: absolute;">수정</button>
                 <button id="remove-button" style="width: 49px; height: 32px; background-color: #ffffff; color: #000000; visibility: hidden; position: absolute;">삭제</button>
                 </div>
@@ -140,6 +152,7 @@ export class MarkerOverlayView extends Component<Events> {
       google.maps.event.trigger($div, 'mouseup');
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
 
     const onMousedown = function (e: MouseEvent) {
@@ -169,10 +182,12 @@ export class MarkerOverlayView extends Component<Events> {
     this.#onMouseup = onMouseup;
 
     const $confirmButton = $div.querySelector('#confirm-button');
+    const $cancelButton = $div.querySelector('#cancel-button');
     const $fixButton = $div.querySelector('#fix-button');
     const $removeButton = $div.querySelector('#remove-button');
 
     $confirmButton?.addEventListener('click', this.#onConfirmMarker);
+    $cancelButton?.addEventListener('click', this.#onCancelMarker);
     $fixButton?.addEventListener('click', this.#onFixMarker);
     $removeButton?.addEventListener('click', this.#onRemoveMarker);
 
@@ -199,10 +214,9 @@ export class MarkerOverlayView extends Component<Events> {
       return;
     }
 
-    const edigePoint = this.#targetElement.querySelector('#edge-point') as HTMLDivElement;
+    const edgePoint = this.#targetElement.querySelector('#edge-point') as HTMLDivElement;
 
-    const circleCenterPosition =
-      this.#targetElement.clientHeight - edigePoint.clientHeight + edigePoint.clientHeight / 2;
+    const circleCenterPosition = this.#targetElement.clientHeight - edgePoint.clientHeight + edgePoint.clientHeight / 2;
 
     this.#targetElement.style.left = `${posPixel.x - this.#targetElement.clientWidth / 2}px`;
     this.#targetElement.style.top = `${posPixel.y - circleCenterPosition}px`;
@@ -263,11 +277,13 @@ export class MarkerOverlayView extends Component<Events> {
     }
 
     const confirmButton = this.#targetElement.querySelector('#confirm-button');
+    const cancelButton = this.#targetElement.querySelector('#cancel-button');
     const fixButton = this.#targetElement.querySelector('#fix-button');
     const removeButton = this.#targetElement.querySelector('#remove-button');
 
     this.#targetElement.removeEventListener('click', this.#onRevokeMarker);
     confirmButton?.removeEventListener('click', this.#onConfirmMarker);
+    cancelButton?.removeEventListener('click', this.#onCancelMarker);
     fixButton?.removeEventListener('click', this.#onFixMarker);
     removeButton?.removeEventListener('click', this.#onRemoveMarker);
 
