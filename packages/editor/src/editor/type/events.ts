@@ -16,6 +16,7 @@ export const EVENTS = {
   POINT_INITIALIZE: 'point_initialize',
   POINT_UNCLICK: 'point_unclick',
   CHAHEING_TRANSFORM: 'chaging_transform',
+  OVER_MAX_PICK_POINT_NUM: 'over_max_pick_point_num',
 } as const;
 
 export interface ObjectClickEvent {
@@ -90,6 +91,10 @@ export interface ChagingTransformEvent {
   target: Object3D;
 }
 
+export interface OverMaxPickPointNumEvent {
+  type: string;
+}
+
 export interface Events {
   [EVENTS.READY]: ReadyEvent;
   [EVENTS.LOAD_START]: LoadStartEvent;
@@ -104,4 +109,5 @@ export interface Events {
   [EVENTS.POINT_INITIALIZE]: PointInitializeEvent;
   [EVENTS.POINT_UNCLICK]: PointUnClickEvent;
   [EVENTS.CHAHEING_TRANSFORM]: ChagingTransformEvent;
+  [EVENTS.OVER_MAX_PICK_POINT_NUM]: OverMaxPickPointNumEvent;
 }

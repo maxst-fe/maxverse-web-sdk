@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
 import Editor, { PointEnterEvent } from '@maxverse/editor-web-sdk';
-import { useMatchService } from './useMatchService';
+import { useEffect } from 'react';
 import { EDITOR_ERROR_MESSAGE } from '../constants/error';
+import { useMatchService } from './useMatchService';
 
 export function useEditorEvents(editor: Editor | null) {
   const {
@@ -63,4 +63,6 @@ export function useEditorEvents(editor: Editor | null) {
     },
     [chagingTransformEventCallback]
   );
+
+  return [useEditorEventsEffect] as const;
 }
