@@ -6,6 +6,7 @@ export enum EVENTS {
   COFIRM_MARKER = 'CONFIRM_MARKER',
   FIX_MARKER = 'FIX_MARKER',
   REMOVE_MARKER = 'REMOVE_MARKER',
+  CANCEL_MARKER = 'CANCEL_MARKER',
   REVOKE_MARKER = 'REVOKE_MARKER',
 }
 
@@ -33,6 +34,11 @@ export interface RemoveMarkerEvent {
   payload: { id: string | number };
 }
 
+export interface CancelMarkerEvent {
+  type: EVENTS.CANCEL_MARKER;
+  payload: { id: string | number };
+}
+
 export interface RevokeMarkerEvent {
   type: EVENTS.REVOKE_MARKER;
   payload: { id: string | number };
@@ -44,5 +50,6 @@ export interface Events {
   [EVENTS.COFIRM_MARKER]: ConfirmMarkerEvent;
   [EVENTS.FIX_MARKER]: FixMarkerEvent;
   [EVENTS.REMOVE_MARKER]: RemoveMarkerEvent;
+  [EVENTS.CANCEL_MARKER]: CancelMarkerEvent;
   [EVENTS.REVOKE_MARKER]: RevokeMarkerEvent;
 }

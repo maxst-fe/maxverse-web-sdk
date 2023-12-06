@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import type {
+  CancelMarkerEvent,
   ConfirmMarkerEvent,
   FixMarkerEvent,
   LatlngChangeEvent,
@@ -7,8 +8,8 @@ import type {
   RevokeMarkerEvent,
 } from '../components/map';
 import { EVENTS, MarkerOverlayView } from '../components/map';
-import { useMatchService } from './useMatchService';
 import { MAP_ERROR_MESSAGE } from '../constants/error';
+import { useMatchService } from './useMatchService';
 
 export function useMarkerEvents(markerOverlayView: MarkerOverlayView | null) {
   const {
@@ -16,6 +17,7 @@ export function useMarkerEvents(markerOverlayView: MarkerOverlayView | null) {
     fixPickPointCallback,
     removePickPointCallback,
     revokePickPointCallback,
+    cancelPickPointCallback,
     updateGpsCoorCallback,
   } = useMatchService();
   const useMarkerEventsEffect = (callback: (markerOverlayView: MarkerOverlayView) => void, deps: any[] = []) =>
@@ -65,6 +67,19 @@ export function useMarkerEvents(markerOverlayView: MarkerOverlayView | null) {
       };
     },
     [removePickPointCallback]
+  );
+
+  useMarkerEventsEffect(
+    markerOverlayView => {
+      markerOverlayView.on(EVENTS.CANCEL_MARKER, (event: CancelMarkerEvent) => {
+        cancelPickPointCallback(event.payload.id);
+      });
+
+      return () => {
+        markerOverlayView.off(EVENTS.CANCEL_MARKER);
+      };
+    },
+    [cancelPickPointCallback]
   );
 
   useMarkerEventsEffect(
