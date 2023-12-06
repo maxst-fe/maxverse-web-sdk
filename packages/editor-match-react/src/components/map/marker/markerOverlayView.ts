@@ -214,10 +214,9 @@ export class MarkerOverlayView extends Component<Events> {
       return;
     }
 
-    const edigePoint = this.#targetElement.querySelector('#edge-point') as HTMLDivElement;
+    const edgePoint = this.#targetElement.querySelector('#edge-point') as HTMLDivElement;
 
-    const circleCenterPosition =
-      this.#targetElement.clientHeight - edigePoint.clientHeight + edigePoint.clientHeight / 2;
+    const circleCenterPosition = this.#targetElement.clientHeight - edgePoint.clientHeight + edgePoint.clientHeight / 2;
 
     this.#targetElement.style.left = `${posPixel.x - this.#targetElement.clientWidth / 2}px`;
     this.#targetElement.style.top = `${posPixel.y - circleCenterPosition}px`;
