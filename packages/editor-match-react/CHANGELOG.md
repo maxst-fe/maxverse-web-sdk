@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.1.9...@maxverse/editor-match-react@0.2.0) (2023-12-06)
+
+
+### Features
+
+* **contexts:** add callback func for cancel pick point ([2578c4f](https://github.com/maxverse-dev/maxverse-web-sdk/commit/2578c4f68dce1a3f3c2c004c0c8891e365a25743))
+* **map/marker:** bind cancel marker event to Marker ([03b2a60](https://github.com/maxverse-dev/maxverse-web-sdk/commit/03b2a60cc8ad3e049f68d23c8f090272b114bfed))
+* **map/marker:** fix spell of edge ([16210fb](https://github.com/maxverse-dev/maxverse-web-sdk/commit/16210fb41df4dd386187afc10b65e4334babc8ad))
+* **map/marker:** modify the condition results of the marker to be a warning ([93b5a6c](https://github.com/maxverse-dev/maxverse-web-sdk/commit/93b5a6c5fe10a2aa9d70456f0c8e942c19db100c))
+
+
+
+
+
 ## [0.1.9](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.1.8...@maxverse/editor-match-react@0.1.9) (2023-12-05)
 
 **Note:** Version bump only for package @maxverse/editor-match-react
