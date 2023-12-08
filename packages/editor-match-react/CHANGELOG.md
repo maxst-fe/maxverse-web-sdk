@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.2.0...@maxverse/editor-match-react@0.3.0) (2023-12-08)
+
+
+### Features
+
+* **map/markerOverlayView:** conditional render of selection after confirmed ([342aeb7](https://github.com/maxverse-dev/maxverse-web-sdk/commit/342aeb716f4358e7038aef36be4d582ba0c91525))
+* **packages/editor-match-react:** add set color theme of mapping point ([d964962](https://github.com/maxverse-dev/maxverse-web-sdk/commit/d96496288c7469f9b0b17e0c7e14e543ffd5f54f))
+* set limit of generate pick point ([fb8a763](https://github.com/maxverse-dev/maxverse-web-sdk/commit/fb8a76333210a21750aeae38ca14f7425e3e6594))
+
+
+
+
+
 # [0.2.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.1.9...@maxverse/editor-match-react@0.2.0) (2023-12-06)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.9...@maxverse/editor-web-sdk@0.1.0) (2023-12-08)
+
+
+### Features
+
+* set limit of generate pick point ([fb8a763](https://github.com/maxverse-dev/maxverse-web-sdk/commit/fb8a76333210a21750aeae38ca14f7425e3e6594))
+
+
+
+
+
 ## [0.0.9](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.8...@maxverse/editor-web-sdk@0.0.9) (2023-12-05)
 
 
