@@ -5,9 +5,14 @@ import Editor from '../../app';
 import { BasePluginType } from '../plugin.type';
 import PickPointService from './PickPointService';
 
+const DEFAULT_MAX_PICK_POINT_NUM = 5;
+
 class PickPoint implements BasePluginType {
   SPHERE_NAME = 'POINT_SPHERE';
   #Editor: Editor;
+
+  #maxPickPointNum: number;
+
   //staff
   #sphere: THREE.Mesh;
   #labelRenderer: CSS2DRenderer;
@@ -23,8 +28,9 @@ class PickPoint implements BasePluginType {
     return this.#generatedPoints;
   }
 
-  constructor(editor: Editor) {
+  constructor(editor: Editor, maxPickPointNum = DEFAULT_MAX_PICK_POINT_NUM) {
     this.#Editor = editor;
+    this.#maxPickPointNum = maxPickPointNum;
 
     const pickPointService = (this.#PickPointService = new PickPointService(this));
     this.#labelRenderer = pickPointService.setLabelRenderer(editor.canvas.clientWidth, editor.canvas.clientHeight);
@@ -139,6 +145,7 @@ class PickPoint implements BasePluginType {
         point.remove();
       }
     });
+    this.#generatedPoints = this.#generatedPoints.filter(point => point[compare] !== id);
   }
 
   removeUnGeneratedPoint(id: string | number) {
@@ -233,20 +240,6 @@ class PickPoint implements BasePluginType {
       });
     }
 
-    for (let i = 0; i < intersection.length; i++) {
-      const item = intersection[0];
-
-      if (item.object.name === this.SPHERE_NAME) {
-        this.#Editor.trigger('object_click', {
-          type: 'object-click',
-          target: intersection[0].object,
-        });
-
-        this.#Editor.EditorControl.attachTransform(intersection[0].object);
-        return;
-      }
-    }
-
     if (intersection[0]) {
       if (intersection[0].object.name === this.SPHERE_NAME) {
         this.#Editor.trigger('object_click', {
@@ -254,6 +247,14 @@ class PickPoint implements BasePluginType {
           target: intersection[0].object,
         });
         this.#Editor.EditorControl.attachTransform(intersection[0].object);
+
+        return;
+      }
+
+      if (this.#generatedPoints.length === this.#maxPickPointNum) {
+        this.#Editor.trigger('over_max_pick_point_num', {
+          type: 'over_max_pick_point_num',
+        });
 
         return;
       }

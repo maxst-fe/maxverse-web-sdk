@@ -1,5 +1,5 @@
-import { SYNC_INFO_STATUS } from '../constants';
 import { Object3D } from 'three';
+import { SYNC_INFO_STATUS } from '../constants';
 
 export type LatlngCandidate = 'lat' | 'lng';
 
@@ -8,6 +8,8 @@ export type PositionCandidate = 'x' | 'y' | 'z';
 export type IdentityCandidate = 'id' | 'uuid';
 
 export type MatchEventPayload = { targetPointMaterial: Object3D | undefined; targetSyncInfo: SyncInfo | undefined };
+
+export type HexColor = `#${string}` | `#${string}${string}${string}`;
 export interface Latlng {
   lat: number;
   lng: number;
