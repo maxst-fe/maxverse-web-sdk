@@ -1,7 +1,7 @@
 import Component from '@egjs/component';
 import _ from 'lodash';
 import { SYNC_INFO_STATUS } from '../../../constants';
-import type { SyncInfo } from '../../../types';
+import type { HexColor, SyncInfo } from '../../../types';
 import { Events, EVENTS } from './egjs.marker.events';
 export class MarkerOverlayView extends Component<Events> {
   readonly id: string | number;
@@ -129,6 +129,23 @@ export class MarkerOverlayView extends Component<Events> {
       payload: { id: this.id },
     });
   }
+
+  setThemeColor(color: HexColor) {
+    const $mappingLabel = this.#targetElement?.querySelector('#mapping-label');
+    const $verticalBar = this.#targetElement?.querySelector('#vertical-bar');
+    const $edgePoint = this.#targetElement?.querySelector('#edge-point');
+
+    if ($mappingLabel && $mappingLabel instanceof HTMLDivElement) {
+      $mappingLabel.style.border = `3px solid ${color}`;
+    }
+    if ($verticalBar && $verticalBar instanceof HTMLDivElement) {
+      $verticalBar.style.backgroundColor = color;
+    }
+    if ($edgePoint && $edgePoint instanceof HTMLDivElement) {
+      $edgePoint.style.backgroundColor = color;
+    }
+  }
+
   onAdd() {
     const $div = document.createElement('div');
 
@@ -146,10 +163,9 @@ export class MarkerOverlayView extends Component<Events> {
                 <button id="remove-button" style="width: 49px; height: 32px; background-color: #ffffff; color: #000000; visibility: hidden; position: absolute;">삭제</button>
                 </div>
                 <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
-                  <div style="width: 100%; padding: 8px; text-align: center; border: 3px solid #49B0FE; font-size: 15px; border-radius: 40px; background-color: #ffffff">Mapping point</div>
-                  <div style="width: 3px; height: 50px; background-color: #49B0FE"></div>
-                  <div id="edge-point"  style="display: flex; justify-content: center; align-items: center; width: 20px; height: 20px; border-radius: 50%; background-color: #49B0FE;">
-                  <div  style="width: 10px; height: 10px; border-radius: 50%; background-color: #138DEB;"></div>
+                  <div id="mapping-label" style="width: 100%; padding: 8px; text-align: center; border: 3px solid #49B0FE; font-size: 15px; border-radius: 40px; background-color: #ffffff">Mapping point</div>
+                  <div id="vertical-bar" style="width: 3px; height: 50px; background-color: #49B0FE"></div>
+                  <div id="edge-point" style="display: flex; justify-content: center; align-items: center; width: 20px; height: 20px; border-radius: 50%; background-color: #49B0FE;">
                   </div>
                 </div>
                 </div>

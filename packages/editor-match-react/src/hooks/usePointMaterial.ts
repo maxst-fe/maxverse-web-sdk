@@ -29,17 +29,17 @@ export function usePointMaterial(mappingPointsData: MappingPointData[]) {
     return pointMaterials.find(pointMaterial => pointMaterial[identity] === id);
   });
 
-  const removePointMaterial = usePointMaterialCallback<(id: string | number) => IdentityCandidate>(
-    (id: string | number) => {
-      const identity = takePointMaterialIdentity(id);
+  const removePointMaterial = usePointMaterialCallback<
+    (id: string | number) => { identity: IdentityCandidate; filteredPointMaterials: Object3D[] }
+  >((id: string | number) => {
+    const identity = takePointMaterialIdentity(id);
 
-      const removedPointMaterials = pointMaterials.filter(pointMaterial => pointMaterial[identity] !== id);
+    const filteredPointMaterials = pointMaterials.filter(pointMaterial => pointMaterial[identity] !== id);
 
-      setPointMaterials(removedPointMaterials);
+    setPointMaterials(filteredPointMaterials);
 
-      return identity;
-    }
-  );
+    return { identity, filteredPointMaterials };
+  });
 
   const checkReEnterPointMaterial = usePointMaterialCallback((id: string | number) => {
     const identity = takePointMaterialIdentity(id);

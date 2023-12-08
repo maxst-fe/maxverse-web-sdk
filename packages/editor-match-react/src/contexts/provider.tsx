@@ -7,22 +7,31 @@ import type {
 import { EVENTS, PickPoint } from '@maxverse/editor-web-sdk';
 import type { ReactNode } from 'react';
 import { useCallback, useRef } from 'react';
-import { OBJECT_SORT, SYNC_INFO_STATUS } from '../constants';
+import { Mesh, Object3D } from 'three';
+import { DEFAULT_MAPPING_POINT_THEME, OBJECT_SORT, SYNC_INFO_STATUS } from '../constants';
 import { usePointMaterial, useSyncInfo } from '../hooks';
-import type { MappingPointData, MatchEventCallbacks } from '../types';
+import type { HexColor, MappingPointData, MatchEventCallbacks } from '../types';
 import { MatchServiceContext } from './context';
 
 interface Props {
   plyData: ArrayBuffer | null | undefined;
   mappingPointsData: MappingPointData[];
   matchEventCallbacks?: Partial<MatchEventCallbacks>;
+  mappingPointTheme?: HexColor[];
   children: ReactNode;
 }
 
-export function MatchServiceProvider({ plyData, mappingPointsData, matchEventCallbacks, children }: Props) {
+export function MatchServiceProvider({
+  plyData,
+  mappingPointsData,
+  matchEventCallbacks,
+  mappingPointTheme = DEFAULT_MAPPING_POINT_THEME,
+  children,
+}: Props) {
   mappingPointsData = mappingPointsData ?? [];
 
   const pickPointRef = useRef<PickPoint | null>(null);
+  const mappingPointThemeRef = useRef<HexColor[]>(mappingPointTheme);
 
   const [
     pointMaterials,
@@ -47,13 +56,23 @@ export function MatchServiceProvider({ plyData, mappingPointsData, matchEventCal
     undoRevokedSyncInfo,
   ] = useSyncInfo();
 
+  const plainUpdatePointMaterialsTheme = (pointMaterials: Object3D[]) => {
+    pointMaterials.forEach((pointMaterial, idx) => {
+      if (pointMaterial instanceof Mesh && pointMaterial.material) {
+        pointMaterial.material.color.set(mappingPointThemeRef.current[idx]);
+      }
+    });
+  };
+
   const confirmPickPointCallback = useCallback(
     (id: string | number) => {
       pickPointRef.current?.pointGenerate();
 
       plainUpdateSyncInfoStatus(id, SYNC_INFO_STATUS.CONFIRM);
+
+      plainUpdatePointMaterialsTheme(pointMaterials);
     },
-    [plainUpdateSyncInfoStatus]
+    [pointMaterials, plainUpdateSyncInfoStatus]
   );
 
   const fixPickPointCallback = useCallback(
@@ -89,11 +108,13 @@ export function MatchServiceProvider({ plyData, mappingPointsData, matchEventCal
 
   const removePickPointCallback = useCallback(
     (id: string | number) => {
-      const identity = removePointMaterial(id);
+      const { identity, filteredPointMaterials } = removePointMaterial(id);
 
       pickPointRef.current?.removeGeneratedPoint(id, identity);
 
       removeSyncInfo(id);
+
+      plainUpdatePointMaterialsTheme(filteredPointMaterials);
 
       const targetPointMaterial = getPointMaterial(id);
       const targetSyncInfo = getSyncInfo(id);
@@ -189,6 +210,7 @@ export function MatchServiceProvider({ plyData, mappingPointsData, matchEventCal
         plyData,
         mappingPointsData,
         pickPointRef,
+        mappingPointThemeRef,
         pointMaterials,
         syncInfos,
         confirmPickPointCallback,

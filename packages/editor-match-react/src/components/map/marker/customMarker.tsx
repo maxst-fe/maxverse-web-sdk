@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { SYNC_INFO_STATUS } from '../../../constants';
 import { COMMON_ERROR_MESSAGE, MAP_ERROR_MESSAGE } from '../../../constants/error';
-import { useMarkerEvents } from '../../../hooks';
+import { useMarkerEvents, useMatchService } from '../../../hooks';
 import type { SyncInfo } from '../../../types';
 import { EVENTS } from './egjs.marker.events';
 import { MarkerOverlayView } from './markerOverlayView';
@@ -9,13 +9,16 @@ import { MarkerOverlayView } from './markerOverlayView';
 interface Props {
   sync: SyncInfo;
   map: google.maps.Map | null;
+  order: number;
 }
 
-export function CustomMarker({ sync, map }: Props) {
+export function CustomMarker({ sync, map, order }: Props) {
   const [markerOverlayView, setMarkerOverlayView] = useState<MarkerOverlayView | null>(null);
   const prevStatusRef = useRef<SYNC_INFO_STATUS>();
 
   const { id, label, status, latlng } = sync;
+
+  const { mappingPointThemeRef } = useMatchService();
 
   useMarkerEvents(markerOverlayView);
 
@@ -69,6 +72,7 @@ export function CustomMarker({ sync, map }: Props) {
       markerOverlayView.revokeElement();
     }
     if (status === SYNC_INFO_STATUS.CONFIRM) {
+      markerOverlayView.setThemeColor(mappingPointThemeRef.current[order]);
       markerOverlayView.disableElement();
     }
     if (status === SYNC_INFO_STATUS.RE_ENTER || status === SYNC_INFO_STATUS.ENTER) {
@@ -77,7 +81,7 @@ export function CustomMarker({ sync, map }: Props) {
       markerOverlayView.overlayView.set('position', center);
       markerOverlayView.overlayView.draw();
     }
-  }, [markerOverlayView, map, status]);
+  }, [markerOverlayView, map, status, order, mappingPointThemeRef]);
 
   useEffect(() => {
     if (!markerOverlayView) {
@@ -87,6 +91,7 @@ export function CustomMarker({ sync, map }: Props) {
 
     markerOverlayView.on(EVENTS.INIT_MARKER, () => {
       if (status === SYNC_INFO_STATUS.CONFIRM) {
+        markerOverlayView.setThemeColor(mappingPointThemeRef.current[order]);
         markerOverlayView.disableElement();
       }
 
@@ -94,7 +99,7 @@ export function CustomMarker({ sync, map }: Props) {
         markerOverlayView.off(EVENTS.INIT_MARKER);
       };
     });
-  }, [markerOverlayView, status]);
+  }, [mappingPointThemeRef, markerOverlayView, order, status]);
 
   useEffect(() => {
     if (!markerOverlayView) {
@@ -111,6 +116,19 @@ export function CustomMarker({ sync, map }: Props) {
     markerOverlayView.overlayView.set('position', latlng);
     markerOverlayView.overlayView.draw();
   }, [markerOverlayView, latlng]);
+
+  useEffect(() => {
+    if (!markerOverlayView) {
+      console.warn(MAP_ERROR_MESSAGE.INVALID_MARKER_INSTANCE);
+      return;
+    }
+
+    if (status !== SYNC_INFO_STATUS.CONFIRM) {
+      return;
+    }
+
+    markerOverlayView.setThemeColor(mappingPointThemeRef.current[order]);
+  }, [mappingPointThemeRef, markerOverlayView, order, status]);
 
   useEffect(() => {
     return () => {

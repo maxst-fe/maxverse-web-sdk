@@ -9,8 +9,10 @@ import { PickPoint } from '@maxverse/editor-web-sdk';
 import type { MutableRefObject } from 'react';
 import { createContext } from 'react';
 import { Object3D } from 'three';
+import { DEFAULT_MAPPING_POINT_THEME } from '../constants';
 import type {
   GpsCoor,
+  HexColor,
   IdentityCandidate,
   LatlngCandidate,
   MappingPointData,
@@ -22,6 +24,7 @@ export const MatchServiceContext = createContext<{
   plyData: ArrayBuffer | null | undefined;
   mappingPointsData: MappingPointData[];
   pickPointRef: MutableRefObject<PickPoint | null>;
+  mappingPointThemeRef: MutableRefObject<HexColor[]>;
   pointMaterials: Object3D[];
   syncInfos: SyncInfo[];
   confirmPickPointCallback: (id: string | number) => void;
@@ -42,6 +45,7 @@ export const MatchServiceContext = createContext<{
   plyData: null,
   mappingPointsData: [],
   pickPointRef: { current: null },
+  mappingPointThemeRef: { current: DEFAULT_MAPPING_POINT_THEME },
   pointMaterials: [],
   syncInfos: [],
   confirmPickPointCallback: (_id: string | number) => {},
