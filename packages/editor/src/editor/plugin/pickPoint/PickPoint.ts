@@ -6,12 +6,14 @@ import { BasePluginType } from '../plugin.type';
 import PickPointService from './PickPointService';
 
 const DEFAULT_MAX_PICK_POINT_NUM = 5;
+const DEFAULT_BASIC_SPHERE_COLOR = '#109EFF';
 
 class PickPoint implements BasePluginType {
   SPHERE_NAME = 'POINT_SPHERE';
   #Editor: Editor;
 
   #maxPickPointNum: number;
+  #sphereColor: string;
 
   //staff
   #sphere: THREE.Mesh;
@@ -28,14 +30,15 @@ class PickPoint implements BasePluginType {
     return this.#generatedPoints;
   }
 
-  constructor(editor: Editor, maxPickPointNum = DEFAULT_MAX_PICK_POINT_NUM) {
+  constructor(editor: Editor, maxPickPointNum = DEFAULT_MAX_PICK_POINT_NUM, sphereColor = DEFAULT_BASIC_SPHERE_COLOR) {
     this.#Editor = editor;
     this.#maxPickPointNum = maxPickPointNum;
+    this.#sphereColor = sphereColor;
 
     const pickPointService = (this.#PickPointService = new PickPointService(this));
     this.#labelRenderer = pickPointService.setLabelRenderer(editor.canvas.clientWidth, editor.canvas.clientHeight);
 
-    const sphere = (this.#sphere = pickPointService.makeSphere());
+    const sphere = (this.#sphere = pickPointService.makeSphere(false, this.#sphereColor));
     this.#Editor.scene.add(sphere);
   }
 
@@ -119,7 +122,7 @@ class PickPoint implements BasePluginType {
     const mapPointLabel = service.makeMeasurementLabel('mapPoint', sphere);
     sphere.add(mapPointLabel);
 
-    const newSphere = (this.#sphere = this.#PickPointService.makeSphere());
+    const newSphere = (this.#sphere = this.#PickPointService.makeSphere(false, this.#sphereColor));
     this.#Editor.scene.add(newSphere);
 
     this.#Editor.EditorControl.detachTransform();
@@ -171,7 +174,7 @@ class PickPoint implements BasePluginType {
     const pickPointService = this.#PickPointService;
 
     positions.forEach(position => {
-      const sphere = pickPointService.makeSphere(true);
+      const sphere = pickPointService.makeSphere(true, this.#sphereColor);
       const mapPointLabel = pickPointService.makeMeasurementLabel('mapPoint', sphere);
 
       sphere.uuid = position.uuid;
