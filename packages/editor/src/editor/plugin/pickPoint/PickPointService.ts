@@ -23,9 +23,9 @@ class PickPointService {
     return labelRenderer;
   }
 
-  public makeSphere(visible = false) {
+  public makeSphere(visible: boolean, color: string) {
     const sphereGeometry = new THREE.SphereGeometry(0.1, 32, 32);
-    const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    const sphereMaterial = new THREE.MeshBasicMaterial({ color });
 
     const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 

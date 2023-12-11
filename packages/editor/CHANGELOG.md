@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.1.0...@maxverse/editor-web-sdk@0.1.1) (2023-12-11)
+
+
+### Features
+
+* **plugin/PickPoint:** set custom sphere color ([5a42c16](https://github.com/maxverse-dev/maxverse-web-sdk/commit/5a42c1650058a430d8d193548e09953e684d2f30))
+
+
+
+
+
 # [0.1.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-web-sdk@0.0.9...@maxverse/editor-web-sdk@0.1.0) (2023-12-08)
 
 
