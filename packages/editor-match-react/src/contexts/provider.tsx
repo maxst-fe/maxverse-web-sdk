@@ -7,7 +7,6 @@ import type {
 import { EVENTS, PickPoint } from '@maxverse/editor-web-sdk';
 import type { ReactNode } from 'react';
 import { useCallback, useRef } from 'react';
-import { Mesh, Object3D } from 'three';
 import { DEFAULT_MAPPING_POINT_THEME, OBJECT_SORT, SYNC_INFO_STATUS } from '../constants';
 import { usePointMaterial, useSyncInfo } from '../hooks';
 import type { HexColor, MappingPointData, MatchEventCallbacks } from '../types';
@@ -56,10 +55,26 @@ export function MatchServiceProvider({
     undoRevokedSyncInfo,
   ] = useSyncInfo();
 
-  const plainUpdatePointMaterialsTheme = (pointMaterials: Object3D[]) => {
+  const plainUpdatePointMaterialsTheme = (pointMaterials: THREE.Object3D[]) => {
     pointMaterials.forEach((pointMaterial, idx) => {
-      if (pointMaterial instanceof Mesh && pointMaterial.material) {
-        pointMaterial.material.color.set(mappingPointThemeRef.current[idx]);
+      const mesh = pointMaterial as THREE.Mesh;
+
+      const isColorMaterial = (
+        material: THREE.Material
+      ): material is THREE.MeshBasicMaterial | THREE.MeshPhongMaterial => {
+        return 'color' in material;
+      };
+
+      if (mesh.material) {
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach(material => {
+            if (isColorMaterial(material)) {
+              material.color.set(mappingPointThemeRef.current[idx]);
+            }
+          });
+        } else if (isColorMaterial(mesh.material)) {
+          mesh.material.color.set(mappingPointThemeRef.current[idx]);
+        }
       }
     });
   };

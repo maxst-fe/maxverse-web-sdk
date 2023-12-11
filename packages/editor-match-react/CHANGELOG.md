@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.3.1...@maxverse/editor-match-react@0.3.2) (2023-12-11)
+
+
+### Features
+
+* **contexts/provider:** refactor color setting helper func ([f6d60cf](https://github.com/maxverse-dev/maxverse-web-sdk/commit/f6d60cf48a71953e67314454208cd866c50d4e3f))
+
+
+
+
+
 ## [0.3.1](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/editor-match-react@0.3.0...@maxverse/editor-match-react@0.3.1) (2023-12-11)
 
 **Note:** Version bump only for package @maxverse/editor-match-react
