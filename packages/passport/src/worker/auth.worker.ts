@@ -87,6 +87,7 @@ self.onconnect = function (e: MessageEvent) {
         status: 'FAIL',
         json: {
           error,
+          errorName: error.name,
         },
       });
     }
