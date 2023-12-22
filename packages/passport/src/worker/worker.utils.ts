@@ -4,7 +4,7 @@ export const sendMessage = (message: Partial<Message>, targetWorker: SharedWorke
   new Promise(function (resolve, reject) {
     targetWorker.port.onmessage = function (event) {
       if (event.data.status === 'FAIL') {
-        reject(event.data.json.error_message);
+        reject(event.data.json.error);
       } else {
         resolve(event.data);
       }

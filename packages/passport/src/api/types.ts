@@ -6,7 +6,7 @@ interface CommonTokenResult {
   scope: string;
 }
 
-export type AuthRequest = 'check_refresh_token_alive' | 'token' | 'refresh_token' | 'logout';
+export type AuthRequest = 'check_refresh_token_active' | 'token' | 'refresh_token' | 'logout';
 
 export interface TokenFetchResult extends CommonTokenResult {
   refresh_token: string;
@@ -20,7 +20,7 @@ export interface TokenBody extends CommonTokenResult {
 
 export type LogoutBody = unknown;
 
-export type RefreshTokenAliveBody = boolean;
+export type RefreshTokenAliveBody = string;
 
 export interface Reply<T extends TokenBody | LogoutBody | RefreshTokenAliveBody> {
   status: string;

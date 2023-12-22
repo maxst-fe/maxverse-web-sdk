@@ -1,4 +1,4 @@
-import { ALLOWED_AUTH_PARAMS, CODE_CHALLENGE_METHOD, DEFAULT_REDIRECT_URI } from '../../constants';
+import { ALLOWED_AUTH_PARAMS, CODE_CHALLENGE_METHOD, DEFAULT_REDIRECT_URI, MAIN_THREAD } from '../../constants';
 import {
   AuthorizationOptions,
   EntireAccessTokenOptions,
@@ -99,3 +99,15 @@ export const composeUrl = (domain: string, req: string, params: string) => {
 };
 
 export const nowTime = () => new Date().getTime();
+
+export const filterTokenByThread = (refresh_token: string) => {
+  let filtered_refresh_token: string | undefined;
+
+  const tokenThreadContext = refresh_token.split('::')[1] || MAIN_THREAD;
+
+  if (tokenThreadContext === MAIN_THREAD) {
+    filtered_refresh_token = refresh_token;
+  }
+
+  return filtered_refresh_token;
+};

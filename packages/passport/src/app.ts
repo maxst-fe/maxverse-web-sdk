@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { checkRefreshTokenAlive, oauthFetch } from './api/auth-middleware';
+import { checkRefreshTokenActive, oauthFetch } from './api/auth-middleware';
 import { AuthRequest, Reply, TokenBody } from './api/types';
 import {
   ALLOWED_DOMAINS,
@@ -20,22 +20,18 @@ import {
   INVALID_AUTHORIZATION_CODE_FLOW,
   INVALID_AUTH_SERVER_DOMAIN,
   INVALID_CACHE_LOCATION,
-  INVALID_TOKEN_ROTATION,
-  NOT_FOUND_ACCESS_TOKEN,
-  NOT_FOUND_AUTH_IDENTIIFER,
-  NOT_FOUND_ID_TOKEN,
-  NOT_FOUND_REFRESH_TOKEN,
-  NOT_FOUND_REFRESH_TOKEN_EXPIRES,
   NOT_FOUND_VALID_CLIENT_ID,
   NOT_FOUND_VALID_CODE_VERIFIER,
   NOT_FOUND_VALID_DOMAIN,
   NOT_FOUND_VALID_TRANSACTION,
 } from './constants/error';
+import { AuthenticationError } from './errors';
 import { cacheFactory } from './helpers/cache';
 import {
   buildQueryParams,
   checkIsRedirectUriNotSet,
   composeUrl,
+  filterTokenByThread,
   getAuthorizationOptions,
   getDomain,
   getUniqueScopes,
@@ -259,8 +255,8 @@ export class Passport {
     window.history.replaceState({}, '', originUrl);
   }
 
-  async #reconcileAuthorizationCodeFlow(error: any, onLoad: OnLoad) {
-    if (this.checkAuthenticationError(error)) {
+  async #reconcileAuthorizationCodeFlow(onLoad: OnLoad) {
+    try {
       this.#initializeTransaction();
 
       if (onLoad === 'check-sso') {
@@ -280,41 +276,24 @@ export class Passport {
 
         await this.loginWithRedirect();
       }
+    } catch (error: any) {
+      throw error;
     }
   }
 
-  public checkAuthenticationError(error: any) {
-    const isRefreshTokenError =
-      error === NOT_FOUND_REFRESH_TOKEN_EXPIRES ||
-      error === NOT_FOUND_REFRESH_TOKEN ||
-      error === INVALID_TOKEN_ROTATION ||
-      error === NOT_FOUND_ID_TOKEN ||
-      error === NOT_FOUND_ACCESS_TOKEN ||
-      error === NOT_FOUND_AUTH_IDENTIIFER ||
-      error === INVALID_AUTHORIZATION_CODE_FLOW;
-
-    return isRefreshTokenError;
-  }
-
-  public async checkIsEnableTokenRotation() {
+  public async checkRefreshTokenRotation() {
     try {
-      const cache_refresh_token = this.#cacheManager.getRefreshToken();
-
-      if (!cache_refresh_token && !this.#supportAuthWorker) {
-        throw INVALID_TOKEN_ROTATION;
-      }
-      if (cache_refresh_token) {
-        return { isEnable: true, cache_refresh_token };
-      }
       if (this.#supportAuthWorker) {
-        const alive_refresh_token = await checkRefreshTokenAlive(
-          'check_refresh_token_alive',
+        const active_refresh_token = await checkRefreshTokenActive(
+          'check_refresh_token_active',
           this.#authWorker as SharedWorker
         );
-        return { isEnable: alive_refresh_token };
+        return active_refresh_token;
       }
 
-      return { isEnable: false };
+      const cache_refresh_token = this.#cacheManager.getRefreshToken();
+
+      return cache_refresh_token;
     } catch (error: any) {
       throw error;
     }
@@ -330,19 +309,17 @@ export class Passport {
         return res;
       }
 
-      const { isEnable } = await this.checkIsEnableTokenRotation();
+      await this.checkRefreshTokenRotation();
 
-      if (isEnable && this.isAuthenticated) {
+      if (this.isAuthenticated) {
         return { claims: this.claims };
-      }
-
-      if (!this.isAuthenticated && this.#options.cacheLocation === 'cookie') {
-        await this.#reconcileAuthorizationCodeFlow(NOT_FOUND_AUTH_IDENTIIFER, onLoad);
       }
 
       return null;
     } catch (error: any) {
-      await this.#reconcileAuthorizationCodeFlow(error, onLoad);
+      if (error instanceof AuthenticationError) {
+        await this.#reconcileAuthorizationCodeFlow(onLoad);
+      }
 
       throw error;
     }
@@ -393,13 +370,13 @@ export class Passport {
     }
 
     if (!queryString) {
-      this.#reconcileAuthorizationCodeFlow(INVALID_AUTHORIZATION_CODE_FLOW, this.#options.onLoad);
+      throw new AuthenticationError(INVALID_AUTHORIZATION_CODE_FLOW);
     }
 
     const { code, error, ...restParams } = parseAuthenticationResult(queryString, this.#options.keepOptionalAuthParams);
 
     if (!code) {
-      this.#reconcileAuthorizationCodeFlow(INVALID_AUTHORIZATION_CODE_FLOW, this.#options.onLoad);
+      throw new AuthenticationError(INVALID_AUTHORIZATION_CODE_FLOW);
     }
 
     const transaction = this.#transactionManager.get();
@@ -454,20 +431,24 @@ export class Passport {
         throw AUTHORIZATION_CODE_FLOW;
       }
 
-      const { cache_refresh_token } = await this.checkIsEnableTokenRotation();
+      const cache_refresh_token = await this.checkRefreshTokenRotation();
+
+      const refresh_token = filterTokenByThread(cache_refresh_token);
 
       const { token, id_token } = await this.#requestToken(
         {
           client_id: this.#options.clientId,
           grant_type: 'refresh_token',
-          refresh_token: cache_refresh_token,
+          refresh_token,
         },
         'refresh_token'
       );
 
       return { token, id_token };
     } catch (error: any) {
-      this.#reconcileAuthorizationCodeFlow(error, this.#options.onLoad);
+      if (error instanceof AuthenticationError) {
+        this.#reconcileAuthorizationCodeFlow(this.#options.onLoad);
+      }
 
       throw error;
     }

@@ -29,3 +29,9 @@ export const CACHE_LOCATION_COOKIE = 'cookie';
 export const ALLOWED_DOMAINS = ['https://alpha-api.maxst.com', 'https://api.maxst.com'];
 
 export const ALLOWED_AUTH_PARAMS = ['code', 'state', 'session_state', 'error'];
+
+export const DEFAULT_WORKER_THREAD = 'sharedWorker';
+
+export const MAIN_THREAD = 'mainThread';
+
+export const REFRESH_TOKEN_ACTIVE = `activedRefreshToken::${DEFAULT_WORKER_THREAD}::`;

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { NOT_FOUND_REFRESH_TOKEN, NOT_FOUND_REFRESH_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRED } from '../constants/error';
+import { AuthenticationError } from '../errors';
 import { Identifier } from './worker.types';
 import { checkRefreshTokenExpires } from './worker.utils';
 
@@ -53,17 +54,17 @@ export class CacheInMemoryManager {
     const refresh_expires_at = this.get<number>('refresh_expires_at');
 
     if (!refresh_expires_at) {
-      throw Error(NOT_FOUND_REFRESH_TOKEN_EXPIRES);
+      throw new AuthenticationError(NOT_FOUND_REFRESH_TOKEN_EXPIRES);
     }
 
     if (!refresh_token) {
-      throw Error(NOT_FOUND_REFRESH_TOKEN);
+      throw new AuthenticationError(NOT_FOUND_REFRESH_TOKEN);
     }
 
     const isExpires = await checkRefreshTokenExpires(refresh_expires_at);
 
     if (isExpires) {
-      throw Error(REFRESH_TOKEN_EXPIRED);
+      throw new AuthenticationError(REFRESH_TOKEN_EXPIRED);
     }
 
     return refresh_token;
