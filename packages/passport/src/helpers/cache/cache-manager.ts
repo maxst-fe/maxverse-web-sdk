@@ -5,6 +5,8 @@ import {
   CACHE_KEY_PREFIX,
   CACHE_KEY_REFRESH_TOKEN_SUFFIX,
 } from '../../constants';
+import { AuthenticationError } from '../../errors';
+import { NOT_FOUND_REFRESH_TOKEN, NOT_FOUND_REFRESH_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRED } from '../../index';
 import { Claims } from '../../types';
 import { ICache, IdTokenEntry, RefreshTokenEntry } from '../cache/shared';
 import { nowTime } from '../common';
@@ -92,20 +94,22 @@ export class CacheManager {
     if (!refresh_expires_at) {
       if (this.#cache instanceof CookieCache && !refreshTokenEntry) {
         this.remove();
-        return;
+        throw new AuthenticationError(NOT_FOUND_REFRESH_TOKEN);
       }
 
       if (this.#cache instanceof CookieCache && refreshTokenEntry) {
         return refreshTokenEntry.refresh_token;
       }
+
+      throw new AuthenticationError(NOT_FOUND_REFRESH_TOKEN_EXPIRES);
     }
 
     if (this.#checkIsSecondPerMinuteExpires(refresh_expires_at)) {
       this.remove();
-      return;
+      throw new AuthenticationError(REFRESH_TOKEN_EXPIRED);
     }
 
-    return refreshTokenEntry?.refresh_token;
+    return refreshTokenEntry.refresh_token;
   }
 
   setRefreshToken(refresh_token: string, refresh_expires_in: number) {

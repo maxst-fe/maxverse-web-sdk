@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/media-web-sdk@3.0.4...@maxverse/media-web-sdk@3.1.0) (2024-01-01)
+
+**Note:** Version bump only for package @maxverse/media-web-sdk
+
+
+
+
+
 ## [3.0.4](https://github.com/maxverse-dev/maxverse-web-sdk/compare/@maxverse/media-web-sdk@3.0.3...@maxverse/media-web-sdk@3.0.4) (2023-08-08)
 
 

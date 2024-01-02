@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AuthClient } from '../api/auth';
 import { TokenBody } from '../api/types';
+import { REFRESH_TOKEN_ACTIVE } from '../constants/index';
 import { CacheInMemoryManager, InMemoryStorage } from './cache.worker';
 import { Message } from './worker.types';
 import { calcRefreshTokenExpires } from './worker.utils';
@@ -31,10 +32,11 @@ self.onconnect = function (e: MessageEvent) {
     let body: unknown;
 
     try {
-      if (req === 'check_refresh_token_alive') {
-        const refresh_token = await cacheManager.getRefreshToken();
+      if (req === 'check_refresh_token_active') {
+        await cacheManager.getRefreshToken();
+        const refresh_expires_at = cacheManager.get<number>('refresh_expires_at');
 
-        body = Boolean(refresh_token);
+        body = `${REFRESH_TOKEN_ACTIVE}${refresh_expires_at}`;
       }
 
       if (req === 'token') {
@@ -84,7 +86,8 @@ self.onconnect = function (e: MessageEvent) {
       port.postMessage({
         status: 'FAIL',
         json: {
-          error_message: error.message,
+          error,
+          errorName: error.name,
         },
       });
     }

@@ -48,7 +48,7 @@ export const oauthWithWorker = async (
 
     return data;
   } catch (error: any) {
-    throw error.error_message;
+    throw error;
   }
 };
 
@@ -88,16 +88,16 @@ export const oauthWithoutWorker = async (
       body,
     };
   } catch (error: any) {
-    throw error.message;
+    throw error;
   }
 };
 
-export const checkRefreshTokenAlive = async (req: 'check_refresh_token_alive', worker: SharedWorker) => {
+export const checkRefreshTokenActive = async (req: 'check_refresh_token_active', worker: SharedWorker) => {
   try {
     const data = (await sendMessage({ req }, worker)) as Reply<RefreshTokenAliveBody>;
 
     return data.body;
-  } catch (error) {
+  } catch (error: any) {
     throw error;
   }
 };
