@@ -73,9 +73,9 @@ export function PassportProvider({
 
     const checkAuthenticated = async () => {
       try {
-        const { isEnable } = await passport.checkIsEnableTokenRotation();
+        const refresh_token = await passport.checkRefreshTokenRotation();
 
-        setAuthenticated(isEnable);
+        setAuthenticated(Boolean(refresh_token));
       } catch (error) {
         setAuthenticated(false);
       }
